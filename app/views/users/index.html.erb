@@ -1,1 +1,7 @@
-<h1>Index page (users)</h1>
+<h1>Index page</h1>
+
+<%# Ajout d'un boutton pour se connecter %>
+<%= link_to 'Sign in', new_user_session_path %>
+
+<%# Ajout d'un boutton pour se déconnecter %>
+<%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete} %>
