@@ -1,2 +1,8 @@
 <h1>Pages#home</h1>
 <p>Find me in app/views/pages/home.html.erb</p>
+
+<%# Ajout d'un boutton pour se connecter %>
+<%= link_to 'Sign in', new_user_session_path %>
+
+<%# Ajout d'un boutton pour se déconnecter %>
+<%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete} %>
