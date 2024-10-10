@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
   has_many :favorites_given, class_name: 'Favorite', foreign_key: :favoriting_user_id
   has_many :favorites_received, class_name: 'Favorite', foreign_key: :favorited_user_id
   has_many :matches_given, class_name: 'Favorite', foreign_key: :initiated_by_id
