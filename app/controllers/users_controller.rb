@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
     @roles = User.roles.keys
+    @aupairs = User.aupair
 
     if params[:role].present?
       @selected_role = params[:role]
@@ -14,5 +15,6 @@ class UsersController < ApplicationController
       format.html
       format.js
     end
+
   end
 end

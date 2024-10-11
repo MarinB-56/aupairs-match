@@ -6,6 +6,6 @@ class User < ApplicationRecord
   has_many :availabilities, dependent: :destroy
   has_many :languages, through: :user_languages
   has_many :user_languages, dependent: :destroy
-
-  enum role: { au_pair: 0, family: 1 }
+  enum role: { aupair: 0, family: 1 }
+  has_one_attached :photo
 end
