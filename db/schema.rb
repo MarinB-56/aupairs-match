@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_10_091947) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_10_121742) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,10 +94,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_10_091947) do
     t.string "gender"
     t.string "location"
     t.integer "number_of_children"
-<<<<<<< HEAD
-=======
-    t.integer "role"
->>>>>>> a1264499a786b421a47d244a78f5eb812c654557
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0, null: false

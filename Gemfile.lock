@@ -127,8 +127,6 @@ GEM
     execjs (2.9.1)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-<<<<<<< HEAD
-=======
     faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
       json
@@ -140,7 +138,6 @@ GEM
     faraday-net_http (3.3.0)
       net-http
     ffi (1.17.0)
->>>>>>> a1264499a786b421a47d244a78f5eb812c654557
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
