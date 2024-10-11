@@ -144,7 +144,6 @@ GEM
       multipart-post (~> 2)
     faraday-net_http (3.3.0)
       net-http
-    ffi (1.17.0)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
@@ -165,6 +164,8 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jquery-ui-rails (7.0.0)
+      railties (>= 3.2.16)
     json (2.7.2)
     logger (1.6.1)
     loofah (2.22.0)
@@ -326,6 +327,7 @@ DEPENDENCIES
   font-awesome-sass (~> 6.1)
   importmap-rails
   jbuilder
+  jquery-ui-rails
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.4)
