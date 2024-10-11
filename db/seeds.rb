@@ -39,12 +39,9 @@ end
 # Créer 10 familles avec des données random
 10.times do
   User.create!(
-    first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    birth_date: Faker::Date.birthday(min_age: 30, max_age: 50),
     description: "Nous sommes une famille à la recherche d'une au pair pour nos enfants.",
     nationality: Faker::Nation.nationality,
-    gender: Faker::Gender.binary_type,
     location: Faker::Address.city,
     number_of_children: rand(1..4),
     role: "family"
