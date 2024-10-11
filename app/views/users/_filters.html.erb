@@ -1,59 +1,35 @@
 <div class="container">
 
-<!-- Début du formulaire des filtres -->
-  <%= simple_form_for :user,
-  url: users_path,
-  method: :get,
-  remote: true,
-  data: { controller: "filters", action: "change->filters#toggleFilters" } do |f| %>
+  <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
+    <% if current_user.family? %>
+      <!-- Filtres pour rechercher des au_pair (affichés pour les utilisateurs family) -->
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.input :nationality, label: "Nationality", placeholder: "Enter nationality", input_html: { class: 'form-control' } %>
+      </div>
 
-    <!-- Filtre des rôles -->
-    <div class="form-group">
-      <%= f.input :role,
-      collection: @roles.map { |r| [r.humanize, r] },
-      include_blank: 'Tous les rôles',
-      label: 'Rôle',
-      selected: @selected_role,
-      input_html: { class: 'form-select', data: { action: "change->filters#filter toggleFilters", filters_target: "role" } } %>
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.input :gender, label: "Gender", as: :select, collection: [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], prompt: "Select gender", input_html: { class: 'form-control' } %>
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.input :birth_date, label: "Age range", as: :range, input_html: { min: 18, max: 40, step: 1 } %>
+      </div>
+
+    <% elsif current_user.aupair? %>
+      <!-- Filtres pour rechercher des familles (affichés pour les utilisateurs au_pair) -->
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.input :location, label: "Location", placeholder: "Enter location", input_html: { class: 'form-control' } %>
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.input :number_of_children, label: "Number of children", as: :select, collection: 1..10, prompt: "Select number of children", input_html: { class: 'form-control' } %>
+      </div>
+    <% end %>
+
+    <div class="form-group mx-sm-3 mb-2">
+      <%= f.submit "Apply Filters", class: "btn btn-primary" %>
     </div>
-
-    <!-- Filtre sur le nombre d'enfants d'une famille -->
-    <div class="form-group d-none" data-filters-target="numberOfChildren">
-      <%= f.input :number_of_children,
-      value: params[:number_of_children],
-      label: 'Nombre d’enfants',
-      input_html: { class: 'form-control' } %>
-    </div>
-
-    <!-- Filtres sur les dates de disponibilités -->
-    <div class="form-group d-none" data-filters-target="availability">
-      <%= f.input :start_date,
-      as: :date,
-      value: params[:start_date],
-      label: 'Disponible à partir de',
-      input_html: { class: 'form-control' } %>
-      <%= f.input :end_date,
-      as: :date,
-      value: params[:end_date],
-      label: 'Disponible jusqu\'à',
-      input_html: { class: 'form-control' } %>
-    </div>
-
-    <!-- Filtre sur les langages -->
-    <div class="form-group d-none" data-filters-target="languages">
-      <%= f.input :languages,
-      collection: @languages,
-      as: :check_boxes,
-      label: 'Langues',
-      checked: params[:languages],
-      input_html: { class: 'form-check-input' } %>
-    </div>
-
-    <!-- Bouton de soumission du formulaire -->
-    <div class="form-group">
-      <%= f.button :submit, 'Filtrer', class: 'btn btn-primary' %>
-    </div>
-
   <% end %>
+
 
 </div>
