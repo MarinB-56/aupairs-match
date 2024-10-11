@@ -1,35 +1,38 @@
-<div class="container">
-
-  <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
-    <% if current_user.family? %>
-      <!-- Filtres pour rechercher des au_pair (affichés pour les utilisateurs family) -->
-      <div class="form-group mx-sm-3 mb-2">
-        <%= f.input :nationality, label: "Nationality", placeholder: "Enter nationality", input_html: { class: 'form-control' } %>
-      </div>
-
-      <div class="form-group mx-sm-3 mb-2">
-        <%= f.input :gender, label: "Gender", as: :select, collection: [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], prompt: "Select gender", input_html: { class: 'form-control' } %>
-      </div>
-
-      <div class="form-group mx-sm-3 mb-2">
-        <%= f.input :birth_date, label: "Age range", as: :range, input_html: { min: 18, max: 40, step: 1 } %>
-      </div>
-
-    <% elsif current_user.aupair? %>
-      <!-- Filtres pour rechercher des familles (affichés pour les utilisateurs au_pair) -->
-      <div class="form-group mx-sm-3 mb-2">
-        <%= f.input :location, label: "Location", placeholder: "Enter location", input_html: { class: 'form-control' } %>
-      </div>
-
-      <div class="form-group mx-sm-3 mb-2">
-        <%= f.input :number_of_children, label: "Number of children", as: :select, collection: 1..10, prompt: "Select number of children", input_html: { class: 'form-control' } %>
-      </div>
-    <% end %>
+<%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
+  <% if current_user.family? %>
+    <!-- Filtres pour rechercher des au_pair (affichés pour les utilisateurs family) -->
+    <div class="form-group mx-sm-3 mb-2">
+      <%= f.input :nationality, label: "Nationality", placeholder: "Enter nationality", input_html: { class: 'form-control' } %>
+    </div>
 
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.submit "Apply Filters", class: "btn btn-primary" %>
+      <%= f.input :gender, label: "Gender", as: :select, collection: [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], prompt: "Select gender", input_html: { class: 'form-control' } %>
+    </div>
+
+  <% elsif current_user.aupair? %>
+    <!-- Filtres pour rechercher des familles (affichés pour les utilisateurs au_pair) -->
+
+    <div class="form-group mx-sm-3 mb-2">
+      <!-- Dropdown des nationalités des familles dans la base de données -->
+      <%= f.input :nationality, label: "Family Nationality", as: :select, collection: User.family.distinct.pluck(:nationality), prompt: "Select nationality", input_html: { class: 'form-control' } %>
+    </div>
+
+    <!-- Slider avec deux sélecteurs pour le nombre d'enfants -->
+    <div class="form-group mx-sm-3 mb-2">
+      <label>Number of Children</label>
+      <div id="slider-range"></div>
+      <div class="d-flex justify-content-between">
+        <span id="min-value"><%= @min_children %></span>
+        <span id="max-value"><%= @max_children %></span>
+      </div>
+
+      <!-- Champs cachés pour envoyer les valeurs min et max dans le formulaire -->
+      <%= f.hidden_field :min_number_of_children, id: 'min_number_of_children' %>
+      <%= f.hidden_field :max_number_of_children, id: 'max_number_of_children' %>
     </div>
   <% end %>
 
-
-</div>
+  <div class="form-group mx-sm-3 mb-2">
+    <%= f.submit "Apply Filters", class: "btn btn-primary" %>
+  </div>
+<% end %>
