@@ -21,7 +21,7 @@ photo_filenames = ['ap_1.jpeg', 'ap_2.jpeg', 'ap_3.jpeg', 'ap_4.jpeg', 'ap_5.jpe
 
 # Créer 8 au pairs avec des photos random
 8.times do |i|
-  user = User.create!(
+  user = User.new(
     first_name: Faker::Name.female_first_name,
     last_name: Faker::Name.last_name,
     birth_date: Faker::Date.birthday(min_age: 18, max_age: 30),
@@ -31,14 +31,23 @@ photo_filenames = ['ap_1.jpeg', 'ap_2.jpeg', 'ap_3.jpeg', 'ap_4.jpeg', 'ap_5.jpe
     location: Faker::Address.city,
     role: "aupair"
   )
+  # Adding email and password
+  user.email = "#{user.first_name}@gmail.com"
+  user.password = 'password'
+
+  # Saving the new user to database
+  user.save
+
   # Attach a real local photo from assets
   file_path = Rails.root.join('app', 'assets', 'images', 'aupairs_seeds', photo_filenames[i % photo_filenames.length])
   user.photo.attach(io: File.open(file_path), filename: photo_filenames[i % photo_filenames.length], content_type: 'image/jpeg')
+
+  user.save ? (puts "#{user.first_name} - Au pair #{i + 1} créée !") : (puts "Au pair non créée")
 end
 
 # Créer 10 familles avec des données random
-10.times do
-  User.create!(
+10.times do |i|
+  user = User.new(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     birth_date: Faker::Date.birthday(min_age: 30, max_age: 50),
@@ -49,6 +58,12 @@ end
     number_of_children: rand(1..4),
     role: "family"
   )
+  # Adding email and password
+  user.email = "#{user.first_name}@gmail.com"
+  user.password = 'password'
+
+  # Saving the new user to database
+  user.save ? (puts "#{user.first_name} - Famille #{i + 1} créée") : (puts "Famille non créée")
 end
 
 puts "Création terminée !"
