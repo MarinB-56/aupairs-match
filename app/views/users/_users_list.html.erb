@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Rôle</th>
+      <th>Nationalité</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td><%= user.last_name %></td>
+        <td><%= user.first_name %></td>
+        <td><%= user.role.humanize.capitalize %></td>
+        <td><%= user.nationality %></td>
+        <td><%= user.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

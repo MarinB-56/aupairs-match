@@ -1,0 +1,24 @@
+<%= simple_form_for :user, url: users_path, method: :get, remote: true, data: { controller: "filters", action: "change->filters#toggleFilters" } do |f| %>
+
+  <div class="form-group">
+    <%= f.input :role, collection: @roles.map { |r| [r.humanize, r] }, include_blank: 'Tous les rôles', label: 'Rôle', selected: @selected_role, input_html: { class: 'form-select', data: { action: "change->filters#filter toggleFilters", filters_target: "role" } } %>
+  </div>
+
+  <div class="form-group d-none" data-filters-target="numberOfChildren">
+    <%= f.input :number_of_children, value: params[:number_of_children], label: 'Nombre d’enfants', input_html: { class: 'form-control' } %>
+  </div>
+
+  <div class="form-group d-none" data-filters-target="availability">
+    <%= f.input :start_date, as: :date, value: params[:start_date], label: 'Disponible à partir de', input_html: { class: 'form-control' } %>
+    <%= f.input :end_date, as: :date, value: params[:end_date], label: 'Disponible jusqu\'à', input_html: { class: 'form-control' } %>
+  </div>
+
+  <div class="form-group d-none" data-filters-target="languages">
+    <%= f.input :languages, collection: @languages, as: :check_boxes, label: 'Langues', checked: params[:languages], input_html: { class: 'form-check-input' } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit, 'Filtrer', class: 'btn btn-primary' %>
+  </div>
+
+<% end %>

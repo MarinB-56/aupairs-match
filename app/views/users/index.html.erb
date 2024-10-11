@@ -1,1 +1,7 @@
 <h1>Index page (users)</h1>
+
+<%= render 'filters' %>
+
+<div id="users-list">
+  <%= render partial: 'users_list', locals: { users: @users } %>
+</div>
