@@ -1,31 +1,15 @@
 $(document).ready(function() {
-  var minRange = $("#min_children_range");
-  var maxRange = $("#max_children_range");
+  var slider = $("#children_range");
+  var valueDisplay = $("#children-value");
+  var hiddenInput = $("#max_number_of_children");
 
-  var minValueDisplay = $("#min-value");
-  var maxValueDisplay = $("#max-value");
+  // Initialiser le champ caché avec la valeur actuelle du slider
+  hiddenInput.val(slider.val());
 
-  var minChildrenInput = $("#min_number_of_children");
-  var maxChildrenInput = $("#max_number_of_children");
-
-  // Initialiser les champs cachés avec les valeurs actuelles
-  minChildrenInput.val(minRange.val());
-  maxChildrenInput.val(maxRange.val());
-
-  // Mettre à jour l'affichage des valeurs et les champs cachés
-  minRange.on("input", function() {
-    if (parseInt(minRange.val()) > parseInt(maxRange.val())) {
-      minRange.val(maxRange.val()); // Empêche min d'être supérieur à max
-    }
-    minValueDisplay.text(minRange.val());
-    minChildrenInput.val(minRange.val());
-  });
-
-  maxRange.on("input", function() {
-    if (parseInt(maxRange.val()) < parseInt(minRange.val())) {
-      maxRange.val(minRange.val()); // Empêche max d'être inférieur à min
-    }
-    maxValueDisplay.text(maxRange.val());
-    maxChildrenInput.val(maxRange.val());
+  // Mettre à jour la valeur affichée et le champ caché lors du changement du slider
+  slider.on("input", function() {
+    var currentValue = slider.val();
+    valueDisplay.text(currentValue);
+    hiddenInput.val(currentValue);
   });
 });

@@ -1,38 +1,27 @@
 <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
-  <% if current_user.family? %>
-    <!-- Filtres pour rechercher des au_pair (affichés pour les utilisateurs family) -->
+
+  <% if current_user.aupair? %>
+    <!-- Dropdown pour les nationalités -->
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :nationality, label: "Nationality", placeholder: "Enter nationality", input_html: { class: 'form-control' } %>
+      <%= f.input :nationality, label: "Family Nationality", as: :select, collection: User.family.distinct.pluck(:nationality).map { |n| [n, n] }, prompt: "Select nationality", input_html: { class: 'form-control' } %>
     </div>
 
+    <!-- Slider pour le nombre d'enfants maximum -->
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :gender, label: "Gender", as: :select, collection: [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], prompt: "Select gender", input_html: { class: 'form-control' } %>
-    </div>
-
-  <% elsif current_user.aupair? %>
-    <!-- Filtres pour rechercher des familles (affichés pour les utilisateurs au_pair) -->
-
-    <div class="form-group mx-sm-3 mb-2">
-      <!-- Dropdown des nationalités des familles dans la base de données -->
-      <%= f.input :nationality, label: "Family Nationality", as: :select, collection: User.family.distinct.pluck(:nationality), prompt: "Select nationality", input_html: { class: 'form-control' } %>
-    </div>
-
-    <!-- Slider avec deux sélecteurs pour le nombre d'enfants -->
-    <div class="form-group mx-sm-3 mb-2">
-      <label>Number of Children</label>
-      <div id="slider-range"></div>
+      <label>Number of Children (Max)</label>
+      <input type="range" min="<%= @min_children %>" max="<%= @max_children %>" value="<%= params.dig(:filters, :max_number_of_children) || @max_children %>" id="children_range" class="form-range">
       <div class="d-flex justify-content-between">
-        <span id="min-value"><%= @min_children %></span>
-        <span id="max-value"><%= @max_children %></span>
+        <span>Min: <%= @min_children %></span>
+        <span id="children-value">Max: <%= params.dig(:filters, :max_number_of_children) || @max_children %></span>
       </div>
 
-      <!-- Champs cachés pour envoyer les valeurs min et max dans le formulaire -->
-      <%= f.hidden_field :min_number_of_children, id: 'min_number_of_children' %>
-      <%= f.hidden_field :max_number_of_children, id: 'max_number_of_children' %>
+      <!-- Champ caché pour envoyer la valeur maximale avec le formulaire -->
+      <%= f.hidden_field :max_number_of_children, id: 'max_number_of_children', value: params.dig(:filters, :max_number_of_children) || @max_children %>
     </div>
   <% end %>
 
   <div class="form-group mx-sm-3 mb-2">
     <%= f.submit "Apply Filters", class: "btn btn-primary" %>
   </div>
+
 <% end %>

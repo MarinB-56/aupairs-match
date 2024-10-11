@@ -34,9 +34,6 @@ gem "jbuilder"
 # Faker pour seeder la base de données
 gem "faker"
 
-# JQuery pour gérer des éléments dynamiques
-gem "jquery-ui-rails"
-
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
