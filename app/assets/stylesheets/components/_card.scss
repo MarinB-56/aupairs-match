@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  flex-direction: column; // Organise le contenu verticalement
+  justify-content: space-between; // Assure que le bouton reste en bas de la carte
+  border-radius: 10px !important; // Définit les coins arrondis de la carte avec un rayon de 10px.
+  border: 1px solid #D4D8DD; // Ajoute une bordure fine de 1px avec une couleur grise (#D4D8DD).
+  background-color: #ffffff; // Définit l'arrière-plan de la carte en blanc (#ffffff).
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Applique une ombre légère pour donner un effet de relief (profondeur).
+  transition: transform 0.2s ease-in-out; // Ajoute une transition fluide (de 0.2 secondes) pour les transformations, avec un effet d’accélération/décélération.
+  padding: 15px;
+  height: 100%; // Assure que toutes les cartes occupent la même hauteur
+
+
+
+  &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
+    transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
+  }
+}
+
+.card-img-top {
+  width: 100%; // Assure que l'image occupe toute la largeur de la carte
+  height: 250px; // Hauteur fixe pour toutes les images (tu peux ajuster cette valeur selon tes préférences)
+  object-fit: cover; // Pour que l'image remplisse l'espace défini sans être déformée
+}
+
+.card-body {
+  flex-grow: 1; // Permet au contenu textuel de s'étirer pour remplir la carte
+}
+
+.btn-primary {
+  color: #ffffff !important; // Assure que le texte du bouton est toujours blanc
+}

@@ -7,3 +7,48 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+require 'faker'
+require 'open-uri'
+
+puts "Nettoyage de la base de données..."
+User.destroy_all
+
+puts "Création des utilisateurs (au pairs et familles)..."
+
+# Array of real photo filenames
+photo_filenames = ['ap_1.jpeg', 'ap_2.jpeg', 'ap_3.jpeg', 'ap_4.jpeg', 'ap_5.jpeg', 'ap_6.jpeg', 'ap_7.jpeg', 'ap_8.jpeg', 'ap_9.jpeg']
+
+# Créer 8 au pairs avec des photos random
+8.times do |i|
+  user = User.create!(
+    first_name: Faker::Name.female_first_name,
+    last_name: Faker::Name.last_name,
+    birth_date: Faker::Date.birthday(min_age: 18, max_age: 30),
+    description: Faker::Lorem.sentence(word_count: 15),
+    nationality: Faker::Address.country,
+    gender: "Femme",
+    location: Faker::Address.city,
+    role: "aupair"
+  )
+  # Attach a real local photo from assets
+  file_path = Rails.root.join('app', 'assets', 'images', 'aupairs_seeds', photo_filenames[i % photo_filenames.length])
+  user.photo.attach(io: File.open(file_path), filename: photo_filenames[i % photo_filenames.length], content_type: 'image/jpeg')
+end
+
+# Créer 10 familles avec des données random
+10.times do
+  User.create!(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    birth_date: Faker::Date.birthday(min_age: 30, max_age: 50),
+    description: "Nous sommes une famille à la recherche d'une au pair pour nos enfants.",
+    nationality: Faker::Nation.nationality,
+    gender: Faker::Gender.binary_type,
+    location: Faker::Address.city,
+    number_of_children: rand(1..4),
+    role: "family"
+  )
+end
+
+puts "Création terminée !"
