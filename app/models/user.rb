@@ -5,4 +5,6 @@ class User < ApplicationRecord
   has_many :matches_received, class_name: 'Favorite', foreign_key: :received_by_id
   has_many :languages, through: :user_languages
   has_many :user_languages
+  enum role: { aupair: 0, family: 1 }
+  has_one_attached :photo
 end
