@@ -1,75 +1,14 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid"> <!-- Utilisation d'un container-fluid pour occuper toute la largeur -->
-    <!-- Logo cliquable avec lien vers la page d'accueil ou autre -->
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
-
-    <% end %>
-
-    <!-- Bouton pour mobile (menu hamburger) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Menu qui s'affiche à droite dans la navbar -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <!-- Menu visible uniquement si l'utilisateur est connecté (remplacer # par les routes appropriées) -->
-        <%# if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "My favorites", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "My matches", "#", class: "nav-link" %>
-          </li>
-
-          <!-- Dropdown pour afficher des options supplémentaires, par exemple pour se déconnecter -->
-          <li class="nav-item dropdown">
-            <%= image_tag "https://media.licdn.com/dms/image/v2/D4E03AQGUalTsRaHsqw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718303939374?e=1733961600&v=beta&t=hlajHnwvxCz1EKiOhVN9Cy7MgueQbI5u0mvyGXDPl48", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: { turbo_method: :delete } %>
-            </div>
-          </li>
-        <%# end %>
-      </ul>
-    </div>
-  </div>
-</div>
+<%= render 'navbar' %>
 
 <!-- Titre principal de la page -->
-<h1 class="text-center my-4">Find your next au pair.</h1> <!-- Centré et avec marges verticales -->
+<% if current_user.aupair? %>
+  <h1 class="text-center my-4">Find a family</h1> <!-- Centré et avec marges verticales -->
+<% else %>
+  <h1 class="text-center my-4">Find your next au-pair</h1> <!-- Centré et avec marges verticales -->
+<% end %>
+
+<!-- Affichage des filtres -->
+<%= render 'filters' %>
 
 <!-- Grille pour afficher les cartes des aupairs -->
-<div class="container"> <!-- Utilisation d'un container pour centrer la grille -->
-  <div class="row">
-    <% @aupairs.each do |aupair| %> <!-- Boucle à travers les utilisateurs au pair -->
-      <div class="col-md-3 mb-3"> <!-- Colonne Bootstrap pour faire un affichage responsive (3 cartes par ligne sur desktop) -->
-        <div class="card"> <!-- Carte Bootstrap pour chaque au pair -->
-          <!-- Affichage de la photo si elle est attachée -->
-          <% if aupair.photo.attached? %>
-            <%= image_tag aupair.photo, class: "card-img-top" %> <!-- Classe Bootstrap pour styliser les images au-dessus des cartes -->
-          <% end %>
-
-          <!-- Contenu de la carte -->
-          <div class="card-body">
-            <!-- Nom de l'au pair en titre de la carte -->
-            <h5 class="card-title"><%= aupair.first_name %> <%= aupair.last_name %></h5>
-
-            <!-- Informations sur l'au pair -->
-            <p class="card-text">
-              <%= aupair.nationality %><br>
-              <%= aupair.gender %><br>
-              <%= Date.today.year - aupair.birth_date.year %> ans<br>
-              <%= truncate(aupair.description, length: 70) %> <!-- Limite la description à 70 caractères -->
-            </p>
-
-            <!-- Bouton pour voir le profil détaillé (redirige vers la page de l'utilisateur) -->
-            <a href="<%= user_path(aupair) %>" class="btn btn-primary">Voir le profil</a>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render 'users_list' %>
