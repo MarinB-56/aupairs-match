@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     apply_filters if params[:filters].present?
   end
 
+  def show
+    @aupair = User.find(params[:id])
+  end
+
   private
 
   def apply_filters
@@ -72,9 +76,5 @@ class UsersController < ApplicationController
         Rails.logger.info "Durée incorrecte : min_duration=#{min_duration}, max_duration=#{max_duration}"
       end
     end
-  end
-
-  def show
-    @aupair = User.find(params[:id])
   end
 end
