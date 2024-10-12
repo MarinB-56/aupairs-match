@@ -1,44 +1,5 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid"> <!-- Utilisation d'un container-fluid pour occuper toute la largeur -->
-    <!-- Logo cliquable avec lien vers la page d'accueil ou autre -->
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
+<%= render 'navbar' %>
 
-    <% end %>
-
-    <!-- Bouton pour mobile (menu hamburger) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Menu qui s'affiche à droite dans la navbar -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <!-- Menu visible uniquement si l'utilisateur est connecté (remplacer # par les routes appropriées) -->
-        <%# if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "My favorites", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "My matches", "#", class: "nav-link" %>
-          </li>
-
-          <!-- Dropdown pour afficher des options supplémentaires, par exemple pour se déconnecter -->
-          <li class="nav-item dropdown">
-            <%= image_tag "https://media.licdn.com/dms/image/v2/D4E03AQGUalTsRaHsqw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718303939374?e=1733961600&v=beta&t=hlajHnwvxCz1EKiOhVN9Cy7MgueQbI5u0mvyGXDPl48", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: { turbo_method: :delete } %>
-            </div>
-          </li>
-        <%# end %>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<%# Bandeau supérieur (photo, description et nom) %>
 <div class="container">
   <div class="user-banner card mt-4">
     <div class="row">
@@ -71,4 +32,9 @@
         </div>
       </div>
     </div>
+
+    <div class="text-center my-4">
+      <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
+      (link_to "Back to aupairs' list", root_path, class:"btn btn-primary")  %>
+  </div>
 </div>
