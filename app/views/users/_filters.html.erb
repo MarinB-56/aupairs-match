@@ -3,20 +3,21 @@
   <% if current_user.aupair? %>
     <!-- Dropdown pour les nationalités -->
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :nationality, label: "Family Nationality", as: :select, collection: User.family.distinct.pluck(:nationality).map { |n| [n, n] }, prompt: "Select nationality", input_html: { class: 'form-control' } %>
+      <%= f.input :nationality, label: "Nationality",
+                  as: :select,
+                  collection: [["All nationalities", nil]] + User.family.distinct.pluck(:nationality).map { |n| [n, n] },
+                  selected: params.dig(:filters, :nationality),
+                  input_html: { class: 'form-control' } %>
     </div>
 
-    <!-- Slider pour le nombre d'enfants maximum -->
+    <!-- Dropdown pour le nombre d'enfants maximum -->
     <div class="form-group mx-sm-3 mb-2">
-      <label>Number of Children (Max)</label>
-      <input type="range" min="<%= @min_children %>" max="<%= @max_children %>" value="<%= params.dig(:filters, :max_number_of_children) || @max_children %>" id="children_range" class="form-range">
-      <div class="d-flex justify-content-between">
-        <span>Min: <%= @min_children %></span>
-        <span id="children-value">Max: <%= params.dig(:filters, :max_number_of_children) || @max_children %></span>
-      </div>
-
-      <!-- Champ caché pour envoyer la valeur maximale avec le formulaire -->
-      <%= f.hidden_field :max_number_of_children, id: 'max_number_of_children', value: params.dig(:filters, :max_number_of_children) || @max_children %>
+      <%= f.input :max_number_of_children, label: "Number of Children (Max)",
+                  as: :select,
+                  collection: (@min_children..@max_children).to_a,
+                  prompt: "Select max number of children",
+                  selected: params.dig(:filters, :max_number_of_children),
+                  input_html: { class: 'form-control' } %>
     </div>
   <% end %>
 

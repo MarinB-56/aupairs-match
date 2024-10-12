@@ -9,8 +9,8 @@ class UsersController < ApplicationController
              end
 
     # Récupérer les bornes min et max du nombre d'enfants parmi les utilisateurs family
-    @min_children = User.family.where.not(number_of_children: nil).minimum(:number_of_children) || 1
-    @max_children = User.family.where.not(number_of_children: nil).maximum(:number_of_children) || 5
+    @min_children = User.family.minimum(:number_of_children)
+    @max_children = User.family.maximum(:number_of_children)
 
     # Application des filtres
     if params[:filters].present?
