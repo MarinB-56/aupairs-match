@@ -19,49 +19,40 @@ class UsersController < ApplicationController
     end
 
     # Application des filtres
-    if params[:filters].present?
-      apply_filters
-    end
+    apply_filters if params[:filters].present?
   end
 
   private
 
   def apply_filters
-
-    # On indique les paramètres de filtres dans les logs rails
     Rails.logger.info "Params de filtres : #{params[:filters]}"
 
-    # Filtrer par nationalité
-    if params[:filters][:nationality].present? && params[:filters][:nationality] != "All nationalities"
-      Rails.logger.info "Filtre de nationalité appliqué : #{params[:filters][:nationality]}"
+    # Filtrer par nationalité (au pairs ou familles)
+    if params[:filters][:nationality].present? && params[:filters][:nationality].reject(&:blank?).any?
       @users = @users.where(nationality: params[:filters][:nationality])
     end
 
-    # Filtrer par genre (uniquement si l'utilisateur est une famille recherchant des au pairs)
+    # Filtrer par genre (uniquement pour les familles cherchant des au pairs)
     if current_user.family? && params[:filters][:gender].present? && params[:filters][:gender] != "All genders"
-       Rails.logger.info "Filtre de genre appliqué : #{params[:filters][:gender]}"
+      Rails.logger.info "Filtre de genre appliqué : #{params[:filters][:gender]}"
       @users = @users.where(gender: params[:filters][:gender])
     end
 
-    # Filtrer par nombre d'enfants maximum (uniquement si l'utilisateur est un au pair recherchant des familles)
+    # Filtrer par nombre d'enfants maximum (si au pair recherchant des familles)
     if current_user.aupair? && params[:filters][:max_number_of_children].present?
       Rails.logger.info "Filtre nombre d'enfants max appliqué : #{params[:filters][:max_number_of_children]}"
       @users = @users.where("number_of_children <= ?", params[:filters][:max_number_of_children].to_i)
     end
 
-    # Filtrer par langues parlées (uniquement pour les familles cherchant des au pairs)
-    if current_user.family? && params[:filters][:languages].present?
-
+    # Filtrer par langues parlées
+    if current_user.family? && params[:filters][:languages].present? && params[:filters][:languages].reject(&:blank?).any?
       selected_languages = params[:filters][:languages].reject(&:blank?)
-
-      if selected_languages.any?
-        Rails.logger.info "Filtre de langues appliqué : #{selected_languages}"
-        language_ids = Language.where(language: selected_languages).pluck(:id)
-        @users = @users.joins(:languages).where(languages: { id: language_ids }).distinct
-      end
+      Rails.logger.info "Filtre de langues appliqué : #{selected_languages}"
+      language_ids = Language.where(language: selected_languages).pluck(:id)
+      @users = @users.joins(:languages).where(languages: { id: language_ids }).distinct
     end
 
-    # Filtrer par plage de dates de début de disponibilité (start_date_min et start_date_max)
+    # Filtrer par plage de dates de disponibilité
     start_min = params[:filters][:start_date_min].present? ? Date.parse(params[:filters][:start_date_min]) : @earliest_start_date
     start_max = params[:filters][:start_date_max].present? ? Date.parse(params[:filters][:start_date_max]) : @latest_start_date
     if current_user.family? && start_min && start_max
@@ -69,13 +60,11 @@ class UsersController < ApplicationController
       @users = @users.joins(:availabilities).where(availabilities: { start: start_min..start_max }).distinct
     end
 
-    # Filtrer par durée du séjour (min_duration et max_duration)
+    # Filtrer par durée du séjour
     if current_user.family?
       min_duration = params[:filters][:min_duration].present? ? params[:filters][:min_duration].to_i : 1
       max_duration = params[:filters][:max_duration].present? ? params[:filters][:max_duration].to_i : @max_duration
-
       Rails.logger.info "Filtre sur durée appliqué : entre #{min_duration} et #{max_duration} jours"
-
       if min_duration > 0 && max_duration > min_duration
         @users = @users.joins(:availabilities)
                        .where("availabilities.end - availabilities.start BETWEEN ? AND ?", min_duration, max_duration).distinct

@@ -21,8 +21,8 @@ export default class extends Controller {
         maxHeight: 300
       });
 
-      // Multiselect pour le filtre des nationalités
-      $('#nationalities-select').multiselect('destroy').multiselect({
+      // Multiselect pour le filtre des nationalités des au pairs
+      $('#aupair-nationalities-select').multiselect('destroy').multiselect({
         buttonClass: 'form-select',
         templates: {
           button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',
@@ -31,6 +31,21 @@ export default class extends Controller {
         nonSelectedText: 'Select nationalities',
         allSelectedText: 'All nationalities selected',
         nSelectedText: 'nationalities selected',
+        numberDisplayed: 3,
+        buttonWidth: '100%',
+        maxHeight: 300
+      });
+
+      // Multiselect pour le filtre des nationalités des familles
+      $('#family-nationalities-select').multiselect('destroy').multiselect({
+        buttonClass: 'form-select',
+        templates: {
+          button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',
+        },
+        includeSelectAllOption: true,
+        nonSelectedText: 'Select family nationalities',
+        allSelectedText: 'All family nationalities selected',
+        nSelectedText: 'family nationalities selected',
         numberDisplayed: 3,
         buttonWidth: '100%',
         maxHeight: 300
