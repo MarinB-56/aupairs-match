@@ -1,9 +1,12 @@
 <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
 
   <% if current_user.aupair? %>
-    <!-- Dropdown pour les nationalités -->
+
+    <!-- Filtres pour les familles -->
+
+    <!-- Dropdown pour la nationalité des familles -->
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :nationality, label: "Nationality",
+      <%= f.input :nationality, label: "Family Nationality",
                   as: :select,
                   collection: [["All nationalities", nil]] + User.family.distinct.pluck(:nationality).map { |n| [n, n] },
                   selected: params.dig(:filters, :nationality),
@@ -17,6 +20,28 @@
                   collection: (@min_children..@max_children).to_a,
                   prompt: "Select max number of children",
                   selected: params.dig(:filters, :max_number_of_children),
+                  input_html: { class: 'form-control' } %>
+    </div>
+
+  <% elsif current_user.family? %>
+
+    <!-- Filtres pour les au pairs -->
+
+    <!-- Dropdown pour la nationalité des au pairs -->
+    <div class="form-group mx-sm-3 mb-2">
+      <%= f.input :nationality, label: "Au Pair Nationality",
+                  as: :select,
+                  collection: [["All nationalities", nil]] + User.aupair.distinct.pluck(:nationality).map { |n| [n, n] },
+                  selected: params.dig(:filters, :nationality),
+                  input_html: { class: 'form-control' } %>
+    </div>
+
+    <!-- Dropdown pour le genre des au pairs -->
+    <div class="form-group mx-sm-3 mb-2">
+      <%= f.input :gender, label: "Gender",
+                  as: :select,
+                  collection: [["All genders", nil], ["Male", "male"], ["Female", "female"], ["Other", "other"]],
+                  selected: params.dig(:filters, :gender),
                   input_html: { class: 'form-control' } %>
     </div>
   <% end %>
