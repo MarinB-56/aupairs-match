@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid"> <!-- Utilisation d'un container-fluid pour occuper toute la largeur -->
     <!-- Logo cliquable avec lien vers la page d'accueil ou autre -->
-    <%= link_to "#", class: "navbar-brand" do %>
+    <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
 
     <% end %>
@@ -40,30 +40,35 @@
 
 <%# Bandeau supérieur (photo, description et nom) %>
 <div class="container">
-  <div class="user-banner bg-white mt-4">
+  <div class="user-banner card mt-4">
     <div class="row">
       <div class="col-md-3">
-        <div class="user-profile-picture">
+        <div class="user-profile-picture m-1">
+          <%= cl_image_tag(@aupair.photo.key, width: 300, height: 300, class: "card-img-top") %>
         </div>
       </div>
+
       <div class="col-md-9">
-        <div class="user-description bg-primary">
-          <%= "#{@aupair.first_name} #{@aupair.last_name}" %>
+        <div class="user-description">
+          <h2><%= "#{@aupair.first_name} #{@aupair.last_name}" %></h2>
+          <p><%= @aupair.description %></p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="user-details bg-white mt-4">
-    <div class="row">
-      <div class="col-6 user-details-personnal">
-        <p>Coucou</p>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card user-description">
+          <p><%= @aupair.nationality %></p>
+          <p><%= @aupair.location %></p>
+        </div>
       </div>
 
-      <div class="col-6 user-details-location">
-        <p>salut</p>
+      <div class="col-md-6">
+        <div class="card user-location">
+          <p>coucou</p>
+        </div>
       </div>
-
     </div>
-  </div>
 </div>

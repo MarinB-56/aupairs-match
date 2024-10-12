@@ -10,11 +10,9 @@
   padding: 15px;
   height: 100%; // Assure que toutes les cartes occupent la même hauteur
 
-
-
-  &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
-    transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
-  }
+  // &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
+  //   transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
+  // }
 }
 
 .card-img-top {
