@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @aupair = User.find(params[:id])
+    @visited_user = User.find(params[:id])
   end
 
   private
