@@ -25,7 +25,7 @@ photo_filenames = ['ap_1.jpeg', 'ap_2.jpeg', 'ap_3.jpeg', 'ap_4.jpeg', 'ap_5.jpe
     first_name: Faker::Name.female_first_name,
     last_name: Faker::Name.last_name,
     birth_date: Faker::Date.birthday(min_age: 18, max_age: 30),
-    description: Faker::Lorem.sentence(word_count: 15),
+    description: Faker::Lorem.sentence(word_count: 50),
     nationality: Faker::Address.country,
     gender: "Femme",
     location: Faker::Address.city,
