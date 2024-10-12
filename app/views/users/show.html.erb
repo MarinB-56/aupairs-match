@@ -1,0 +1,40 @@
+<%= render 'navbar' %>
+
+<div class="container">
+  <div class="user-banner card mt-4">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="user-profile-picture m-1">
+          <%= cl_image_tag(@visited_user.photo.key, width: 300, height: 300, class: "card-img-top") %>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="user-description">
+          <h2><%= "#{@visited_user.first_name} #{@visited_user.last_name}" %></h2>
+          <p><%= @visited_user.description %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card user-description">
+          <p><%= @visited_user.birth_date %></p>
+          <p><%= @visited_user.location %></p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card user-location">
+          <p><%= @visited_user.nationality %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center my-4">
+      <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
+      (link_to "Back to aupairs' list", root_path, class:"btn btn-primary")  %>
+  </div>
+</div>

@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     apply_filters if params[:filters].present?
   end
 
+  def show
+    @visited_user = User.find(params[:id])
+  end
+
   private
 
   def apply_filters

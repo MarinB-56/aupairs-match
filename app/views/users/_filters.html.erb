@@ -7,7 +7,7 @@
   </div>
 
   <div class="collapse" id="filters-container">
-    <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
+    <%= simple_form_for :filters, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
 
       <% if current_user.aupair? %>
 

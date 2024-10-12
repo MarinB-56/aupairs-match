@@ -57,7 +57,7 @@ filtered_users.first(10).each_with_index do |random_user, i|
     location: full_location,
     role: "aupair",
     email: random_user['email'],
-    password: Faker::Internet.password(min_length: 8)
+    password: "password"
   )
 
   if user.save
@@ -102,7 +102,7 @@ puts "Création des familles"
     number_of_children: rand(1..5),  # Nombre d'enfants généré avec Faker
     role: "family",
     email: random_user['email'],
-    password: Faker::Internet.password(min_length: 8)
+    password: "password"
   )
 
   if user.save

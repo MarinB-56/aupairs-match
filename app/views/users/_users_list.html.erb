@@ -36,7 +36,7 @@
             <% end %>
 
             <!-- Bouton pour voir le profil détaillé -->
-            <a href="<%= user_path(user) %>" class="btn btn-primary">Voir le profil</a>
+            <%= link_to "Voir le profil", user_path(user), class: "btn btn-primary" %>
           </div>
         </div>
       </div>
