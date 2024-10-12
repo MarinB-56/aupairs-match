@@ -27,23 +27,73 @@
 
     <!-- Filtres pour les au pairs -->
 
-    <!-- Dropdown pour la nationalité des au pairs -->
-    <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :nationality, label: "Au Pair Nationality",
-                  as: :select,
-                  collection: [["All nationalities", nil]] + User.aupair.distinct.pluck(:nationality).map { |n| [n, n] },
-                  selected: params.dig(:filters, :nationality),
-                  input_html: { class: 'form-control' } %>
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Dropdown pour la nationalité des au pairs -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :nationality, label: "Au Pair Nationality",
+                      as: :select,
+                      collection: [["All nationalities", nil]] + User.aupair.distinct.pluck(:nationality).map { |n| [n, n] },
+                      selected: params.dig(:filters, :nationality),
+                      input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <!-- Dropdown pour le genre des au pairs -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :gender, label: "Gender",
+                      as: :select,
+                      collection: [["All genders", nil], ["Male", "male"], ["Female", "female"], ["Other", "other"]],
+                      selected: params.dig(:filters, :gender),
+                      input_html: { class: 'form-control' } %>
+        </div>
+      </div>
     </div>
 
-    <!-- Dropdown pour le genre des au pairs -->
+    <!-- Filtre sur les langues parlées -->
     <div class="form-group mx-sm-3 mb-2">
-      <%= f.input :gender, label: "Gender",
+      <%= f.input :languages, label: "Languages",
                   as: :select,
-                  collection: [["All genders", nil], ["Male", "male"], ["Female", "female"], ["Other", "other"]],
-                  selected: params.dig(:filters, :gender),
-                  input_html: { class: 'form-control' } %>
+                  collection: Language.joins(:user_languages).where(user_languages: { user: User.aupair }).distinct.pluck(:language),
+                  input_html: { class: 'form-control', multiple: true },
+                  prompt: "Select languages" %>
     </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Filtre sur la date de début du séjour (date au plus tôt) -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :start_date_min, label: "Start Date (Earliest)", as: :date,
+                      input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!-- Filtre sur la date de début du séjour (date au plus tard) -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :start_date_max, label: "Start Date (Latest)", as: :date,
+                      input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+      <!-- Filtre sur la durée du séjour (durée minimum) -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :min_duration, label: "Minimum Duration (days)", as: :integer,
+                      input_html: { class: 'form-control', min: 0 } %>
+        </div>
+      </div>
+      <!-- Filtre sur la durée du séjour (durée maximum) -->
+      <div class="col-md-6">
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :max_duration, label: "Maximum Duration (days)", as: :integer,
+                      input_html: { class: 'form-control', min: 0 } %>
+        </div>
+      </div>
+    </div>
+
   <% end %>
 
   <div class="form-group mx-sm-3 mb-2">

@@ -20,6 +20,9 @@ end
 
 puts "Nettoyage de la base de données..."
 User.destroy_all
+Language.destroy_all
+Availability.destroy_all
+UserLanguage.destroy_all
 
 puts "Création des utilisateurs (au pairs et familles)..."
 
@@ -54,13 +57,27 @@ filtered_users.first(10).each_with_index do |random_user, i|
     location: full_location,
     role: "aupair",
     email: random_user['email'],
-    password: Faker::Internet.password(min_length: 8) # Utilisation de Faker pour générer un mot de passe
+    password: Faker::Internet.password(min_length: 8)
   )
 
   if user.save
     # Attacher une photo depuis l'API randomuser
     user.photo.attach(io: URI.open(random_user['picture']['large']), filename: "aupair_#{i + 1}.jpg", content_type: 'image/jpeg')
     puts "#{user.first_name} #{user.last_name} - Au pair #{i + 1} créée avec succès!"
+
+    # Ajout des langues pour chaque au pair
+    languages = ['English', 'Spanish', 'French', 'German', 'Italian'].sample(rand(1..3))
+    languages.each do |language|
+      lang = Language.find_or_create_by!(language: language)
+      UserLanguage.create!(user: user, language: lang)
+    end
+
+    # Ajout des disponibilités pour chaque au pair
+    Availability.create!(
+      user: user,
+      start: Faker::Date.between(from: Date.today, to: 1.month.from_now),
+      end: Faker::Date.between(from: 2.months.from_now, to: 6.months.from_now)
+    )
   else
     puts "Erreur lors de la création de l'au pair #{i + 1}: #{user.errors.full_messages.join(", ")}"
   end
@@ -85,7 +102,7 @@ puts "Création des familles"
     number_of_children: rand(1..5),  # Nombre d'enfants généré avec Faker
     role: "family",
     email: random_user['email'],
-    password: Faker::Internet.password(min_length: 8)  # Utilisation de Faker pour générer un mot de passe
+    password: Faker::Internet.password(min_length: 8)
   )
 
   if user.save
