@@ -1,0 +1,116 @@
+<div class="container">
+  <!-- Bouton pour ouvrir/fermer les filtres -->
+  <div class="text-center my-4">
+    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filters-container" aria-expanded="false" aria-controls="filters-container">
+      Toggle Filters
+    </button>
+  </div>
+
+  <div class="collapse" id="filters-container">
+    <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
+
+      <% if current_user.aupair? %>
+
+        <!-- Filtres pour les familles -->
+
+        <!-- Multiselect pour la nationalité des familles -->
+        <div class="form-group mx-sm-3 mb-2" data-controller="multiselect">
+          <%= f.input :nationality, label: "Nationality",
+                      as: :select,
+                      collection: User.family.distinct.pluck(:nationality).map { |n| [n, n] },
+                      input_html: { id: 'family-nationalities-select', multiple: true, class: 'form-control' }%>
+        </div>
+
+        <!-- Dropdown pour le nombre d'enfants maximum -->
+        <div class="form-group mx-sm-3 mb-2">
+          <%= f.input :max_number_of_children, label: "Number of Children (Max)",
+                      as: :select,
+                      collection: (@min_children..@max_children).to_a,
+                      prompt: "Select max number of children",
+                      selected: params.dig(:filters, :max_number_of_children),
+                      input_html: { class: 'form-control' } %>
+        </div>
+
+      <% elsif current_user.family? %>
+
+        <!-- Filtres pour les au pairs -->
+
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Multiselect pour la nationalité des au pairs -->
+            <div class="form-group mx-sm-3 mb-2" data-controller="multiselect">
+              <%= f.input :nationality, label: "Nationalities",
+                          as: :select,
+                          collection: User.aupair.distinct.pluck(:nationality),
+                          input_html: { id: 'aupair-nationalities-select', multiple: true, class: 'form-control' }%>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- Dropdown pour le genre des au pairs -->
+            <div class="form-group mx-sm-3 mb-2">
+              <%= f.input :gender, label: "Gender",
+                          as: :select,
+                          collection: [["All genders", nil], ["Male", "male"], ["Female", "female"]],
+                          selected: params.dig(:filters, :gender),
+                          input_html: { class: 'form-control' } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multiselect pour les langues parlées par les au pairs -->
+        <div data-controller="multiselect">
+          <div class="form-group mx-sm-3 mb-2">
+            <%= f.input :languages, label: "Languages",
+                        as: :select,
+                        collection: Language.joins(:user_languages).where(user_languages: { user: User.aupair }).distinct.pluck(:language),
+                        input_html: { id: 'languages-select', multiple: true, class: 'form-control' }%>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Date de début au plus tôt -->
+            <div class="form-group mx-sm-3 mb-2">
+              <label>Start Date (Earliest):</label>
+              <input type="date" class="form-control" name="filters[start_date_min]"
+                    value="<%= params.dig(:filters, :start_date_min) || @earliest_start_date %>">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- Date de début au plus tard -->
+            <div class="form-group mx-sm-3 mb-2">
+              <label>Start Date (Latest):</label>
+              <input type="date" class="form-control" name="filters[start_date_max]"
+                    value="<%= params.dig(:filters, :start_date_max) || @latest_start_date %>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Durée minimum du séjour -->
+            <div class="form-group mx-sm-3 mb-2">
+              <%= f.input :min_duration, label: "Minimum Duration (days)", as: :integer,
+                          input_html: { class: 'form-control', min: 1, value: params.dig(:filters, :min_duration) || 1  } %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- Durée maximum du séjour -->
+            <div class="form-group mx-sm-3 mb-2">
+              <%= f.input :max_duration, label: "Maximum Duration (days)", as: :integer,
+                          input_html: { class: 'form-control', min: 1, value: params.dig(:filters, :max_duration) || @max_duration } %>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+
+      <div class="form-group mx-sm-3 mb-2">
+        <%= f.submit "Apply Filters", class: "btn btn-primary" %>
+      </div>
+
+    <% end %>
+  </div>
+
+</div>

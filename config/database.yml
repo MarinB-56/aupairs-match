@@ -79,6 +79,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
   database: aupairs_match_production
   username: aupairs_match
   password: <%= ENV["AUPAIRS_MATCH_DATABASE_PASSWORD"] %>

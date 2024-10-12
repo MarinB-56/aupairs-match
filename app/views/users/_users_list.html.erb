@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <% @users.each do |user| %> <!-- Boucle à travers les utilisateurs -->
+      <div class="col-md-3 mb-3"> <!-- Colonne Bootstrap pour l'affichage -->
+        <div class="card">
+          <!-- Affichage de la photo si elle est attachée -->
+          <% if user.photo.attached? %>
+            <%= image_tag user.photo, class: "card-img-top" %>
+          <% end %>
+
+          <!-- Contenu de la carte -->
+          <div class="card-body">
+            <!-- Nom de l'utilisateur en titre de la carte -->
+            <h5 class="card-title">
+              <% if user.aupair? %>
+                <%= user.first_name %> <%= user.last_name %>
+              <% else %>
+                <%= user.last_name %>
+              <% end %>
+            </h5>
+
+            <!-- Informations spécifiques à l'au_pair -->
+            <% if user.aupair? %>
+              <p class="card-text">
+                <%= user.nationality %><br>
+                <%= user.gender %><br>
+                <%= Date.today.year - user.birth_date.year %> ans<br>
+                <%= truncate(user.description, length: 70) %>
+              </p>
+            <% else %> <!-- Informations spécifiques à la famille -->
+              <p class="card-text">
+                <%= "Location: #{user.location}" %><br>
+                <%= "Number of children: #{user.number_of_children}" %><br>
+                <%= truncate(user.description, length: 70) %>
+              </p>
+            <% end %>
+
+            <!-- Bouton pour voir le profil détaillé -->
+            <a href="<%= user_path(user) %>" class="btn btn-primary">Voir le profil</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
