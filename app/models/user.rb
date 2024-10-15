@@ -17,4 +17,10 @@ class User < ApplicationRecord
 
   enum role: { aupair: 0, family: 1 }
   has_one_attached :photo
+
+  # Geocoding
+  # Geocoder va chercher l'adresse dans "location" pour trouver lat et lng
+  geocoded_by :location
+  # Après l'enregistrement dans la base de donnée, si locaiton a changé, maj des lat et lng
+  after_validation :geocode, if: :will_save_change_to_location?
 end
