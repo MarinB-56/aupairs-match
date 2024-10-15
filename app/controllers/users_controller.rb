@@ -24,6 +24,9 @@ class UsersController < ApplicationController
 
   def show
     @visited_user = User.find(params[:id])
+
+    # Vérifier la présence des coordonnées dans le profil utilisateur
+    @map = [{ lat: @visited_user.latitude, lng: @visited_user.longitude }] if @visited_user.geocoded?
   end
 
   private
