@@ -13,6 +13,15 @@
         <div class="user-description">
           <h2><%= "#{@visited_user.first_name} #{@visited_user.last_name}" %></h2>
           <p><%= @visited_user.description %></p>
+          <ul style= "list-style-type: none; margin: 0; padding: 0;">
+            <li><i class="fa-solid fa-cake-candles text-primary"></i> <%= @visited_user.birth_date %></li>
+            <li>years old</li>
+            <li><i class="fa-solid fa-house text-primary"></i> <%= @visited_user.location %></li>
+            <li><i class="fa-solid fa-globe text-primary"></i> <%= @visited_user.nationality %></li>
+            <li><i class="fa-solid fa-venus-mars text-primary"></i> <%= @visited_user.gender %></li>
+            <li><i class="fa-solid fa-people-group text-primary"></i> <%= @visited_user.role %></li>
+          </ul>
+
         </div>
       </div>
     </div>
@@ -20,9 +29,8 @@
 
     <div class="row mt-4">
       <div class="col-md-6">
-        <div class="card user-description">
-          <p><%= @visited_user.birth_date %></p>
-          <p><%= @visited_user.location %></p>
+        <div class="card user-description justify-content-start">
+
         </div>
       </div>
 
