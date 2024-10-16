@@ -1,8 +1,48 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+  <div class="container-fluid">
+    <%= link_to "#", class: "navbar-brand" do %>
+      <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
+    <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-<%# Ajout d'un boutton pour se connecter %>
-<%= link_to 'Sign in', new_user_session_path %>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item active">
+            <%= link_to "About us", "#", class: "nav-link" %>
+        </li>
+        <li class="nav-item active">
+            <%= link_to "Contact", "#", class: "nav-link" %>
+        </li>
+        <li class="nav-item active">
+            <%= link_to "FAQ", "#", class: "nav-link" %>
+        </li>
+        <li class="nav-item active">
+            <%= link_to 'Sign in', new_user_session_path, class: "nav-link" %>
+        </li>
 
-<%# Ajout d'un boutton pour se déconnecter %>
-<%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete} %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="container hero">
+  <div class="row">
+    <div class="col col-hero">
+      <div class="hero text-center">
+        <p>Find your next <br>
+        <span data-controller="alternating" class="word-wrapper"><span class="alternating-word" data-alternating-target="word">Au Pair</span></span>,<br>
+        the easy way.</p>
+      </div>
+    </div>
+    <div class="col">
+      <ul>
+        <li>Explore Au Pairs and Families all around the world</li>
+        <li>Sort profiles by location, languages, duration of the trip</li>
+        <li>Match, get in touch, and begin your journey !</li>
+      </ul>
+    </div>
+  </div>
+</div>

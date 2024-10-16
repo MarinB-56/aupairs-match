@@ -1,1 +1,38 @@
-// Specific CSS for your home-page
+.hero {
+  height: 800px;
+}
+
+.col-hero {
+  align-items: center;
+}
+
+
+.word-wrapper {
+  display: inline-block;
+  position: relative;
+  height: 1em; /* Ajuste selon la hauteur du texte */
+  overflow: hidden;
+}
+
+.alternating-word {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.slide-out {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slide-in {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.slide-in-active {
+  transform: translateY(0);
+  opacity: 1;
+}
