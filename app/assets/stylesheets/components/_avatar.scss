@@ -1,5 +1,7 @@
 .avatar {
   width: 40px;
+  height: 40px; /* Ensure height matches width for round shape */
+  object-fit: cover; /* Ensures image doesn't stretch */
   border-radius: 50%;
 }
 .avatar-large {
