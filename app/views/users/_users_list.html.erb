@@ -3,10 +3,17 @@
     <% @users.each do |user| %> <!-- Boucle à travers les utilisateurs -->
       <div class="col-md-3 mb-3"> <!-- Colonne Bootstrap pour l'affichage -->
         <div class="card">
-          <!-- Affichage de la photo si elle est attachée -->
-          <% if user.photo.attached? %>
-            <%= image_tag user.photo, class: "card-img-top" %>
-          <% end %>
+          <!-- Ajout d'un conteneur parent pour gérer l'image et l'icône étoile -->
+          <div class="card-img-top-container">
+            <!-- Affichage de la photo si elle est attachée -->
+            <% if user.photo.attached? %>
+              <%= image_tag user.photo, class: "card-img-top" %>
+            <% end %>
+            <!-- Positionnement de l'icône étoile -->
+                <i class="fa-solid fa-star position-icon"></i>
+            <!-- Positionnement de l'icône match -->
+                <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
+          </div>
 
           <!-- Contenu de la carte -->
           <div class="card-body">

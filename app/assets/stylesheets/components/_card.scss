@@ -15,10 +15,35 @@
   // }
 }
 
+/* Ajout de la nouvelle classe card-img-top-container */
+.card-img-top-container {
+  position: relative; /* Le conteneur est positionné de manière relative pour l'icône étoile */
+  width: 100%;
+  height: 250px; /* Hauteur fixe pour l'image */
+}
+
 .card-img-top {
-  width: 100%; // Assure que l'image occupe toute la largeur de la carte
-  height: 250px; // Hauteur fixe pour toutes les images (tu peux ajuster cette valeur selon tes préférences)
-  object-fit: cover; // Pour que l'image remplisse l'espace défini sans être déformée
+  width: 100%; /* L'image occupe toute la largeur du conteneur */
+  height: 100%; /* Prend toute la hauteur du conteneur */
+  object-fit: cover; /* Pour que l'image remplisse l'espace défini sans être déformée */
+}
+
+/* Icône étoile */
+.position-icon {
+  position: absolute; /* Position absolue par rapport au conteneur parent */
+  top: 8px; /* Distance depuis le haut du conteneur */
+  right: 32px; /* Positionnement à droite */
+  color: #FDB434; /* Couleur de l'étoile */
+  font-size: 18px; /* Taille de l'étoile */
+}
+
+/* Icône match */
+.position-icon-match {
+  position: absolute; /* Position absolue par rapport au conteneur parent */
+  top: 8px; /* Distance depuis le haut du conteneur */
+  right: 8px; /* Positionnement à droite */
+  color: #02C5AE; /* Couleur du coeur */
+  font-size: 18px; /* Taille du coeur */
 }
 
 .card-body {
