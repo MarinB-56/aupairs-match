@@ -38,8 +38,8 @@
               <!-- Description -->
                 <p class="card-description">
                 <%= truncate(user.description, length: 70) %>
+                </p>
               </p>
-
             <% else %> <!-- Informations spécifiques à la famille -->
               <p class="card-text">
                 <%= "Location: #{user.location}" %><br>
@@ -50,6 +50,12 @@
 
             <!-- Bouton pour voir le profil détaillé -->
             <%= link_to "View profile", user_path(user), class: "btn btn-primary" %>
+
+            <%= link_to "Add as favorite",
+                  favorites_path(visited_user: user, visiting_user: current_user ),
+                  data: {turbo_method: :post},
+                  class: "btn btn-secondary" %>
+
           </div>
         </div>
       </div>
