@@ -34,7 +34,7 @@
               </p>
               <!-- Genre, Âge -->
               <p class="card-details">
-                <%= user.gender %>, <%= Date.today.year - user.birth_date.year %> ans<br>
+                <%= user.gender %>, <%= Date.today.year - user.birth_date.year %> years old<br>
               <!-- Description -->
                 <p class="card-description">
                 <%= truncate(user.description, length: 70) %>
