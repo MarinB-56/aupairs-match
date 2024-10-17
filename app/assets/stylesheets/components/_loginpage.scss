@@ -1,0 +1,29 @@
+/* Styles spécifiques à la page de connexion */
+.login-page {
+  background-image: url('/assets/images/background_images/bg_image_1.jpeg'); /* Remplace par ton image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - 80px); /* Prend toute la hauteur moins la navbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px; /* Ajoute un espace entre le formulaire et la navbar */
+}
+
+
+/* Style du formulaire (login-box) */
+.login-box {
+  background-color: rgba(0, 0, 0, 0.7); /* Fond sombre et transparent */
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Style du bouton */
+.login-box .btn {
+  border: none;
+  width: 100%;
+}
