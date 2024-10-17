@@ -1,0 +1,88 @@
+.container {
+  margin-top: 20px;
+}
+
+.user-banner {
+  display: flex;
+  align-items: center; /* Centrer verticalement le contenu */
+  height: 350px; /* Hauteur fixe pour la bannière */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.user-profile-picture {
+  text-align: center;
+  width: 300px;
+  height: 300px; /* Hauteur et largeur fixes pour les images */
+  overflow: hidden; /* Masquer tout ce qui dépasse */
+}
+
+.user-description {
+  margin-left: 20px;
+}
+
+.user-name {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #FD3967;
+}
+
+.user-full-description {
+  font-size: 1em;
+  line-height: 1.5;
+  color: #222222;
+}
+
+.user-location, .user-description-details {
+  min-height: 150px;
+  height: auto;
+}
+
+.user-details {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.user-details li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-details .icon {
+  color: #FD3967;
+  margin-right: 6px;
+  width: 18px;
+  font-size: 0.8em;
+}
+
+.user-details .label {
+  font-size: 1em;
+  color: #6A6A6A;
+  margin-right: 6px;
+}
+
+.user-details .value {
+  font-size: 1em;
+  color: #222222;
+}
+
+
+.btn-primary {
+  background-color: #FD3967;
+  border-color: #FD3967;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.btn-primary:hover {
+  background-color: #e53b5c;
+  border-color: #e23658;
+}

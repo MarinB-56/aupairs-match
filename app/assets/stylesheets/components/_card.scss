@@ -9,10 +9,12 @@
   transition: transform 0.2s ease-in-out; // Ajoute une transition fluide (de 0.2 secondes) pour les transformations, avec un effet d’accélération/décélération.
   padding: 15px;
   height: 100%; // Assure que toutes les cartes occupent la même hauteur
+}
 
-  // &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
-  //   transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
-  // }
+.card-index {
+  &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
+    transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
+  }
 }
 
 .card-title {
@@ -23,7 +25,7 @@
 
 .card-nationality {
   font-size: 1.2em;
-  color: #333;
+  color: #222222;
   font-weight: 500; /* Légèrement plus gras que le texte normal */
   margin-bottom: 0px; /* Si besoin d'ajouter un espace en dessous de la nationalité */
 }
@@ -36,14 +38,14 @@
 
 .card-details {
   font-size: 0.9em;
-  color: #555; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
+  color: #6A6A6A; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
   margin-bottom: 15px; /* Espacement au-dessus de la description */
 }
 
 .card-description {
   font-size: 1em;
   line-height: 1.4;
-  color: #333; /* Couleur plus sombre pour une meilleure lisibilité */
+  color: #222222; /* Couleur plus sombre pour une meilleure lisibilité */
   margin-top: 15px; /* Espace au-dessus de la description */
 }
 
