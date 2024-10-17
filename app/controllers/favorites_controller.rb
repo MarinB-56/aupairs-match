@@ -3,14 +3,21 @@ class FavoritesController < ApplicationController
     visited_user = User.find(params[:visited_user])
     visiting_user = User.find(params[:visiting_user])
 
-    favorite = Favorite.new
-    favorite.favoriting_user = visiting_user
-    favorite.favorited_user = visited_user
+    favorite = Favorite.where(favoriting_user_id: visiting_user.id, favorited_user_id: visited_user.id)
 
-    if favorite.save
-      redirect_to users_path
+    if favorite.empty?
+      new_fav = Favorite.new
+      new_fav.favoriting_user = visiting_user
+      new_fav.favorited_user = visited_user
+
+      if new_fav.save
+        redirect_to users_path
+      else
+        redirect_to users_path, status: :unprocessable_entity
+      end
     else
-      redirect_to users_path, status: :unprocessable_entity
+      favorite.first.delete
+      redirect_to users_path
     end
   end
 end

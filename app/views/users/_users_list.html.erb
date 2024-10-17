@@ -9,10 +9,14 @@
             <% if user.photo.attached? %>
               <%= image_tag user.photo, class: "card-img-top" %>
             <% end %>
-            <!-- Positionnement de l'icône étoile -->
-                <i class="fa-solid fa-star position-icon"></i>
+
             <!-- Positionnement de l'icône match -->
-                <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
+            <% if Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? %>
+              <i class="fa-regular fa-star position-icon"></i>
+            <% else %>
+              <i class="fa-solid fa-star position-icon"></i>
+            <% end %>
+            <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
           </div>
 
           <!-- Contenu de la carte -->
