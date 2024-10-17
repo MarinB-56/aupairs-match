@@ -28,12 +28,18 @@
 
             <!-- Informations spécifiques à l'au_pair -->
             <% if user.aupair? %>
-              <p class="card-text">
-                <%= user.nationality %><br>
-                <%= user.gender %><br>
-                <%= Date.today.year - user.birth_date.year %> ans<br>
+              <!-- Nationalité -->
+              <p class="card-nationality">
+                <i class="fa-solid fa-location-dot"></i> <%= user.nationality %>
+              </p>
+              <!-- Genre, Âge -->
+              <p class="card-details">
+                <%= user.gender %>, <%= Date.today.year - user.birth_date.year %> ans<br>
+              <!-- Description -->
+                <p class="card-description">
                 <%= truncate(user.description, length: 70) %>
               </p>
+
             <% else %> <!-- Informations spécifiques à la famille -->
               <p class="card-text">
                 <%= "Location: #{user.location}" %><br>
@@ -43,7 +49,7 @@
             <% end %>
 
             <!-- Bouton pour voir le profil détaillé -->
-            <%= link_to "Voir le profil", user_path(user), class: "btn btn-primary" %>
+            <%= link_to "View profile", user_path(user), class: "btn btn-primary" %>
           </div>
         </div>
       </div>

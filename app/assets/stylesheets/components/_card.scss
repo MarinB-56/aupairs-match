@@ -15,6 +15,42 @@
   // }
 }
 
+.card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #FD3967;
+}
+
+.card-nationality {
+  font-size: 1.2em;
+  color: #333;
+  font-weight: 500; /* Légèrement plus gras que le texte normal */
+  margin-bottom: 0px; /* Si besoin d'ajouter un espace en dessous de la nationalité */
+}
+
+.card-nationality i {
+  color: #FD3967; /* Couleur de l'icône */
+  margin-right: 3px; /* Un petit espace entre l'icône et le texte */
+  font-size: 0.8em; /* Taille légèrement plus petite pour ne pas dominer le texte */
+}
+
+.card-details {
+  font-size: 0.9em;
+  color: #555; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
+  margin-bottom: 15px; /* Espacement au-dessus de la description */
+}
+
+.card-description {
+  font-size: 1em;
+  line-height: 1.4;
+  color: #333; /* Couleur plus sombre pour une meilleure lisibilité */
+  margin-top: 15px; /* Espace au-dessus de la description */
+}
+
+.info-spacing {
+  margin-bottom: 15px; /* Ajuste cet espace selon tes besoins */
+}
+
 /* Ajout de la nouvelle classe card-img-top-container */
 .card-img-top-container {
   position: relative; /* Le conteneur est positionné de manière relative pour l'icône étoile */
