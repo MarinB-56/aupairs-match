@@ -18,31 +18,80 @@
     </div>
   </div>
 
+    <%# User map %>
     <div class="row mt-4">
-      <div class="col-md-6">
+      <div class="col-md-8">
+        <div class="card user-location" style="width: 100%; height: 300px;"
+              data-controller="map"
+              data-map-markers-value="<%= @map.to_json %>"
+              data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+        </div>
+      </div>
+
+      <%# User details %>
+      <div class="col-md-4">
         <div class="card user-description justify-content-start">
           <ul style= "list-style-type: none; margin: 0; padding: 0;">
-            <li><i class="fa-solid fa-cake-candles text-primary"></i> <%= @visited_user.birth_date %></li>
-            <li>years old</li>
-            <li><i class="fa-solid fa-house text-primary"></i> <%= @visited_user.location %></li>
-            <li><i class="fa-solid fa-globe text-primary"></i> <%= @visited_user.nationality %></li>
-            <li><i class="fa-solid fa-venus-mars text-primary"></i> <%= @visited_user.gender %></li>
-            <li><i class="fa-solid fa-people-group text-primary"></i> <%= @visited_user.role %></li>
+            <li class="d-flex align-items-center">
+              <div style="width: 42px;">
+                <i class="fa-solid fa-cake-candles text-primary fs-1"></i>
+              </div>
+              <div class="ms-2">
+                <p class="m-0 ms-2 fs-5"><%= Date.today.year - @visited_user.birth_date.year %> years old</p>
+                <p class="m-0 ms-2 text-secondary">age</p>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center">
+              <div style="width: 42px;">
+                <i class="fa-solid fa-house text-primary fs-2"></i>
+              </div>
+              <div class="ms-2">
+                <p class="m-0 ms-2 fs-5"><%= @visited_user.location %></p>
+                <p class="m-0 ms-2 text-secondary">location</p>
+              </div>
+            </li>
+
+
+            <li class="d-flex align-items-center">
+              <div style="width: 42px;">
+                <i class="fa-solid fa-globe text-primary fs-1"></i>
+              </div>
+              <div class="ms-2">
+                <p class="m-0 ms-2 fs-5"><%= @visited_user.nationality %></p>
+                <p class="m-0 ms-2 text-secondary">nationality</p>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center">
+              <div style="width: 42px;">
+                <i class="fa-solid fa-venus-mars text-primary fs-1"></i>
+              </div>
+              <div class="ms-2">
+                <p class="m-0 ms-2 fs-5"><%= @visited_user.gender %></p>
+                <p class="m-0 ms-2 text-secondary">gender</p>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center">
+              <div style="width: 42px;">
+                <i class="fa-solid fa-people-group text-primary fs-1"></i>
+              </div>
+              <div class="ms-2">
+                <p class="m-0 ms-2 fs-5"><%= @visited_user.role %></p>
+                <p class="m-0 ms-2 text-secondary">role</p>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div class="col-md-6">
-        <div class="card user-location" style="width: 100%; height: 300px;"
-              data-controller="map"
-              data-map-markers-value="<%= @map.to_json %>"
-              data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="text-center my-4">
-      <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
-      (link_to "Back to aupairs' list", root_path, class:"btn btn-primary")  %>
+    </div>
+  </div>
+
+  <div class="text-center my-4">
+    <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
+    (link_to "Back to aupairs' list", root_path, class:"btn btn-primary")  %>
   </div>
 </div>
