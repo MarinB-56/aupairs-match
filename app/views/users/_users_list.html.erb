@@ -27,12 +27,26 @@
                 <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
                   <i data-action="click->manage-favorites#toggle_favorite"
                     data-manage-favorites-target="star"
-                    class="fa-star position-icon <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'fa-regular' : 'fa-solid' %>"></i>
+                    class="fa-star position-icon-favorite fa-solid <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'icon-favorite-empty' : 'icon-favorite-added' %>"></i>
                 </div>
-                <div>
-                  <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
+
+                <div data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
+                  <i data-action="click->manage-matches#manage_matches"
+                    data-manage-matches-target="heart"
+                    class="fa-solid position-icon-match
+                    <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
+                      <%= 'fa-heart-circle-plus icon-match-empty' %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "pending" %>
+                      <%= 'fa-heart-circle-exclamation icon-match-pending' %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "refused" %>
+                      <%= 'fa-heart-circle-xmark icon-match-refused' %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "accepted" %>
+                      <%= 'fa-heart-circle-check icon-match-accepted' %>
+                    <% end %>"></i>
                 </div>
               </div>
+
+
 
             </div>
 
