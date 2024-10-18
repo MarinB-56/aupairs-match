@@ -68,9 +68,6 @@
 
 /* Icône étoile */
 .position-icon {
-  // position: absolute; /* Position absolue par rapport au conteneur parent */
-  // top: 8px; /* Distance depuis le haut du conteneur */
-  // right: 32px; /* Positionnement à droite */
   color: #FDB434; /* Couleur de l'étoile */
   font-size: 20px; /* Taille de l'étoile */
 
@@ -82,12 +79,29 @@
 
 /* Icône match */
 .position-icon-match {
-  // position: absolute; /* Position absolue par rapport au conteneur parent */
-  // top: 8px; /* Distance depuis le haut du conteneur */
-  // right: 8px; /* Positionnement à droite */
-  color: #02C5AE; /* Couleur du coeur */
   font-size: 20px; /* Taille du coeur */
-  margin-left: 5px
+  margin-left: 5px;
+
+  &:hover{
+    cursor: pointer;
+    color: #c68d2a;
+  }
+}
+
+.icon-match-accepted {
+  color: #02C5AE;
+}
+
+.icon-match-pending {
+  color: #74C0FC;
+}
+
+.icon-match-refused {
+  color: #FD3967;
+}
+
+.icon-match-empty {
+  color: #d3d6d6;
 }
 
 .card-body {

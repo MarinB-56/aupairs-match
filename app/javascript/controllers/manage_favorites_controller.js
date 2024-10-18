@@ -9,7 +9,7 @@ export default class extends Controller {
   static targets = ["star"];
 
   connect() {
-    console.log(this.starTarget.classList);
+    // console.log(this.starTarget.classList);
   }
 
   toggle_favorite = () => {
