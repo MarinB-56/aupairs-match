@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_user, only: [:show, :edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -27,6 +28,12 @@ class UsersController < ApplicationController
 
     # Vérifier la présence des coordonnées dans le profil utilisateur
     @map = [{ lat: @visited_user.latitude, lng: @visited_user.longitude }] if @visited_user.geocoded?
+  end
+
+  def edit
+  end
+
+  def update
   end
 
   private
