@@ -67,14 +67,16 @@
 }
 
 /* Icône étoile */
-.position-icon {
-  color: #FDB434; /* Couleur de l'étoile */
+.position-icon-favorite {
   font-size: 20px; /* Taille de l'étoile */
 
   &:hover{
     cursor: pointer;
-    color: #c68d2a;
   }
+}
+
+.icon-favorite-added {
+  color: #FDB434; /* Couleur de l'étoile */
 }
 
 /* Icône match */
@@ -99,7 +101,7 @@
   color: #FD3967;
 }
 
-.icon-match-empty {
+.icon-match-empty, .icon-favorite-empty {
   color: #d3d6d6;
 }
 

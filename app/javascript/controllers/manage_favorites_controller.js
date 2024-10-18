@@ -31,11 +31,11 @@ export default class extends Controller {
     .then(response => response.json())
     .then((data) => {
       if (data.status === "deleted") {
-        this.starTarget.classList.remove("fa-solid");
-        this.starTarget.classList.add('fa-regular');
+        this.starTarget.classList.remove('icon-favorite-added');
+        this.starTarget.classList.add('icon-favorite-empty');
       }else {
-        this.starTarget.classList.remove("fa-regular");
-        this.starTarget.classList.add('fa-solid');
+        this.starTarget.classList.remove('icon-favorite-empty');
+        this.starTarget.classList.add('icon-favorite-added');
       }
     })
     .catch((error) => {
