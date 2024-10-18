@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -31,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = current_user
   end
 
   def update
