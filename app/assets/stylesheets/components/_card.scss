@@ -9,16 +9,79 @@
   transition: transform 0.2s ease-in-out; // Ajoute une transition fluide (de 0.2 secondes) pour les transformations, avec un effet d’accélération/décélération.
   padding: 15px;
   height: 100%; // Assure que toutes les cartes occupent la même hauteur
+}
 
-  // &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
-  //   transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
-  // }
+.card-index {
+  &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
+    transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
+  }
+}
+
+.card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #FD3967;
+}
+
+.card-nationality {
+  font-size: 1.2em;
+  color: #222222;
+  font-weight: 500; /* Légèrement plus gras que le texte normal */
+  margin-bottom: 0px; /* Si besoin d'ajouter un espace en dessous de la nationalité */
+}
+
+.card-nationality i {
+  color: #FD3967; /* Couleur de l'icône */
+  margin-right: 3px; /* Un petit espace entre l'icône et le texte */
+  font-size: 0.8em; /* Taille légèrement plus petite pour ne pas dominer le texte */
+}
+
+.card-details {
+  font-size: 0.9em;
+  color: #6A6A6A; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
+  margin-bottom: 15px; /* Espacement au-dessus de la description */
+}
+
+.card-description {
+  font-size: 1em;
+  line-height: 1.4;
+  color: #222222; /* Couleur plus sombre pour une meilleure lisibilité */
+  margin-top: 15px; /* Espace au-dessus de la description */
+}
+
+.info-spacing {
+  margin-bottom: 15px; /* Ajuste cet espace selon tes besoins */
+}
+
+/* Ajout de la nouvelle classe card-img-top-container */
+.card-img-top-container {
+  position: relative; /* Le conteneur est positionné de manière relative pour l'icône étoile */
+  width: 100%;
+  height: 250px; /* Hauteur fixe pour l'image */
 }
 
 .card-img-top {
-  width: 100%; // Assure que l'image occupe toute la largeur de la carte
-  height: 250px; // Hauteur fixe pour toutes les images (tu peux ajuster cette valeur selon tes préférences)
-  object-fit: cover; // Pour que l'image remplisse l'espace défini sans être déformée
+  width: 100%; /* L'image occupe toute la largeur du conteneur */
+  height: 100%; /* Prend toute la hauteur du conteneur */
+  object-fit: cover; /* Pour que l'image remplisse l'espace défini sans être déformée */
+}
+
+/* Icône étoile */
+.position-icon {
+  position: absolute; /* Position absolue par rapport au conteneur parent */
+  top: 8px; /* Distance depuis le haut du conteneur */
+  right: 32px; /* Positionnement à droite */
+  color: #FDB434; /* Couleur de l'étoile */
+  font-size: 18px; /* Taille de l'étoile */
+}
+
+/* Icône match */
+.position-icon-match {
+  position: absolute; /* Position absolue par rapport au conteneur parent */
+  top: 8px; /* Distance depuis le haut du conteneur */
+  right: 8px; /* Positionnement à droite */
+  color: #02C5AE; /* Couleur du coeur */
+  font-size: 18px; /* Taille du coeur */
 }
 
 .card-body {

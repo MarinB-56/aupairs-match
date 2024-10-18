@@ -11,30 +11,59 @@
 
       <div class="col-md-9">
         <div class="user-description">
-          <h2><%= "#{@visited_user.first_name} #{@visited_user.last_name}" %></h2>
-          <p><%= @visited_user.description %></p>
+          <h2 class="user-name"><%= "#{@visited_user.first_name} #{@visited_user.last_name}" %></h2>
+          <p class="user-full-description"><%= @visited_user.description %></p>
         </div>
       </div>
     </div>
   </div>
 
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <div class="card user-description">
-          <p><%= @visited_user.birth_date %></p>
-          <p><%= @visited_user.location %></p>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="card user-location">
-          <p><%= @visited_user.nationality %></p>
-        </div>
+  <%# User map %>
+  <div class="row mt-4">
+    <div class="col-md-8">
+      <div class="card user-location" style="width: 100%; height: 200px;"
+           data-controller="map"
+           data-map-markers-value="<%= @map.to_json %>"
+           data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
       </div>
     </div>
 
-    <div class="text-center my-4">
-      <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
-      (link_to "Back to aupairs' list", root_path, class:"btn btn-primary")  %>
+    <%# User details %>
+    <div class="col-md-4">
+      <div class="card user-description-details">
+        <ul class="user-details">
+          <li>
+            <i class="fa-solid fa-venus-mars icon"></i>
+            <span class="label">gender: </span>
+            <span class="value"><%= @visited_user.gender %></span>
+          </li>
+          <li>
+            <i class="fa-solid fa-cake-candles icon"></i>
+            <span class="label">age: </span>
+            <span class="value"><%= Date.today.year - @visited_user.birth_date.year %> years old</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-globe icon"></i>
+            <span class="label">nationality: </span>
+            <span class="value"><%= @visited_user.nationality %></span>
+          </li>
+          <li>
+            <i class="fa-solid fa-location-dot icon"></i>
+            <span class="label">location: </span>
+            <span class="value"><%= @visited_user.location %></span>
+          </li>
+          <li>
+            <i class="fa-solid fa-people-group icon"></i>
+            <span class="label">role: </span>
+            <span class="value"><%= @visited_user.role %></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center my-4">
+    <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
+    (link_to "Back to aupairs' list", root_path, class:"btn btn-primary") %>
   </div>
 </div>
