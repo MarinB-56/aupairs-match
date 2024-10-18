@@ -10,26 +10,27 @@
               <%= image_tag user.photo, class: "card-img-top" %>
             <% end %>
 
-            <!-- Positionnement de l'icône match -->
-            <% if Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? %>
-              <i class="fa-regular fa-star position-icon"></i>
-            <% else %>
-              <i class="fa-solid fa-star position-icon"></i>
-            <% end %>
-
             <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
           </div>
 
           <!-- Contenu de la carte -->
           <div class="card-body">
-            <!-- Nom de l'utilisateur en titre de la carte -->
-            <h5 class="card-title">
-              <% if user.aupair? %>
-                <%= user.first_name %> <%= user.last_name %>
-              <% else %>
-                <%= user.last_name %>
-              <% end %>
-            </h5>
+            <div class="d-flex justify-content-between">
+              <!-- Nom de l'utilisateur en titre de la carte -->
+              <h5 class="card-title">
+                <% if user.aupair? %>
+                  <%= user.first_name %> <%= user.last_name %>
+                <% else %>
+                  <%= user.last_name %>
+                <% end %>
+              </h5>
+
+              <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
+                <i data-action="click->manage-favorites#toggle_favorite"
+                  data-manage-favorites-target="star"
+                  class="fa-star position-icon <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'fa-regular' : 'fa-solid' %>"></i>
+              </div>
+            </div>
 
             <!-- Informations spécifiques à l'au_pair -->
             <% if user.aupair? %>
@@ -56,14 +57,11 @@
             <!-- Bouton pour voir le profil détaillé -->
             <%= link_to "View profile", user_path(user), class: "btn btn-primary" %>
 
+            <%# Button favorite to add it in rails (whithout js)
             <%= link_to "Add as favorite",
                   favorites_path(visited_user: user, visiting_user: current_user ),
                   data: {turbo_method: :post},
                   class: "btn btn-secondary" %>
-
-            <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
-              <button data-action="click->manage-favorites#toggle_favorite" class="btn btn-secondary">Toggle favorite</button>
-            </div>
 
           </div>
         </div>

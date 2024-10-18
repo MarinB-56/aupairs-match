@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
   def create
-    puts "USEEEEEEEEEEEEEr"
+
     visited_user = User.find(params[:visited_user])
     visiting_user = User.find(params[:visiting_user])
 
@@ -14,7 +14,7 @@ class FavoritesController < ApplicationController
         format.json { render json: { message: "Favori retiré avec succès", status: "deleted" }, status: :ok }
       elsif favorite.save
         format.html { redirect_to users_path }
-        format.json { render json: { message: "Favori ajouté avec succès", status: "deleted" }, status: :ok }
+        format.json { render json: { message: "Favori ajouté avec succès", status: "added" }, status: :ok }
       else
         format.html { redirect_to users_path, status: :unprocessable_entity }
         format.json { render json: { message: "Erreur lors de la gestion du favori" }, status: :unprocessable_entity }

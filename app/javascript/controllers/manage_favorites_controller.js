@@ -6,30 +6,12 @@ export default class extends Controller {
     id: Object
   }
 
+  static targets = ["star"];
+
   connect() {
-    console.log("Hello from favorite controller");
+    console.log(this.starTarget.classList);
   }
 
-  /*
-  toggle_favorite = () => {
-    console.log("toggle favorites");
-
-    console.log(this.idValue.visiting_user);
-
-    // Appel de l'action Create du controller Favorites
-    fetch(`${document.location.origin}/favorites`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        visiting_user: this.idValue.visiting_user,
-        visited_user: this.idValue.visited_user
-      })
-    });
-  }
-  */
   toggle_favorite = () => {
     console.log("toggle favorites");
 
@@ -47,7 +29,15 @@ export default class extends Controller {
       })
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then((data) => {
+      if (data.status === "deleted") {
+        this.starTarget.classList.remove("fa-solid");
+        this.starTarget.classList.add('fa-regular');
+      }else {
+        this.starTarget.classList.remove("fa-regular");
+        this.starTarget.classList.add('fa-solid');
+      }
+    })
     .catch((error) => {
       console.error('Erreur:', error);
     });
