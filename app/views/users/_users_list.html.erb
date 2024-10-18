@@ -16,6 +16,7 @@
             <% else %>
               <i class="fa-solid fa-star position-icon"></i>
             <% end %>
+
             <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
           </div>
 
@@ -59,6 +60,10 @@
                   favorites_path(visited_user: user, visiting_user: current_user ),
                   data: {turbo_method: :post},
                   class: "btn btn-secondary" %>
+
+            <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
+              <button data-action="click->manage-favorites#toggle_favorite" class="btn btn-secondary">Toggle favorite</button>
+            </div>
 
           </div>
         </div>
