@@ -1,35 +1,7 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
-    <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<%= render 'navbar' %>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item active">
-            <%= link_to "About us", "#", class: "nav-link" %>
-        </li>
-        <li class="nav-item active">
-            <%= link_to "Contact", "#", class: "nav-link" %>
-        </li>
-        <li class="nav-item active">
-            <%= link_to "FAQ", "#", class: "nav-link" %>
-        </li>
-        <li class="nav-item active">
-            <%= link_to 'Sign in', new_user_session_path, class: "btn btn-primary" %>
-        </li>
-
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-<div class="container hero">
-  <div class="row g-5 align-items-center justify-content-center">
+<div class="container-hero">
+  <div class="row m-0">
     <!-- Colonne 1 : Texte Hero -->
     <div class="col-md-6 col-hero">
       <div class="hero">
@@ -38,12 +10,13 @@
     </div>
 
     <!-- Colonne 2 : Liste -->
-    <div class="col-md-6">
+    <div class="col-md-6 d-flex flex-column align-items-center">
       <ul class="features-list">
         <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Explore Au Pairs and Families all around the world</li>
         <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Sort profiles by location, languages, duration of the trip</li>
         <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Match, get in touch, and begin your journey !</li>
       </ul>
+      <%= link_to 'Sign up', new_user_registration_path, class: "btn btn-primary w-50" %>
     </div>
   </div>
 </div>
