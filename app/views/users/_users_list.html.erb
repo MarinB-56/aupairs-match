@@ -29,6 +29,7 @@
                     data-manage-favorites-target="star"
                     class="fa-star position-icon <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'fa-regular' : 'fa-solid' %>"></i>
                 </div>
+
                 <div data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
                   <i data-action="click->manage-matches#manage_matches"
                     data-manage-matches-target="heart"
@@ -73,12 +74,6 @@
 
             <!-- Bouton pour voir le profil détaillé -->
             <%= link_to "View profile", user_path(user), class: "btn btn-primary" %>
-
-            <%= link_to "Add as match",
-                  matches_path(received_by: user, initiated_by: current_user ),
-                  data: {turbo_method: :post},
-                  class: "btn btn-secondary" %>
-
 
             <%# Button favorite to add it in rails (whithout js)
             <%= link_to "Add as favorite",

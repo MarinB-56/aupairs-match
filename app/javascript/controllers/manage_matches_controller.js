@@ -31,10 +31,12 @@ export default class extends Controller {
     .then((data) => {
       if (data.status === "deleted") {
         this.heartTarget.classList.remove('icon-match-pending', 'icon-match-accepted', 'icon-match-refused');
-        this.heartTarget.classList.add('icon-match-empty');
+        this.heartTarget.classList.remove('fa-heart-circle-xmark', 'fa-heart-circle-exclamation', 'fa-heart-circle-check')
+        this.heartTarget.classList.add('icon-match-empty', 'fa-heart-circle-plus');
       }else {
         this.heartTarget.classList.remove('icon-match-empty');
-        this.heartTarget.classList.add('icon-match-pending');
+        this.heartTarget.classList.remove('fa-heart-circle-plus')
+        this.heartTarget.classList.add('icon-match-pending', 'fa-heart-circle-exclamation');
       }
     })
   }
