@@ -74,17 +74,18 @@
 
   &:hover{
     cursor: pointer;
-    color: #e6a331;
+    color: #c68d2a;
   }
 }
 
 /* Icône match */
 .position-icon-match {
-  position: absolute; /* Position absolue par rapport au conteneur parent */
-  top: 8px; /* Distance depuis le haut du conteneur */
-  right: 8px; /* Positionnement à droite */
+  // position: absolute; /* Position absolue par rapport au conteneur parent */
+  // top: 8px; /* Distance depuis le haut du conteneur */
+  // right: 8px; /* Positionnement à droite */
   color: #02C5AE; /* Couleur du coeur */
-  font-size: 18px; /* Taille du coeur */
+  font-size: 20px; /* Taille du coeur */
+  margin-left: 5px
 }
 
 .card-body {

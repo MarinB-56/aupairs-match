@@ -9,8 +9,6 @@
             <% if user.photo.attached? %>
               <%= image_tag user.photo, class: "card-img-top" %>
             <% end %>
-
-            <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
           </div>
 
           <!-- Contenu de la carte -->
@@ -25,11 +23,17 @@
                 <% end %>
               </h5>
 
-              <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
-                <i data-action="click->manage-favorites#toggle_favorite"
-                  data-manage-favorites-target="star"
-                  class="fa-star position-icon <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'fa-regular' : 'fa-solid' %>"></i>
+              <div class="d-flex">
+                <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
+                  <i data-action="click->manage-favorites#toggle_favorite"
+                    data-manage-favorites-target="star"
+                    class="fa-star position-icon <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'fa-regular' : 'fa-solid' %>"></i>
+                </div>
+                <div>
+                  <i class="fa-solid fa-heart-circle-check position-icon-match"></i>
+                </div>
               </div>
+
             </div>
 
             <!-- Informations spécifiques à l'au_pair -->
