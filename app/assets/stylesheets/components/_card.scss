@@ -68,20 +68,26 @@
 
 /* Icône étoile */
 .position-icon {
-  position: absolute; /* Position absolue par rapport au conteneur parent */
-  top: 8px; /* Distance depuis le haut du conteneur */
-  right: 32px; /* Positionnement à droite */
+  // position: absolute; /* Position absolue par rapport au conteneur parent */
+  // top: 8px; /* Distance depuis le haut du conteneur */
+  // right: 32px; /* Positionnement à droite */
   color: #FDB434; /* Couleur de l'étoile */
-  font-size: 18px; /* Taille de l'étoile */
+  font-size: 20px; /* Taille de l'étoile */
+
+  &:hover{
+    cursor: pointer;
+    color: #c68d2a;
+  }
 }
 
 /* Icône match */
 .position-icon-match {
-  position: absolute; /* Position absolue par rapport au conteneur parent */
-  top: 8px; /* Distance depuis le haut du conteneur */
-  right: 8px; /* Positionnement à droite */
+  // position: absolute; /* Position absolue par rapport au conteneur parent */
+  // top: 8px; /* Distance depuis le haut du conteneur */
+  // right: 8px; /* Positionnement à droite */
   color: #02C5AE; /* Couleur du coeur */
-  font-size: 18px; /* Taille du coeur */
+  font-size: 20px; /* Taille du coeur */
+  margin-left: 5px
 }
 
 .card-body {
