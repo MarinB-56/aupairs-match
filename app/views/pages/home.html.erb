@@ -19,7 +19,7 @@
             <%= link_to "FAQ", "#", class: "nav-link" %>
         </li>
         <li class="nav-item active">
-            <%= link_to 'Sign in', new_user_session_path, class: "nav-link" %>
+            <%= link_to 'Sign in', new_user_session_path, class: "btn btn-primary" %>
         </li>
 
       </ul>
@@ -29,19 +29,20 @@
 
 
 <div class="container hero">
-  <div class="row">
-    <div class="col col-hero">
-      <div class="hero text-center">
-        <p>Find your next <br>
-        <span data-controller="alternating" class="word-wrapper"><span class="alternating-word" data-alternating-target="word">Au Pair</span></span>,<br>
-        the easy way.</p>
+  <div class="row g-5 align-items-center justify-content-center">
+    <!-- Colonne 1 : Texte Hero -->
+    <div class="col-md-6 col-hero">
+      <div class="hero">
+        <p class="hero-text">Find your next<br>Au Pair, the easy way.</p>
       </div>
     </div>
-    <div class="col">
-      <ul>
-        <li>Explore Au Pairs and Families all around the world</li>
-        <li>Sort profiles by location, languages, duration of the trip</li>
-        <li>Match, get in touch, and begin your journey !</li>
+
+    <!-- Colonne 2 : Liste -->
+    <div class="col-md-6">
+      <ul class="features-list">
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Explore Au Pairs and Families all around the world</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Sort profiles by location, languages, duration of the trip</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Match, get in touch, and begin your journey !</li>
       </ul>
     </div>
   </div>

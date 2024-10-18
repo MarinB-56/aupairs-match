@@ -1,38 +1,52 @@
-.hero {
-  height: 800px;
-}
-
-.col-hero {
+/* Conteneur principal pour aligner les colonnes */
+.container.hero {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-
-.word-wrapper {
-  display: inline-block;
-  position: relative;
-  height: 1em; /* Ajuste selon la hauteur du texte */
-  overflow: hidden;
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left; /* Texte aligné à gauche */
 }
 
-.alternating-word {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+.col-hero {
+  text-align: left; /* Alignement du texte à gauche */
 }
 
-.slide-out {
-  transform: translateY(-100%);
-  opacity: 0;
+/* Texte de la partie Hero */
+.hero-text {
+  font-size: 3.5rem; /* Taille du texte */
+  font-weight: 700; /* Poids de la police, plus gras */
+  line-height: 1.2;
+  color: #333; /* Couleur du texte */
 }
 
-.slide-in {
-  transform: translateY(100%);
-  opacity: 0;
+.hero-text span {
+  display: block;
 }
 
-.slide-in-active {
-  transform: translateY(0);
-  opacity: 1;
+/* Stylisation de la liste */
+.features-list {
+  font-size: 1rem;
+  line-height: 1.6;
+  list-style-type: none; /* Retirer les puces de liste */
+  padding: 0;
+}
+
+.features-list li {
+  margin-bottom: 1.1rem;
+}
+
+/* Optionnel : Responsivité pour petits écrans */
+@media (max-width: 768px) {
+  .hero-text {
+    font-size: 3rem; /* Réduire la taille du texte sur mobile */
+  }
+  .features-list {
+    font-size: 1.2rem;
+  }
 }
