@@ -1,8 +1,22 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<%= render 'navbar' %>
 
-<%# Ajout d'un boutton pour se connecter %>
-<%= link_to 'Sign in', new_user_session_path %>
+<div class="container-hero">
+  <div class="row m-0">
+    <!-- Colonne 1 : Texte Hero -->
+    <div class="col-md-6 col-hero">
+      <div class="hero">
+        <p class="hero-text">Find your next<br>Au Pair, the easy way.</p>
+      </div>
+    </div>
 
-<%# Ajout d'un boutton pour se déconnecter %>
-<%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete} %>
+    <!-- Colonne 2 : Liste -->
+    <div class="col-md-6 d-flex flex-column align-items-center">
+      <ul class="features-list">
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Explore Au Pairs and Families all around the world</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Sort profiles by location, languages, duration of the trip</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Match, get in touch, and begin your journey !</li>
+      </ul>
+      <%= link_to 'Sign up', new_user_registration_path, class: "btn btn-primary w-50" %>
+    </div>
+  </div>
+</div>
