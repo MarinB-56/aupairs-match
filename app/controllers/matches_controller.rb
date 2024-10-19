@@ -3,6 +3,7 @@ class MatchesController < ApplicationController
     received_by_user = params[:current_user]
 
     @pending_matches = Match.where(received_by: received_by_user, status: "pending")
+    @accepted_matches = Match.where(received_by: received_by_user, status: "accepted")
   end
 
   def create
@@ -31,5 +32,17 @@ class MatchesController < ApplicationController
       end
     end
     # Sinon, on le crée
+  end
+
+  def update
+    match = Match.find(params[:id])
+
+    match.update(status: "accepted")
+
+    respond_to do |format|
+      if match.save
+        format.json { render json: { message: "Match accepté", status: "accepted" }, status: :ok }
+      end
+    end
   end
 end
