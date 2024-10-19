@@ -1,1 +1,52 @@
-// Specific CSS for your home-page
+/* Conteneur principal pour aligner les colonnes */
+.container-hero {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left; /* Texte aligné à gauche */
+}
+
+.col-hero {
+  text-align: left; /* Alignement du texte à gauche */
+}
+
+/* Texte de la partie Hero */
+.hero-text {
+  font-size: 3.5rem; /* Taille du texte */
+  font-weight: 700; /* Poids de la police, plus gras */
+  line-height: 1.2;
+  color: #333; /* Couleur du texte */
+}
+
+.hero-text span {
+  display: block;
+}
+
+/* Stylisation de la liste */
+.features-list {
+  font-size: 1rem;
+  line-height: 1.6;
+  list-style-type: none; /* Retirer les puces de liste */
+  padding: 0;
+}
+
+.features-list li {
+  margin-bottom: 1.1rem;
+}
+
+/* Optionnel : Responsivité pour petits écrans */
+@media (max-width: 768px) {
+  .hero-text {
+    font-size: 3rem; /* Réduire la taille du texte sur mobile */
+  }
+  .features-list {
+    font-size: 1.2rem;
+  }
+}
