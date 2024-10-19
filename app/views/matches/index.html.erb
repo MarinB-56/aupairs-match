@@ -1,9 +1,12 @@
 <%= render 'users/navbar' %>
 
 <% @pending_matches.each do |match| %>
-  <div class="card">
-    <%= match %>
-    <button class="btn btn-primary">Accepter</button>
-    <button class="btn btn-secondary">Refuser</button>
+  <div class="match-notification">
+    <p><%= match.initiated_by.first_name %> vous propose un match !</p>
+
+    <div>
+      <button class="btn btn-secondary">Accepter</button>
+      <button class="btn btn-primary">Refuser</button>
+    </div>
   </div>
 <% end %>
