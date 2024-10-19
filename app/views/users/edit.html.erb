@@ -21,65 +21,60 @@
   <!-- Modale pour éditer la photo de profil -->
   <%= render 'profile_picture_modal' %>
 
-  <!-- Première partie: Informations de base -->
-  <h3>Basic Information</h3>
-  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
-    <div class="row">
-      <% if @user.aupair? %>
-        <div class="col-md-6">
+  <!-- Première ligne contenant les deux sous-formulaires côte à côte -->
+  <div class="row d-flex">
+    <!-- Première colonne: Basic Information -->
+    <div class="col-md-4 d-flex flex-column">
+      <h3>Basic Information</h3>
+      <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+        <% if @user.aupair? %>
           <div class="form-group">
             <%= form.label :first_name, "First Name" %>
             <%= form.text_field :first_name, class: "form-control" %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
 
-      <div class="col-md-6">
         <div class="form-group">
           <%= form.label :last_name, "Last Name" %>
           <%= form.text_field :last_name, class: "form-control" %>
         </div>
-      </div>
 
-      <% if @user.aupair? %>
-        <div class="col-md-6">
+        <% if @user.aupair? %>
           <div class="form-group">
-            <label for="birth_date">Birth Date</label>
+            <%= form.label :birth_date, "Birth Date", class: "form-label" %>
             <input type="date" name="user[birth_date]" id="birth_date" class="form-control" value="<%= @user.birth_date %>">
           </div>
-        </div>
 
-        <div class="col-md-6">
           <div class="form-group">
-            <%= form.label :gender, "Gender" %>
-            <%= form.select :gender, ['Male', 'Female'], class: "form-control" %>
+            <%= form.label :gender, "Gender", class: "form-label" %>
+            <%= form.select :gender, [['Select Gender', ''], ['Male', 'male'], ['Female', 'female']], { selected: @user.gender }, { class: "selectpicker w-100"} %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
 
-      <% if @user.family? %>
-        <div class="col-md-6">
+        <% if @user.family? %>
           <div class="form-group">
             <%= form.label :number_of_children, "Number of Children" %>
             <%= form.number_field :number_of_children, class: "form-control" %>
           </div>
-        </div>
+        <% end %>
+
+        <%= form.submit "Update Basic Information", class: "btn btn-primary mt-3" %>
       <% end %>
     </div>
 
-    <%= form.submit "Update Basic Information", class: "btn btn-primary mt-3" %>
-  <% end %>
+    <!-- Deuxième colonne: Description -->
+    <div class="col-md-8 d-flex flex-column h-100">
+      <h3>Description</h3>
+      <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+        <div class="form-group d-flex flex-column flex-grow-1">
+          <%= form.label :description, "About you..." %>
+          <%= form.text_area :description, class: "form-control flex-grow-1", style: "min-height: 200px;" %>
+        </div>
 
-  <!-- Deuxième partie: Description -->
-  <h3>Description</h3>
-  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
-    <div class="form-group">
-      <%= form.label :description, "Description" %>
-      <%= form.text_area :description, class: "form-control" %>
+        <%= form.submit "Update Description", class: "btn btn-primary mt-3" %>
+      <% end %>
     </div>
-
-    <%= form.submit "Update Description", class: "btn btn-primary mt-3" %>
-  <% end %>
+  </div>
 
   <!-- Troisième partie: Nationalité et localisation -->
   <h3>Nationality and Location</h3>
