@@ -22,7 +22,7 @@
           <li class="nav-item d-flex position-relative">
             <%= link_to "My matches", my_matches_path(current_user: current_user), class: "nav-link" %>
             <% if Match.where(received_by_id: current_user.id, status: "pending").count != 0 %>
-              <span class="position-absolute translate-end badge rounded-pill bg-danger">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 <%= Match.where(received_by_id: current_user.id, status: "pending").count %>
               </span>
             <% end %>
