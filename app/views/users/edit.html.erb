@@ -1,62 +1,47 @@
 <%= render 'navbar' %>
 
 <div class="container">
-  <h1>Update your profile</h1>
-
-  <%= form_with model: @user, local: true do |form| %>
-    <div class="form-group">
-      <%= form.label :first_name, "First name" %>
-      <%= form.text_field :first_name, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :last_name, "Last name" %>
-      <%= form.text_field :last_name, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :birth_date, "Birth date" %>
-      <%= form.date_field :birth_date, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :description, "Description" %>
-      <%= form.text_area :description, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :nationality, "Nationality" %>
-      <%= form.text_field :nationality, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :gender, "Genre" %>
-      <%= form.select :gender, ['Male', 'Female'], class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :location, "Location" %>
-      <%= form.text_field :location, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :number_of_children, "Number of children" %>
-      <%= form.number_field :number_of_children, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :email, "Email" %>
-      <%= form.email_field :email, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :photo, "Profile picture" %>
-      <%= form.file_field :photo, class: "form-control" %>
-    </div>
-
-    <%= form.submit "Update", class: "btn btn-primary" %>
+  <!-- Greetings -->
+  <% if @user.aupair? %>
+    <h1>Hi <%= @user.first_name %>! Let's edit your profile.</h1>
+  <% elsif @user.family? %>
+    <h1>Hi <%= @user.last_name %> family! Let's edit your profile.</h1>
   <% end %>
 
-  <%= link_to "Cancel", user_path(@user), class: "btn btn-secondary" %>
+  <%= simple_form_for @user, html: { multipart: true } do |form| %>
+
+    <!-- Affichage de la photo de profil centrée et circulaire -->
+    <div class="profile-photo-container">
+      <%= cl_image_tag(@user.photo.attached? ? @user.photo.key : 'default_avatar.png', width: 300, height: 300, class: "profile-photo") %>
+    </div>
+
+    <!-- Lien d'édition de la photo de profil -->
+    <div class="edit-photo-link">
+      <a href="#" id="edit-profile-picture" data-bs-toggle="modal" data-bs-target="#profilePictureModal">Update profile picture</a>
+    </div>
+
+    <%= render 'profile_picture_modal' %>
+
+    <!-- Champs de formulaire -->
+    <%= form.input :first_name, label: "First name", input_html: { class: "form-control" } %>
+    <%= form.input :last_name, label: "Last name", input_html: { class: "form-control" } %>
+    <%= form.input :birth_date, as: :date, label: "Birth date", input_html: { class: "form-control" } %>
+    <%= form.input :description, as: :text, label: "Description", input_html: { class: "form-control" } %>
+    <%= form.input :nationality, label: "Nationality", input_html: { class: "form-control" } %>
+    <%= form.input :gender, as: :select, collection: ['Male', 'Female'], label: "Gender", input_html: { class: "form-control" } %>
+    <%= form.input :location, label: "Location", input_html: { class: "form-control" } %>
+
+    <!-- Champ "Number of children" visible uniquement pour les familles -->
+    <% if @user.family? %>
+      <%= form.input :number_of_children, label: "Number of children", input_html: { class: "form-control" } %>
+    <% end %>
+
+    <%= form.input :email, label: "Email", input_html: { class: "form-control" } %>
+
+    <!-- Boutons -->
+    <%= form.button :submit, "Update", class: "btn btn-primary" %>
+    <%= link_to "Cancel", user_path(@user), class: "btn btn-secondary" %>
+
+  <% end %>
 
 </div>
