@@ -5,6 +5,7 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
+
 // Bootstrap select
 import "bootstrap-select";
 

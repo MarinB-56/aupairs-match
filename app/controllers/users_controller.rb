@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :remove_availability, :add_language, :remove_language]
   before_action :set_nationalities, only: [:edit, :update]
+  before_action :set_languages, only: [:edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -56,8 +57,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def remove_availability
+    availability = @user.availabilities.find(params[:availability_id])
+    availability.destroy
+    redirect_to edit_user_path(@user), notice: 'Availability removed successfully.'
+  end
+
   def add_language
-    language = Language.find(params[:language_id])
+    language = Language.find_or_create_by(language: params[:language_id])
     if @user.languages.exclude?(language)
       @user.languages << language
       flash[:notice] = "Language added successfully."
@@ -129,6 +136,10 @@ class UsersController < ApplicationController
     @nationalities = YAML.load_file(Rails.root.join('config/nationalities.yml'))['nationalities']
   end
 
+  def set_languages
+    @languages = YAML.load_file(Rails.root.join('config/languages.yml'))['languages']
+  end
+
   def set_user
     @user = User.find(params[:id])
   end
@@ -136,7 +147,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :birth_date, :gender, :location, :nationality, :description,
-      availabilities_attributes: [:id, :start_date, :end_date, :_destroy]
+      availabilities_attributes: [:id, :start, :end, :_destroy]
     )
   end
 end

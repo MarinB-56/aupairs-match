@@ -113,7 +113,7 @@
   </div>
 
   <!-- Quatrième partie : Disponibilités et langues parlées -->
-  <div class="row gx-3 d-flex mt-5">
+  <div class="row gx-3 mt-5 d-flex align-items-stretch">
     <div class="col-md-6">
       <div class="form-item">
         <h3>Your Availabilities</h3>
@@ -131,8 +131,10 @@
                 </a>
 
                 <!-- Icône pour supprimer la disponibilité -->
-                <%= link_to user_path(@user), method: :patch, class: "btn btn-sm btn-outline-danger", data: { confirm: "Are you sure?" } do %>
-                  <i class="fas fa-trash-alt"></i> Delete
+                <%= form_with url: remove_availability_user_path(@user, availability), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
+                  <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
+                    <i class="fas fa-trash-alt"></i> Delete
+                  <% end %>
                 <% end %>
               </div>
             </li>
@@ -161,27 +163,31 @@
       </div>
     </div>
     <div class="col-md-6 d-flex flex-column">
-      <div class="form-item d-flex flex-column flex-grow-1">
-        <h3>Spoken Languages</h3>
-        <!-- Liste des langues actuellement parlées -->
-        <ul class="list-group mb-3">
-          <% @user.languages.each do |language| %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><%= language.language %></span>
-              <!-- Icône pour supprimer une langue -->
-              <%= link_to remove_language_user_path(@user, language.id), method: :delete, class: "btn btn-sm btn-outline-danger", data: { confirm: "Are you sure?" } do %>
-                <i class="fas fa-trash-alt"></i> Remove
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+      <div class="form-item d-flex flex-column flex-grow-1  justify-content-between">
+        <div>
+          <h3>Spoken Languages</h3>
+          <!-- Liste des langues actuellement parlées -->
+          <ul class="list-group mb-3">
+            <% @user.languages.each do |language| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><%= language.language %></span>
+                <!-- Icône pour supprimer une langue -->
+                <%= form_with url: remove_language_user_path(@user, language.id), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
+                  <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
+                    <i class="fas fa-trash-alt"></i> Remove
+                  <% end %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
 
         <!-- Formulaire pour ajouter une nouvelle langue -->
         <%= simple_form_for @user, url: add_language_user_path(@user), method: :post, local: true do |f| %>
           <div class="form-group">
             <%= f.label :language, "Add a language" %>
             <!-- Menu déroulant pour ajouter une langue -->
-            <%= select_tag :language_id, options_from_collection_for_select(Language.all - @user.languages, :id, :language), class: "selectpicker w-100", 'data-live-search' => 'true' %>
+            <%= select_tag :language_id, options_for_select(@languages - @user.languages.pluck(:language)), class: "selectpicker w-100", 'data-live-search' => 'true' %>
           </div>
           <%= f.submit "Add Language", class: "btn btn-outline-primary mt-3" %>
         <% end %>
