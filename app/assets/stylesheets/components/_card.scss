@@ -1,6 +1,5 @@
 .card {
   display: flex;
-  flex-direction: column; // Organise le contenu verticalement
   justify-content: space-between; // Assure que le bouton reste en bas de la carte
   border-radius: 10px !important; // Définit les coins arrondis de la carte avec un rayon de 10px.
   border: 1px solid #D4D8DD; // Ajoute une bordure fine de 1px avec une couleur grise (#D4D8DD).
@@ -12,6 +11,7 @@
 }
 
 .card-index {
+  flex-direction: column; // Organise le contenu verticalement
   &:hover { // Déclenche des styles supplémentaires lorsque l'utilisateur survole la carte.
     transform: scale(1.02); // Légèrement agrandit la carte lorsqu'elle est survolée (effet de zoom, 2% plus grand).
   }
