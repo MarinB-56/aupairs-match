@@ -1,44 +1,89 @@
 /* Conteneur principal pour aligner les colonnes */
 .container-hero {
-  min-height: calc(100vh - 80px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: calc(100vh - 80px); /* Assure que le conteneur occupe presque toute la hauteur de l'écran, moins la hauteur de la navbar */
+  display: flex; /* Active le mode flex pour aligner les éléments horizontalement */
+  justify-content: center; /* Centre horizontalement le contenu */
+  align-items: center; /* Centre verticalement le contenu */
 }
 
+.background_img {
+  position: relative; /* Nécessaire pour que le pseudo-élément ::before soit positionné par rapport à ce conteneur */
+  background-image: url( asset_path('background_images/bg_image_3.jpeg') ); /* Définit l'image de fond */
+  background-size: cover; /* L'image de fond couvre tout le conteneur sans déformation */
+  background-position: center; /* Centre l'image de fond */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  min-height: calc(100vh - 80px); /* Prend toute la hauteur de la vue, moins la navbar */
+  display: flex; /* Active le mode flex pour centrer les éléments enfants */
+  justify-content: center; /* Centre les enfants horizontalement */
+  align-items: center; /* Centre les enfants verticalement */
+
+  /* Calque sombre pour améliorer la lisibilité du texte */
+  &::before {
+    content: ""; /* Obligatoire pour afficher un pseudo-élément */
+    position: absolute; /* Positionné par rapport à .background_img */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Couvre tout l'espace de .background_img */
+    background: rgba(0, 0, 0, 0.0); /* Calque noir semi-transparent (modifie le dernier chiffre pour ajuster la transparence) */
+    z-index: 1; /* Place le calque derrière le texte mais devant l'image */
+  }
+
+  /* Le contenu (texte, boutons) doit être au-dessus du calque sombre */
+  .row {
+    position: relative; /* Pour être au-dessus du calque sombre */
+    z-index: 2; /* Assure que le texte est visible par-dessus le calque */
+  }
+}
+
+/* Styles pour la disposition des éléments dans la row */
 .row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: left; /* Texte aligné à gauche */
+  display: flex; /* Utilise flexbox pour gérer l'alignement des enfants */
+  justify-content: center; /* Centre les enfants horizontalement */
+  align-items: center; /* Centre les enfants verticalement */
+  text-align: left; /* Aligne le texte à gauche */
 }
 
+/* Colonne de contenu avec le texte */
 .col-hero {
-  text-align: left; /* Alignement du texte à gauche */
+  text-align: left; /* Aligne le texte à gauche */
 }
 
-/* Texte de la partie Hero */
+/* Style du texte de la section hero */
 .hero-text {
-  font-size: 3.5rem; /* Taille du texte */
-  font-weight: 700; /* Poids de la police, plus gras */
-  line-height: 1.2;
-  color: #333; /* Couleur du texte */
+  font-size: 3.5rem; /* Taille du texte pour le titre principal */
+  font-weight: 700; /* Rend le texte en gras */
+  line-height: 1.2; /* Espacement entre les lignes */
+  color: #fff; /* Couleur blanche pour le texte */
+  margin-bottom: 20px; /* Espace sous le titre */
 }
 
 .hero-text span {
-  display: block;
+  display: block; /* Affiche chaque mot sur une nouvelle ligne si besoin */
 }
 
 /* Stylisation de la liste */
 .features-list {
-  font-size: 1rem;
-  line-height: 1.6;
-  list-style-type: none; /* Retirer les puces de liste */
-  padding: 0;
+  font-size: 1rem; /* Taille de texte des éléments de la liste */
+  line-height: 1.6; /* Espacement entre les lignes */
+  list-style-type: none; /* Supprime les puces de la liste */
+  color: #fff; /* Couleur blanche pour le texte */
+  padding: 0; /* Supprime les marges internes */
+  margin-bottom: 20px; /* Espace sous la liste */
 }
 
 .features-list li {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.1rem; /* Espace entre chaque élément de la liste */
+}
+
+/* Styles pour les boutons */
+.btn {
+  flex: initial; /* Empêche le bouton de s'étendre pour occuper tout l'espace disponible */
+}
+
+.btn-small {
+  width: 200px !important; /* Ajuste la largeur du bouton et utilise !important pour prioriser cette règle */
+  display: inline-block; /* Maintient la largeur fixe du bouton */
 }
 
 /* Optionnel : Responsivité pour petits écrans */
@@ -48,5 +93,16 @@
   }
   .features-list {
     font-size: 1.2rem;
+  }
+}
+
+.btn-signup {
+  background-color: #ff3366 !important; // Fond rose
+  color: #fff !important; // Texte blanc
+  border: 1px solid #ff3366 !important; // Bordure de la même couleur pour un effet plein
+
+  &:hover {
+    background-color: #e02e5a !important; // Fond plus foncé au survol
+    border-color: #e02e5a !important; // Bordure assortie au fond au survol
   }
 }
