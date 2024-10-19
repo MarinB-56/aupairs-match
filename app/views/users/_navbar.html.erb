@@ -21,7 +21,7 @@
             <%= link_to "My favorites", "#", class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%= link_to "My matches", "#", class: "nav-link" %>
+            <%= link_to "My matches", my_matches_path(current_user: current_user), class: "nav-link" %>
           </li>
 
           <!-- Dropdown pour afficher des options supplémentaires, par exemple pour se déconnecter -->

@@ -1,4 +1,10 @@
 class MatchesController < ApplicationController
+  def index
+    received_by_user = params[:current_user]
+
+    @pending_matches = Match.where(received_by: received_by_user, status: "pending")
+  end
+
   def create
     initiator_user = User.find(params[:initiated_by])
     receiver_user = User.find(params[:received_by])
