@@ -16,3 +16,14 @@
   margin-bottom: 20px;
   text-align: center;
 }
+
+.form-item {
+  border-radius: 10px !important;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+#map {
+  cursor: default !important; /* Forcer le curseur par défaut */
+}

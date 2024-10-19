@@ -33,9 +33,15 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
+    @user.availabilities.build if @user.availabilities.empty?
   end
 
   def update
+    if @user.update(user_params)
+      redirect_to edit_user_path(@user), notice: 'Profile updated successfully.'
+    else
+      render :edit
+    end
   end
 
   def update_profile_picture
@@ -48,6 +54,23 @@ class UsersController < ApplicationController
       flash[:error] = "There was a problem updating your profile picture."
       render :edit
     end
+  end
+
+  def add_language
+    language = Language.find(params[:language_id])
+    if @user.languages.exclude?(language)
+      @user.languages << language
+      flash[:notice] = "Language added successfully."
+    else
+      flash[:alert] = "Language already added."
+    end
+    redirect_to edit_user_path(@user)
+  end
+
+  def remove_language
+    language = Language.find(params[:language_id])
+    @user.languages.delete(language)
+    redirect_to edit_user_path(@user), notice: 'Language removed successfully'
   end
 
   private
@@ -111,6 +134,9 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :birth_date, :description, :nationality, :gender, :location, :number_of_children)
+    params.require(:user).permit(
+      :first_name, :last_name, :birth_date, :gender, :location, :nationality, :description,
+      availabilities_attributes: [:id, :start_date, :end_date, :_destroy]
+    )
   end
 end
