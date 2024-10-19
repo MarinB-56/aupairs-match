@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_user, only: [:edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -100,7 +101,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
-    params.require(:user).permit(:photo)
+    params.require(:user).permit(:first_name, :last_name, :birth_date, :description, :nationality, :gender, :location, :number_of_children)
   end
 end

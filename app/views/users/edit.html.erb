@@ -8,40 +8,98 @@
     <h1>Hi <%= @user.last_name %> family! Let's edit your profile.</h1>
   <% end %>
 
-  <%= simple_form_for @user, html: { multipart: true } do |form| %>
+  <!-- Affichage de la photo de profil centrée et circulaire -->
+  <div class="profile-photo-container text-center mb-3">
+    <%= cl_image_tag(@user.photo.attached? ? @user.photo.key : 'default_avatar.png', width: 300, height: 300, class: "profile-photo") %>
+  </div>
 
-    <!-- Affichage de la photo de profil centrée et circulaire -->
-    <div class="profile-photo-container">
-      <%= cl_image_tag(@user.photo.attached? ? @user.photo.key : 'default_avatar.png', width: 300, height: 300, class: "profile-photo") %>
+  <!-- Lien d'édition de la photo de profil -->
+  <div class="edit-photo-link text-center">
+    <a href="#" id="edit-profile-picture" data-bs-toggle="modal" data-bs-target="#profilePictureModal">Update profile picture</a>
+  </div>
+
+  <!-- Modale pour éditer la photo de profil -->
+  <%= render 'profile_picture_modal' %>
+
+  <!-- Première partie: Informations de base -->
+  <h3>Basic Information</h3>
+  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+    <div class="row">
+      <% if @user.aupair? %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :first_name, "First Name" %>
+            <%= form.text_field :first_name, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label :last_name, "Last Name" %>
+          <%= form.text_field :last_name, class: "form-control" %>
+        </div>
+      </div>
+
+      <% if @user.aupair? %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="birth_date">Birth Date</label>
+            <input type="date" name="user[birth_date]" id="birth_date" class="form-control" value="<%= @user.birth_date %>">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :gender, "Gender" %>
+            <%= form.select :gender, ['Male', 'Female'], class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @user.family? %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :number_of_children, "Number of Children" %>
+            <%= form.number_field :number_of_children, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
-    <!-- Lien d'édition de la photo de profil -->
-    <div class="edit-photo-link">
-      <a href="#" id="edit-profile-picture" data-bs-toggle="modal" data-bs-target="#profilePictureModal">Update profile picture</a>
-    </div>
-
-    <%= render 'profile_picture_modal' %>
-
-    <!-- Champs de formulaire -->
-    <%= form.input :first_name, label: "First name", input_html: { class: "form-control" } %>
-    <%= form.input :last_name, label: "Last name", input_html: { class: "form-control" } %>
-    <%= form.input :birth_date, as: :date, label: "Birth date", input_html: { class: "form-control" } %>
-    <%= form.input :description, as: :text, label: "Description", input_html: { class: "form-control" } %>
-    <%= form.input :nationality, label: "Nationality", input_html: { class: "form-control" } %>
-    <%= form.input :gender, as: :select, collection: ['Male', 'Female'], label: "Gender", input_html: { class: "form-control" } %>
-    <%= form.input :location, label: "Location", input_html: { class: "form-control" } %>
-
-    <!-- Champ "Number of children" visible uniquement pour les familles -->
-    <% if @user.family? %>
-      <%= form.input :number_of_children, label: "Number of children", input_html: { class: "form-control" } %>
-    <% end %>
-
-    <%= form.input :email, label: "Email", input_html: { class: "form-control" } %>
-
-    <!-- Boutons -->
-    <%= form.button :submit, "Update", class: "btn btn-primary" %>
-    <%= link_to "Cancel", user_path(@user), class: "btn btn-secondary" %>
-
+    <%= form.submit "Update Basic Information", class: "btn btn-primary mt-3" %>
   <% end %>
 
+  <!-- Deuxième partie: Description -->
+  <h3>Description</h3>
+  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+    <div class="form-group">
+      <%= form.label :description, "Description" %>
+      <%= form.text_area :description, class: "form-control" %>
+    </div>
+
+    <%= form.submit "Update Description", class: "btn btn-primary mt-3" %>
+  <% end %>
+
+  <!-- Troisième partie: Nationalité et localisation -->
+  <h3>Nationality and Location</h3>
+  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label :nationality, "Nationality" %>
+          <%= form.text_field :nationality, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label :location, "Location" %>
+          <%= form.text_field :location, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
+    <%= form.submit "Update Nationality and Location", class: "btn btn-primary mt-3" %>
+  <% end %>
 </div>
