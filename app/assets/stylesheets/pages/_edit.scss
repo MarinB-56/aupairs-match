@@ -10,6 +10,7 @@
   border: 2px solid #ccc;
   width: 300px;
   height: 300px;
+  box-shadow: 0 0 30px 0px rgba(253, 57, 103, 1);
 }
 
 .edit-photo-link {
@@ -24,6 +25,11 @@
   padding: 15px;
 }
 
+.scrollable-list {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
 #map {
-  cursor: default !important; /* Forcer le curseur par défaut */
+  cursor: default !important;
 }
