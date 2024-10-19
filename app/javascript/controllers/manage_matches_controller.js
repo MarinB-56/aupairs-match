@@ -7,7 +7,7 @@ export default class extends Controller {
     match: Number
   }
 
-  static targets = ["heart", "notification"]
+  static targets = ["heart", "notification", "counter"]
 
   connect() {
     console.log("Matches");
@@ -63,10 +63,9 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then((data) => {
-      console.log(data.message);
+      console.log(data);
 
       this.notificationTarget.remove();
-
     });
   }
 }

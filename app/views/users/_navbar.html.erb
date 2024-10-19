@@ -19,8 +19,13 @@
           <li class="nav-item active">
             <%= link_to "My favorites", "#", class: "nav-link" %>
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-flex position-relative">
             <%= link_to "My matches", my_matches_path(current_user: current_user), class: "nav-link" %>
+            <% if Match.where(received_by_id: current_user.id, status: "pending").count != 0 %>
+              <span class="position-absolute translate-end badge rounded-pill bg-danger">
+                <%= Match.where(received_by_id: current_user.id, status: "pending").count %>
+              </span>
+            <% end %>
           </li>
 
           <!-- Dropdown pour afficher des options supplémentaires, par exemple pour se déconnecter -->
