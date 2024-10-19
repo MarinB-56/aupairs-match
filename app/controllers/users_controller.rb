@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:edit, :update]
+  before_action :set_nationalities, only: [:edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -99,6 +100,10 @@ class UsersController < ApplicationController
         Rails.logger.info "Durée incorrecte : min_duration=#{min_duration}, max_duration=#{max_duration}"
       end
     end
+  end
+
+  def set_nationalities
+    @nationalities = YAML.load_file(Rails.root.join('config/nationalities.yml'))['nationalities']
   end
 
   def set_user

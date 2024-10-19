@@ -9,7 +9,7 @@
   <% end %>
 
   <!-- Affichage de la photo de profil centrée et circulaire -->
-  <div class="profile-photo-container text-center mb-3">
+  <div class="profile-photo-container text-center mt-5">
     <%= cl_image_tag(@user.photo.attached? ? @user.photo.key : 'default_avatar.png', width: 300, height: 300, class: "profile-photo") %>
   </div>
 
@@ -22,7 +22,7 @@
   <%= render 'profile_picture_modal' %>
 
   <!-- Première ligne contenant les deux sous-formulaires côte à côte -->
-  <div class="row d-flex">
+  <div class="row d-flex align-items-stretch mt-5">
     <!-- Première colonne: Basic Information -->
     <div class="col-md-4 d-flex flex-column">
       <h3>Basic Information</h3>
@@ -58,43 +58,45 @@
           </div>
         <% end %>
 
-        <%= form.submit "Update Basic Information", class: "btn btn-primary mt-3" %>
+        <%= form.submit "Update Basic Information", class: "btn btn-outline-primary mt-3" %>
       <% end %>
     </div>
 
     <!-- Deuxième colonne: Description -->
-    <div class="col-md-8 d-flex flex-column h-100">
+    <div class="col-md-8 d-flex flex-column">
       <h3>Description</h3>
-      <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+      <%= form_with model: @user, url: user_path(@user), method: :patch, local: true, html: { class: "d-flex flex-column flex-grow-1" } do |form| %>
         <div class="form-group d-flex flex-column flex-grow-1">
           <%= form.label :description, "About you..." %>
-          <%= form.text_area :description, class: "form-control flex-grow-1", style: "min-height: 200px;" %>
+          <%= form.text_area :description, class: "form-control flex-grow-1" %>
         </div>
 
-        <%= form.submit "Update Description", class: "btn btn-primary mt-3" %>
+        <%= form.submit "Update Description", class: "btn btn-outline-primary mt-3 w-50" %>
       <% end %>
     </div>
   </div>
 
   <!-- Troisième partie: Nationalité et localisation -->
-  <h3>Nationality and Location</h3>
-  <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label :nationality, "Nationality" %>
-          <%= form.text_field :nationality, class: "form-control" %>
+  <div class="mt-5">
+    <h3>Nationality and Location</h3>
+    <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :nationality, "Nationality", class: "form-label" %>
+            <%= form.select :nationality, @nationalities.map { |nationality| [nationality, nationality] }, { selected: @user.nationality }, { class: "selectpicker w-100", 'data-live-search' => 'true' } %>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label :location, "Location" %>
-          <%= form.text_field :location, class: "form-control" %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :location, "Location" %>
+            <%= form.text_field :location, class: "form-control" %>
+          </div>
         </div>
       </div>
     </div>
 
-    <%= form.submit "Update Nationality and Location", class: "btn btn-primary mt-3" %>
+    <%= form.submit "Update Nationality and Location", class: "btn btn-outline-primary mt-3" %>
   <% end %>
 </div>
