@@ -1,0 +1,28 @@
+<%= render 'users/navbar' %>
+
+<h1>Pending matches</h1>
+
+<% @pending_matches.each do |match| %>
+  <div class="match-notification" data-controller="manage-matches" data-manage-matches-match-value="<%= match.id.to_json %>" >
+    <p><span class="text-primary"><%= match.initiated_by.first_name %></span> vous propose un match !</p>
+
+    <div>
+      <button class="btn btn-secondary" value="accepted" data-action="click->manage-matches#accept_or_refuse_match">Accepter</button>
+      <button class="btn btn-primary" value="refused" data-action="click->manage-matches#accept_or_refuse_match">Refuser</button>
+    </div>
+  </div>
+<% end %>
+
+<h1>Accepted matches</h1>
+<% @accepted_matches.each do |match| %>
+  <div class="match-notification" >
+    <p><span class="text-primary"><%= match.initiated_by.first_name %></span> : c'est un match !</p>
+  </div>
+<% end %>
+
+<h1>Refused matches</h1>
+<% @refused_matches.each do |match| %>
+  <div class="match-notification" >
+    <p><span class="text-primary"><%= match.initiated_by.first_name %></span> : match refusé.</p>
+  </div>
+<% end %>

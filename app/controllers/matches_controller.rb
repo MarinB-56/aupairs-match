@@ -1,4 +1,12 @@
 class MatchesController < ApplicationController
+  def index
+    received_by_user = params[:current_user]
+
+    @pending_matches = Match.where(received_by: received_by_user, status: "pending")
+    @accepted_matches = Match.where(received_by: received_by_user, status: "accepted")
+    @refused_matches = Match.where(received_by: received_by_user, status: "refused")
+  end
+
   def create
     initiator_user = User.find(params[:initiated_by])
     receiver_user = User.find(params[:received_by])
@@ -25,5 +33,17 @@ class MatchesController < ApplicationController
       end
     end
     # Sinon, on le crée
+  end
+
+  def update
+    status = params[:status]
+
+    match = Match.find(params[:id])
+
+    respond_to do |format|
+      if  match.update(status: params[:status])
+        format.json { render json: { message: "Match #{params[:status]}", status: params[:status] }, status: :ok }
+      end
+    end
   end
 end

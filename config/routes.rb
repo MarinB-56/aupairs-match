@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   resources :users, only: [:show, :index]
 
-  get "my_favorites", to: "favorites#my_favorites"
-  get "my_matches", to: "matches#my_matches"
+  get "my_favorites", to: "favorites#index"
+  get "my_matches", to: "matches#index"
 
   resources :favorites, only: [:create, :destroy]
   resources :matches, only: [:create, :destroy, :update]
