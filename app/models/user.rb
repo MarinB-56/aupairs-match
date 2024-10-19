@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :user_languages, dependent: :destroy
   has_many :languages, through: :user_languages
   has_many :availabilities, dependent: :destroy
+  accepts_nested_attributes_for :availabilities, allow_destroy: true
+  accepts_nested_attributes_for :user_languages, allow_destroy: true
 
   enum role: { aupair: 0, family: 1 }
   has_one_attached :photo

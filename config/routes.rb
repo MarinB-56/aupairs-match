@@ -1,20 +1,20 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  resources :users, only: [:show, :index]
+  resources :users, only: [:show, :index, :edit, :update] do
+    member do
+      post 'add_language', to: 'users#add_language'
+      delete 'remove_language/:language_id', to: 'users#remove_language', as: 'remove_language'
+      delete 'remove_availability/:availability_id', to: 'users#remove_availability', as: 'remove_availability'
+    end
+  end
+
+  patch 'users/:id/update_profile_picture', to: 'users#update_profile_picture', as: 'update_profile_picture'
 
   get "my_favorites", to: "favorites#index"
   get "my_matches", to: "matches#index"
 
   resources :favorites, only: [:create, :destroy]
   resources :matches, only: [:create, :destroy, :update]
-
-  # Defines the root path route ("/")
-  # root "posts#index"
-
-  # Coucou !
 end

@@ -1,0 +1,27 @@
+<div class="modal fade" id="editAvailabilityModal-<%= availability.id %>" tabindex="-1" role="dialog" aria-labelledby="editAvailabilityModalLabel-<%= availability.id %>" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAvailabilityModalLabel-<%= availability.id %>">Edit Availability</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for @user, url: user_path(@user), method: :patch, local: true do |f| %>
+          <%= f.simple_fields_for :availabilities, availability do |availability_form| %>
+            <div class="form-group">
+              <%= availability_form.label :start, "Start Date", class: "form-label" %>
+              <%= availability_form.input :start, as: :string, input_html: { type: 'date', class: "form-control" } %>
+            </div>
+
+            <div class="form-group">
+              <%= availability_form.label :end, "End Date", class: "form-label" %>
+              <%= availability_form.input :end, as: :string, input_html: { type: 'date', class: "form-control" } %>
+            </div>
+
+            <%= availability_form.submit "Save", class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

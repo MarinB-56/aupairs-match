@@ -1,0 +1,35 @@
+.profile-photo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-photo, .current-profile-photo {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  width: 300px;
+  height: 300px;
+  box-shadow: 0 0 30px 0px rgba(253, 57, 103, 1);
+}
+
+.edit-photo-link {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-item {
+  border-radius: 10px !important;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.scrollable-list {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+#map {
+  cursor: default !important;
+}

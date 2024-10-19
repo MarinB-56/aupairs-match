@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_user, only: [:edit, :update, :remove_availability, :add_language, :remove_language]
+  before_action :set_nationalities, only: [:edit, :update]
+  before_action :set_languages, only: [:edit, :update]
 
   def index
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
@@ -27,6 +30,54 @@ class UsersController < ApplicationController
 
     # Vérifier la présence des coordonnées dans le profil utilisateur
     @map = [{ lat: @visited_user.latitude, lng: @visited_user.longitude }] if @visited_user.geocoded?
+  end
+
+  def edit
+    @user = current_user
+    @user.availabilities.build if @user.availabilities.empty?
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to edit_user_path(@user), notice: 'Profile updated successfully.'
+    else
+      render :edit
+    end
+  end
+
+  def update_profile_picture
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      flash[:success] = "Profile picture updated successfully!"
+      redirect_to edit_user_path(@user)
+    else
+      flash[:error] = "There was a problem updating your profile picture."
+      render :edit
+    end
+  end
+
+  def remove_availability
+    availability = @user.availabilities.find(params[:availability_id])
+    availability.destroy
+    redirect_to edit_user_path(@user), notice: 'Availability removed successfully.'
+  end
+
+  def add_language
+    language = Language.find_or_create_by(language: params[:language_id])
+    if @user.languages.exclude?(language)
+      @user.languages << language
+      flash[:notice] = "Language added successfully."
+    else
+      flash[:alert] = "Language already added."
+    end
+    redirect_to edit_user_path(@user)
+  end
+
+  def remove_language
+    language = Language.find(params[:language_id])
+    @user.languages.delete(language)
+    redirect_to edit_user_path(@user), notice: 'Language removed successfully'
   end
 
   private
@@ -79,5 +130,24 @@ class UsersController < ApplicationController
         Rails.logger.info "Durée incorrecte : min_duration=#{min_duration}, max_duration=#{max_duration}"
       end
     end
+  end
+
+  def set_nationalities
+    @nationalities = YAML.load_file(Rails.root.join('config/nationalities.yml'))['nationalities']
+  end
+
+  def set_languages
+    @languages = YAML.load_file(Rails.root.join('config/languages.yml'))['languages']
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(
+      :first_name, :last_name, :birth_date, :gender, :location, :nationality, :description,
+      availabilities_attributes: [:id, :start, :end, :_destroy]
+    )
   end
 end

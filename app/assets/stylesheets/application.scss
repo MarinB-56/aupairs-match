@@ -12,8 +12,12 @@
 @import "components/card";
 @import "pages/index";
 @import "pages/home";
+@import "pages/edit";
 @import "components/loginpage";
 @import "components/aupair_show";
 
 // Mapbox css
 @import url("https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css");
+
+// Bootstrap Select css
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css');
