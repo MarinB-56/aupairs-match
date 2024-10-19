@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     id: Object,
-    match: Object
+    match: Number
   }
 
   static targets = ["heart"]
@@ -44,20 +44,10 @@ export default class extends Controller {
 
   accept_or_refuse_match = (event) => {
     const status = event.target.value;
+    const url = `${document.location.origin}/matches/${this.matchValue}`;
 
-    if (status === "accept") {
-      console.log("accept");
-      this.#accept_match();
-    }
-    else if (status === "refuse"){
-      console.log("refuse");
-    }
-  }
-
-  #accept_match = () => {
-    const url = `${document.location.origin}/matches/${this.matchValue.id}`;
-
-    console.log(this.matchValue.id);
+    console.log(status);
+    console.log(url);
 
     fetch(url, {
       method: "PATCH",
@@ -68,7 +58,7 @@ export default class extends Controller {
       },
       body: JSON.stringify({
         id: this.matchValue,
-        status: "accepted"
+        status: status
       })
     })
   }
