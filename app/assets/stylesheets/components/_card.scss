@@ -36,17 +36,47 @@
   font-size: 0.8em; /* Taille légèrement plus petite pour ne pas dominer le texte */
 }
 
+.card-location i {
+  color: #FD3967; /* Couleur de l'icône */
+  margin-right: 3px; /* Un petit espace entre l'icône et le texte */
+  font-size: 0.8em; /* Taille légèrement plus petite pour ne pas dominer le texte */
+}
+
+.card-text i {
+  color: #FD3967; /* Couleur de l'icône */
+  margin-right: 3px; /* Un petit espace entre l'icône et le texte */
+  font-size: 1em; /* Taille légèrement plus petite pour ne pas dominer le texte */
+}
+
 .card-details {
   font-size: 0.9em;
   color: #6A6A6A; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
   margin-bottom: 15px; /* Espacement au-dessus de la description */
 }
 
+.card-location-country {
+  font-size: 0.9em;
+  color: #6A6A6A; /* Un peu plus sombre pour que ça ne prenne pas trop l'attention */
+  margin-bottom: 15px; /* Espacement au-dessus de la description */
+  white-space: nowrap;      /* Empêche le retour à la ligne */
+  overflow: hidden;         /* Cache le texte qui dépasse */
+  text-overflow: ellipsis;  /* Ajoute "..." si le texte dépasse */
+  display: block;           /* Assure que le style s'applique correctement */
+  max-height: 1.2em;        /* Ajuste la hauteur maximale pour s'assurer que le texte reste sur une ligne */
+}
+
 .card-description {
-  font-size: 1em;
-  line-height: 1.4;
-  color: #222222; /* Couleur plus sombre pour une meilleure lisibilité */
-  margin-top: 15px; /* Espace au-dessus de la description */
+  font-size: 1em;             /* Assure une taille de police standard */
+  line-height: 1.5;           /* Augmente légèrement la hauteur de ligne pour plus de lisibilité */
+  color: #222222;
+  margin-top: 15px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;      /* Limite à 3 lignes */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;    /* Ajoute les points de suspension si nécessaire */
+  max-height: calc(1.5em * 4); /* Fixe la hauteur maximale à 3 lignes (1.5em x 3) */
 }
 
 .info-spacing {

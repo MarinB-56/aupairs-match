@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_15_105817) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_20_075119) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_15_105817) do
     t.index ["user_id"], name: "index_availabilities_on_user_id"
   end
 
+  create_table "conversation_users", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_conversation_users_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_users_on_user_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.bigint "favoriting_user_id"
     t.bigint "favorited_user_id"
@@ -74,6 +88,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_15_105817) do
     t.datetime "updated_at", null: false
     t.index ["initiated_by_id"], name: "index_matches_on_initiated_by_id"
     t.index ["received_by_id"], name: "index_matches_on_received_by_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "user_languages", force: :cascade do |t|
@@ -111,10 +135,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_15_105817) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "availabilities", "users"
+  add_foreign_key "conversation_users", "conversations"
+  add_foreign_key "conversation_users", "users"
   add_foreign_key "favorites", "users", column: "favorited_user_id"
   add_foreign_key "favorites", "users", column: "favoriting_user_id"
   add_foreign_key "matches", "users", column: "initiated_by_id"
   add_foreign_key "matches", "users", column: "received_by_id"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "user_languages", "languages"
   add_foreign_key "user_languages", "users"
 end
