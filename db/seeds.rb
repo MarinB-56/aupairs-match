@@ -19,7 +19,7 @@ au_pairs = [
     first_name: "Charlie",
     last_name: "H.",
     birth_date: Date.new(2003, 5, 12),
-    nationality: "Canada",
+    nationality: "Canadian",
     gender: "female",
     location: "Quebec, Canada",
     email: "charlie.h@example.com",
@@ -34,7 +34,7 @@ au_pairs = [
     first_name: "Isabella",
     last_name: "L.",
     birth_date: Date.new(2002, 9, 15),
-    nationality: "United States",
+    nationality: "American",
     gender: "female",
     location: "Los Angeles, United States",
     email: "isabella.l@example.com",
@@ -49,7 +49,7 @@ au_pairs = [
     first_name: "Leticia",
     last_name: "B.",
     birth_date: Date.new(2002, 3, 28),
-    nationality: "Brazil",
+    nationality: "Brazilian",
     gender: "female",
     location: "Rio de Janeiro, Brazil",
     email: "leticia.b@example.com",
@@ -64,7 +64,7 @@ au_pairs = [
     first_name: "Nathaly",
     last_name: "R.",
     birth_date: Date.new(1999, 11, 11),
-    nationality: "Italy",
+    nationality: "Italian",
     gender: "female",
     location: "Rome, Italy",
     email: "nathaly.r@example.com",
@@ -79,7 +79,7 @@ au_pairs = [
     first_name: "Mathilda",
     last_name: "G.",
     birth_date: Date.new(2005, 7, 4),
-    nationality: "Germany",
+    nationality: "German",
     gender: "female",
     location: "Cologne, Germany",
     email: "mathilda.g@example.com",
@@ -94,7 +94,7 @@ au_pairs = [
     first_name: "Tainá",
     last_name: "R.",
     birth_date: Date.new(1998, 2, 17),
-    nationality: "Brazil",
+    nationality: "Brazilian",
     gender: "female",
     location: "São Paulo, Brazil",
     email: "taina.r@example.com",
@@ -109,7 +109,7 @@ au_pairs = [
     first_name: "Grace",
     last_name: "R.",
     birth_date: Date.new(2002, 2, 14),
-    nationality: "United States",
+    nationality: "American",
     gender: "female",
     location: "New York, United States",
     email: "grace.r@example.com",
@@ -124,7 +124,7 @@ au_pairs = [
     first_name: "Lily",
     last_name: "T.",
     birth_date: Date.new(2003, 12, 10),
-    nationality: "United States",
+    nationality: "American",
     gender: "female",
     location: "Auckland, New Zealand",
     email: "lily.t@example.com",
@@ -139,7 +139,7 @@ au_pairs = [
     first_name: "Irene",
     last_name: "A.",
     birth_date: Date.new(2000, 6, 25),
-    nationality: "Spain",
+    nationality: "Spanish",
     gender: "female",
     location: "Barcelona, Spain",
     email: "irene.a@example.com",
@@ -154,7 +154,7 @@ au_pairs = [
     first_name: "Carmen",
     last_name: "S.",
     birth_date: Date.new(2001, 10, 20),
-    nationality: "Spain",
+    nationality: "Spanish",
     gender: "female",
     location: "Madrid, Spain",
     email: "carmen.s@example.com",
@@ -169,7 +169,7 @@ au_pairs = [
     first_name: "Vitor",
     last_name: "E.",
     birth_date: Date.new(1995, 11, 3),
-    nationality: "Brazil",
+    nationality: "Brazilian",
     gender: "male",
     location: "São Paulo, Brazil",
     email: "vitor.e@example.com",
@@ -184,7 +184,7 @@ au_pairs = [
     first_name: "Damien",
     last_name: "O.",
     birth_date: Date.new(2003, 8, 23),
-    nationality: "United States",
+    nationality: "American",
     gender: "male",
     location: "San Diego, United States",
     email: "damien.o@example.com",
@@ -261,5 +261,25 @@ puts "Création des familles"
   end
 end
 
+# Génération d'un compte famille pour se logger manuellement
+
+admin_family = User.new(
+  last_name: 'Admin',
+  location: "#{Faker::Address.city}, #{Faker::Address.country}",
+  email: 'family@example.com',
+  password: "password",
+  description: "Nous ne sommes pas famille, ce compte n'existe que pour permettre de nous logger sur AupairMatch.",
+  role: "family",
+  number_of_children: rand(1..4)
+)
+
+if admin_family.save
+  # Générer des photos pour les familles via Faker (ou utiliser des images locales si nécessaire)
+  admin_family.photo.attach(io: File.open(Rails.root.join("app/assets/images/families_seeds/admin_family.jpeg")), filename: "admin_family.jpeg", content_type: 'image/jpeg')
+
+  puts "Famille Admin créée avec succès !"
+else
+  puts "Erreur lors de la création de la famille Admin: #{family.errors.full_messages.join(", ")}"
+end
 
 puts "Création terminée !"

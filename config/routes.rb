@@ -10,6 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
+  # Pour la messagerie
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
+
   patch 'users/:id/update_profile_picture', to: 'users#update_profile_picture', as: 'update_profile_picture'
 
   get "my_favorites", to: "favorites#index"
