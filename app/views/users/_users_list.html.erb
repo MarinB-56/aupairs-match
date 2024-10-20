@@ -51,21 +51,30 @@
             <% if user.aupair? %>
               <!-- Nationalité -->
               <p class="card-nationality">
-                <i class="fa-solid fa-location-dot"></i> <%= user.nationality %>
+                <i class="fa-solid fa-flag"></i> <%= user.nationality %>
               </p>
               <!-- Genre, Âge -->
               <p class="card-details">
                 <%= user.gender %>, <%= Date.today.year - user.birth_date.year %> years old<br>
-              <!-- Description -->
+                <!-- Description -->
                 <p class="card-description">
-                <%= truncate(user.description, length: 70) %>
+                  <%= user.description %>
                 </p>
               </p>
-            <% else %> <!-- Informations spécifiques à la famille -->
+            <!-- Informations spécifiques à la famille -->
+            <% else %>
+              <!-- Localisation -->
+              <p class="card-location">
+                <% city, country = user.location.split(/\s*,\s*/, 2) %>
+                <i class="fa-solid fa-location-dot"></i> <%= city %><br>
+                <span class="card-location-country"><%= country %></span>
+              </p>
+              <!-- Nombre d'enfants -->
               <p class="card-text">
-                <%= "Location: #{user.location}" %><br>
-                <%= "Number of children: #{user.number_of_children}" %><br>
-                <%= truncate(user.description, length: 70) %>
+                <i class="fa-solid fa-child"></i> <%= user.number_of_children %><br>
+              </p>
+              <p class="card-description">
+                <%= user.description %>
               </p>
             <% end %>
 

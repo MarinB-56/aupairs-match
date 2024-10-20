@@ -35,26 +35,23 @@
               <%= form.label :first_name, "First Name" %>
               <%= form.text_field :first_name, class: "form-control" %>
             </div>
-          <% end %>
-
-          <div class="form-group">
-            <%= form.label :last_name, "Last Name" %>
-            <%= form.text_field :last_name, class: "form-control" %>
-          </div>
-
-          <% if @user.aupair? %>
+            <div class="form-group">
+              <%= form.label :last_name, "Last Name" %>
+              <%= form.text_field :last_name, class: "form-control" %>
+            </div>
             <div class="form-group">
               <%= form.label :birth_date, "Birth Date", class: "form-label" %>
               <input type="date" name="user[birth_date]" id="birth_date" class="form-control" value="<%= @user.birth_date %>">
             </div>
-
             <div class="form-group">
               <%= form.label :gender, "Gender", class: "form-label" %>
               <%= form.select :gender, [['Select Gender', ''], ['Male', 'male'], ['Female', 'female']], { selected: @user.gender }, { class: "selectpicker w-100"} %>
             </div>
-          <% end %>
-
-          <% if @user.family? %>
+          <% elsif @user.family? %>
+            <div class="form-group">
+              <%= form.label :last_name, "Last Name" %>
+              <%= form.text_field :last_name, class: "form-control" %>
+            </div>
             <div class="form-group">
               <%= form.label :number_of_children, "Number of Children" %>
               <%= form.number_field :number_of_children, class: "form-control" %>
@@ -69,33 +66,33 @@
     <!-- Deuxième colonne: Description -->
     <div class="col-md-8 d-flex flex-column">
       <div class="form-item d-flex flex-column flex-grow-1">
-      <h3>Description</h3>
+        <h3>Description</h3>
         <%= form_with model: @user, url: user_path(@user), method: :patch, local: true, html: { class: "d-flex flex-column flex-grow-1" } do |form| %>
           <div class="form-group d-flex flex-column flex-grow-1">
             <%= form.label :description, "About you..." %>
             <%= form.text_area :description, class: "form-control flex-grow-1" %>
           </div>
-
           <%= form.submit "Update Description", class: "btn btn-outline-primary mt-3 w-50" %>
         <% end %>
       </div>
     </div>
   </div>
 
-  <!-- Troisième partie: Nationalité et localisation -->
+  <!-- Nationality and Location ou Location uniquement pour les familles -->
   <div class="row gx-3 mt-5 form-item" data-controller="location">
-    <h3>Nationality and Location</h3>
+    <h3><%= @user.aupair? ? "Nationality and Location" : "Location" %></h3>
     <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
       <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <%= form.label :nationality, "Nationality", class: "form-label" %>
-            <%= form.select :nationality, @nationalities.map { |nationality| [nationality, nationality] }, { selected: @user.nationality }, { class: "selectpicker w-100", 'data-live-search' => 'true' } %>
+        <% if @user.aupair? %>
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= form.label :nationality, "Nationality", class: "form-label" %>
+              <%= form.select :nationality, @nationalities.map { |nationality| [nationality, nationality] }, { selected: @user.nationality }, { class: "selectpicker w-100", 'data-live-search' => 'true' } %>
+            </div>
           </div>
-        </div>
+        <% end %>
 
-        <!-- Attacher le contrôleur Stimulus à un conteneur parent commun -->
-        <div class="col-md-6">
+        <div class="<%= @user.aupair? ? 'col-md-6' : 'col-md-12' %>">
           <div class="form-group">
             <%= form.label :location, "Location" %>
             <%= form.text_field :location, class: "form-control", id: "location-input", data: { location_target: "locationInput" } %>
@@ -108,93 +105,99 @@
         <div id="map" style="width: calc(100% - 24px); height: 300px;" data-location-target="map"></div>
       </div>
 
-      <%= form.submit "Update Nationality and Location", class: "btn btn-outline-primary mt-3" %>
+      <%= form.submit "Update Location", class: "btn btn-outline-primary mt-3" %>
     <% end %>
   </div>
 
-  <!-- Quatrième partie : Disponibilités et langues parlées -->
-  <div class="row gx-3 mt-5 d-flex align-items-stretch">
-    <div class="col-md-6">
-      <div class="form-item">
-        <h3>Your Availabilities</h3>
-        <ul class="list-group scrollable-list">
-          <% @user.availabilities.each do |availability| %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span>
-                From <%= availability.start.strftime("%d %b %Y") %> to <%= availability.end.strftime("%d %b %Y") %>
-              </span>
-
-              <div>
-                <!-- Icône pour modifier la disponibilité -->
-                <a href="#" class="btn btn-sm btn-outline-primary edit-availability-btn" data-bs-toggle="modal" data-bs-target="#editAvailabilityModal-<%= availability.id %>">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-
-                <!-- Icône pour supprimer la disponibilité -->
-                <%= form_with url: remove_availability_user_path(@user, availability), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
-                  <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
-                    <i class="fas fa-trash-alt"></i> Delete
-                  <% end %>
-                <% end %>
-              </div>
-            </li>
-
-            <!-- Modale de modification pour chaque disponibilité -->
-            <%= render 'availability_modification_modal', availability: availability %>
-          <% end %>
-        </ul>
-
-        <!-- Formulaire pour ajouter une nouvelle disponibilité -->
-        <h4 class="mt-3">Add Availability</h4>
-        <%= simple_form_for @user, url: user_path(@user), method: :patch, local: true do |f| %>
-          <%= f.simple_fields_for :availabilities, @user.availabilities.build do |new_availability_form| %>
-            <div class="form-group">
-              <!-- Datepicker HTML natif pour la date de début -->
-              <%= new_availability_form.input :start, as: :string, label: "Start Date", input_html: { type: 'date', class: "form-control" } %>
-            </div>
-
-            <div class="form-group">
-              <!-- Datepicker HTML natif pour la date de fin -->
-              <%= new_availability_form.input :end, as: :string, label: "End Date", input_html: { type: 'date', class: "form-control" } %>
-            </div>
-          <% end %>
-          <%= f.submit "Add Availability", class: "btn btn-outline-primary mt-3" %>
-        <% end %>
-      </div>
-    </div>
-    <div class="col-md-6 d-flex flex-column">
-      <div class="form-item d-flex flex-column flex-grow-1  justify-content-between">
-        <div>
-          <h3>Spoken Languages</h3>
-          <!-- Liste des langues actuellement parlées -->
+  <!-- Disponibilités et langues parlées, uniquement pour les au pairs -->
+  <% if @user.aupair? %>
+    <div class="row gx-3 mt-5 d-flex align-items-stretch">
+      <div class="col-md-6">
+        <div class="form-item">
+          <h3>Your Availabilities</h3>
           <ul class="list-group scrollable-list">
-            <% @user.languages.each do |language| %>
+            <% @user.availabilities.each do |availability| %>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span><%= language.language %></span>
-                <!-- Icône pour supprimer une langue -->
-                <%= form_with url: remove_language_user_path(@user, language.id), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
-                  <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
-                    <i class="fas fa-trash-alt"></i> Remove
+                <span>
+                  From <%= availability.start.strftime("%d %b %Y") %> to <%= availability.end.strftime("%d %b %Y") %>
+                </span>
+
+                <div>
+                  <!-- Icône pour modifier la disponibilité -->
+                  <a href="#" class="btn btn-sm btn-outline-primary edit-availability-btn" data-bs-toggle="modal" data-bs-target="#editAvailabilityModal-<%= availability.id %>">
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+
+                  <!-- Icône pour supprimer la disponibilité -->
+                  <%= form_with url: remove_availability_user_path(@user, availability), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
+                    <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
+                      <i class="fas fa-trash-alt"></i> Delete
+                    <% end %>
                   <% end %>
-                <% end %>
+                </div>
               </li>
+
+              <!-- Modale de modification pour chaque disponibilité -->
+              <%= render 'availability_modification_modal', availability: availability %>
             <% end %>
           </ul>
-        </div>
 
-        <!-- Formulaire pour ajouter une nouvelle langue -->
-        <%= simple_form_for @user, url: add_language_user_path(@user), method: :post, local: true do |f| %>
-          <div class="form-group">
-            <%= f.label :language, "Add a language" %>
-            <!-- Menu déroulant pour ajouter une langue -->
-            <%= select_tag :language_id, options_for_select(@languages - @user.languages.pluck(:language)), class: "selectpicker w-100", 'data-live-search' => 'true' %>
+          <!-- Formulaire pour ajouter une nouvelle disponibilité -->
+          <h4 class="mt-3">Add Availability</h4>
+          <%= simple_form_for @user, url: user_path(@user), method: :patch, local: true do |f| %>
+            <%= f.simple_fields_for :availabilities, @user.availabilities.build do |new_availability_form| %>
+              <div class="form-group">
+                <!-- Datepicker HTML natif pour la date de début -->
+                <%= new_availability_form.input :start, as: :string, label: "Start Date", input_html: { type: 'date', class: "form-control" } %>
+              </div>
+
+              <div class="form-group">
+                <!-- Datepicker HTML natif pour la date de fin -->
+                <%= new_availability_form.input :end, as: :string, label: "End Date", input_html: { type: 'date', class: "form-control" } %>
+              </div>
+            <% end %>
+            <%= f.submit "Add Availability", class: "btn btn-outline-primary mt-3" %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-md-6 d-flex flex-column">
+        <div class="form-item d-flex flex-column flex-grow-1 justify-content-between">
+          <div>
+            <h3>Spoken Languages</h3>
+            <!-- Liste des langues actuellement parlées -->
+            <ul class="list-group scrollable-list">
+              <% @user.languages.each do |language| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span><%= language.language %></span>
+                  <!-- Icône pour supprimer une langue -->
+                  <%= form_with url: remove_language_user_path(@user, language.id), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "d-inline" do %>
+                    <%= button_tag(type: 'submit', class: 'btn btn-sm btn-outline-danger') do %>
+                      <i class="fas fa-trash-alt"></i> Remove
+                    <% end %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
           </div>
-          <%= f.submit "Add Language", class: "btn btn-outline-primary mt-3" %>
-        <% end %>
+
+          <!-- Formulaire pour ajouter une nouvelle langue -->
+          <%= simple_form_for @user, url: add_language_user_path(@user), method: :post, local: true do |f| %>
+            <div class="form-group">
+              <%= f.label :language, "Add a language" %>
+              <!-- Menu déroulant pour ajouter une langue -->
+              <%= select_tag :language_id, options_for_select(@languages - @user.languages.pluck(:language)), class: "selectpicker w-100", 'data-live-search' => 'true' %>
+            </div>
+            <%= f.submit "Add Language", class: "btn btn-outline-primary mt-3" %>
+          <% end %>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
+
+  <!-- Bouton de retour -->
   <div class="text-center mt-5 mb-5">
-    <%= link_to 'Back to Users List', users_path, class: 'btn btn-primary' %>
+    <%= current_user.aupair? ? (link_to "Back to families' list", users_path, class:"btn btn-primary") :
+    (link_to "Back to aupairs' list", users_path, class:"btn btn-primary") %>
   </div>
 </div>
