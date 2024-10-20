@@ -1,6 +1,6 @@
 <%= render 'navbar' %>
 
-<%= tag.meta name: "mapbox-access-token", content: Rails.application.credentials.dig(:mapbox, :access_token) %>
+<%= tag.meta name: "mapbox-access-token", content: Rails.application.credentials.dig(:mapbox, :api_key) %>
 
 <div class="container">
   <!-- Greetings -->
