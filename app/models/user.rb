@@ -17,6 +17,11 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :availabilities, allow_destroy: true
   accepts_nested_attributes_for :user_languages, allow_destroy: true
 
+  # Pour la messagerie
+  has_many :conversation_users
+  has_many :conversations, through: :conversation_users
+  has_many :messages
+
   enum role: { aupair: 0, family: 1 }
   has_one_attached :photo
 
