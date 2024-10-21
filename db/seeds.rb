@@ -4,10 +4,12 @@ require 'net/http'
 require 'json'
 
 puts "Nettoyage de la base de données..."
+puts "Nettoyage des users..."
 User.destroy_all
+puts "Nettoyage des Languages..."
 Language.destroy_all
-Availability.destroy_all
-UserLanguage.destroy_all
+# Availability.destroy_all => Pas nécessaire (les User étant supprimés, les Availabilities le seront aussi)
+# UserLanguage.destroy_all => Pas nécessaire (les User étant supprimés, les userLanguage le seront aussi)
 
 puts "Création des utilisateurs (au pairs et familles)..."
 
