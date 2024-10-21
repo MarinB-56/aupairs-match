@@ -1,14 +1,15 @@
 .btn {
   padding: 8px 16px;
   border-radius: 5px;
+  color: #ffffff;
 
   &:hover{
     color: #ffffff !important; // Assure que le texte du bouton est toujours blanc
   }
 }
 
-.btn-primary {
-  color: #ffffff;
+.btn-sign-up {
+  color: #e53b5c;
 }
 
 .btn-primary:hover, .btn-danger:hover {
