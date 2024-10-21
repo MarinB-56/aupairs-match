@@ -30,14 +30,17 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then((data) => {
+      this.heartTarget.classList.remove('icon-match-pending', 'icon-match-accepted', 'icon-match-refused', 'icon-match-empty');
+      this.heartTarget.classList.remove('fa-heart-circle-xmark', 'fa-heart-circle-exclamation', 'fa-heart-circle-check', 'fa-heart-circle-plus');
+
       if (data.status === "deleted") {
-        this.heartTarget.classList.remove('icon-match-pending', 'icon-match-accepted', 'icon-match-refused');
-        this.heartTarget.classList.remove('fa-heart-circle-xmark', 'fa-heart-circle-exclamation', 'fa-heart-circle-check')
         this.heartTarget.classList.add('icon-match-empty', 'fa-heart-circle-plus');
-      }else {
-        this.heartTarget.classList.remove('icon-match-empty');
-        this.heartTarget.classList.remove('fa-heart-circle-plus')
+      }else if (data.status === "pending") {
         this.heartTarget.classList.add('icon-match-pending', 'fa-heart-circle-exclamation');
+      }else if (data.status === "refused") {
+        this.heartTarget.classList.add('icon-match-refused', 'fa-heart-circle-xmark');
+      }else if (data.status === "accepted") {
+        this.heartTarget.classList.add('icon-match-accepted', 'fa-heart-circle-check');
       }
     })
   }

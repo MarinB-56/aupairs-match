@@ -1,0 +1,19 @@
+<%# Photo et nom du demandeur %>
+<div class="match-notification card" data-controller="manage-matches"
+  data-manage-matches-match-value="<%= match.id.to_json %>"
+  data-manage-matches-target="notification">
+  <div class="d-flex align-items-center">
+    <%= link_to image_tag(match.initiated_by.photo.attached? ? match.initiated_by.photo : 'default_avatar.png', class: "avatar me-2"), user_path(match.initiated_by) %>
+    <p><span class="text-primary"><%= match.initiated_by.first_name %> <%= match.initiated_by.last_name %></span> vous propose un match !</p>
+  </div>
+
+  <%# Affichage des bouttons d'action %>
+  <div>
+    <button class="btn btn-success" value="accepted" data-action="click->manage-matches#accept_or_refuse_match">
+      Accepter <i class="fa-solid fa-check"></i>
+    </button>
+    <button class="btn btn-danger" value="refused" data-action="click->manage-matches#accept_or_refuse_match">
+      Refuser <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+</div>

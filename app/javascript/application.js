@@ -14,5 +14,9 @@ document.addEventListener("turbo:load", function() {
   $('.selectpicker').selectpicker();
 });
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 // Initialisation de Stimulus
 const application = Application.start()

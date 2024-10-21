@@ -33,6 +33,7 @@
                 <div data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
                   <i data-action="click->manage-matches#manage_matches"
                     data-manage-matches-target="heart"
+                    data-placement="top"
                     class="fa-solid position-icon-match
                     <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
                       <%= 'fa-heart-circle-plus icon-match-empty' %>

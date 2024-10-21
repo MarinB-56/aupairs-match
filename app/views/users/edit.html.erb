@@ -17,7 +17,7 @@
 
   <!-- Lien d'édition de la photo de profil -->
   <div class="edit-photo-link text-center">
-    <a href="#" id="edit-profile-picture" data-bs-toggle="modal" data-bs-target="#profilePictureModal">Update profile picture</a>
+    <a href="#" id="edit-profile-picture" data-bs-toggle="modal" data-bs-target="#profilePictureModal" class="btn btn-white btn-outline-primary">Update profile picture</a>
   </div>
 
   <!-- Modale pour éditer la photo de profil -->
@@ -58,7 +58,7 @@
             </div>
           <% end %>
 
-          <%= form.submit "Update Basic Information", class: "btn btn-outline-primary mt-3" %>
+          <%= form.submit "Update Basic Information", class: "btn btn-white btn-outline-primary mt-3" %>
         <% end %>
       </div>
     </div>
@@ -72,7 +72,7 @@
             <%= form.label :description, "About you..." %>
             <%= form.text_area :description, class: "form-control flex-grow-1" %>
           </div>
-          <%= form.submit "Update Description", class: "btn btn-outline-primary mt-3 w-50" %>
+          <%= form.submit "Update Description", class: "btn btn-white btn-outline-primary mt-3 w-50" %>
         <% end %>
       </div>
     </div>
@@ -105,7 +105,7 @@
         <div id="map" style="width: calc(100% - 24px); height: 300px;" data-location-target="map"></div>
       </div>
 
-      <%= form.submit "Update Location", class: "btn btn-outline-primary mt-3" %>
+      <%= form.submit "Update Location", class: "btn btn-white btn-outline-primary mt-3" %>
     <% end %>
   </div>
 
