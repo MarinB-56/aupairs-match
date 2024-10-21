@@ -1,22 +1,41 @@
+<body class="home-page">
 <%= render 'navbar' %>
 
-<div class="container-hero">
+<div class="container-hero background_img">
   <div class="row hero-row m-0">
-    <!-- Colonne 1 : Texte Hero -->
-    <div class="col-md-6 col-hero">
-      <div class="hero">
-        <p class="hero-text">Find your next<br>Au Pair, the easy way.</p>
-      </div>
-    </div>
+    <!-- Colonne unique qui occupe 5/12 de la largeur -->
+    <div class="col-md-5 col-hero d-flex flex-column justify-content-center">
 
-    <!-- Colonne 2 : Liste -->
-    <div class="col-md-6 d-flex flex-column align-items-center">
+      <!-- Row 1 : Titre -->
+      <div class="hero">
+        <p class="hero-text">Find your next au pair or host family, the easy way.</p>
+      </div>
+
+      <!-- Row 2 : Liste des fonctionnalités -->
       <ul class="features-list">
-        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Explore Au Pairs and Families all around the world</li>
-        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Sort profiles by location, languages, duration of the trip</li>
-        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i>  Match, get in touch, and begin your journey !</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i> Explore profiles worldwide and find your perfect match.</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i> Filter by location, language, and stay duration.</li>
+        <li><i class="fa-regular fa-circle-check" style="color: #FD3967"></i> Match, get in touch, and begin your journey!</li>
       </ul>
-      <%= link_to 'Sign up', new_user_registration_path, class: "btn btn-primary w-50" %>
-    </div>
+
+      <!-- Row 3 : Boutons CTA alignés sur une même ligne -->
+      <div class="d-flex gap-3 justify-content-start">
+        <%= link_to 'Find your au pair', new_user_registration_path, class: "btn btn-primary btn-small" %>
+        <%= link_to 'Find your host family', new_user_registration_path, class: "btn btn-primary btn-small" %>
+      </div>
+
+    </div>s
+
   </div>
 </div>
+
+<div class="footer">
+    <div class="links">
+      <a href="#"><i class="fab fa-fw fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-fw fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-fw fa-instagram"></i></a>
+      <p>This website was coded with <i class="fas fa-heart"></i> at Le Wagon.</p>
+
+    </div>
+  </div>
+</body>

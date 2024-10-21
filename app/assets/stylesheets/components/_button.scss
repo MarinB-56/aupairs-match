@@ -12,13 +12,12 @@
   color: #e53b5c;
 }
 
-.btn-primary:hover, .btn-danger:hover {
+.btn-primary, .btn-danger {
   background-color: #e53b5c;
-  border-color: #e23658;
+  border-color: #e53b5c;
 }
 
-.btn-primary, .btn-danger {
-  background-color: #FD3967;
-  border-color: #FD3967;
-  // color: #ffffff !important; // Assure que le texte du bouton est toujours blanc
+.btn-primary:hover, .btn-danger:hover {
+  background-color: #d12d4b;
+  border-color: #d12d4b;
 }
