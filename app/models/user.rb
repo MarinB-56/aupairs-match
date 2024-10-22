@@ -32,4 +32,23 @@ class User < ApplicationRecord
   geocoded_by :location
   # Après l'enregistrement dans la base de donnée, si locaiton a changé, maj des lat et lng
   after_validation :geocode, if: :will_save_change_to_location?
+
+  def empty?(current_user)
+    matches_given.where(received_by: current_user).empty? && matches_received.where(initiated_by: current_user).empty?
+  end
+
+  def pending?(current_user)
+    matches_given.where(received_by: current_user, status: "pending").any? ||
+      matches_received.where(initiated_by: current_user, status: "pending").any?
+  end
+
+  def refused?(current_user)
+    matches_given.where(received_by: current_user, status: "refused").any? ||
+      matches_received.where(initiated_by: current_user, status: "refused").any?
+  end
+
+  def accepted?(current_user)
+    matches_given.where(received_by: current_user, status: "accepted").any? ||
+      matches_received.where(initiated_by: current_user, status: "accepted").any?
+  end
 end

@@ -8,6 +8,13 @@ class UsersController < ApplicationController
     # Définir les utilisateurs à afficher en fonction du rôle actuel (family ou au pair)
     @users = current_user.family? ? User.aupair : User.family
 
+    # # Récupérer les matchs en fonction des Users
+    # @matches = Match.where(initiated_by: current_user.id).or(Match.where(received_by: current_user.id))
+
+    # @matches = @matches.map do |match|
+    #   match.initiated_by == current_user.id ? match.received_by.id : match.initiated_by.id
+    # end
+
     # Récupérer les bornes min et max du nombre d'enfants parmi les utilisateurs family
     @min_children = User.family.minimum(:number_of_children)
     @max_children = User.family.maximum(:number_of_children)
