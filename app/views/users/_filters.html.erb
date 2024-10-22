@@ -1,4 +1,33 @@
 <div class="container">
+  <!-- Affichage des chips des filtres activés -->
+  <div id="active-filters" class="mb-4">
+    <% if @filtered_params.present? %>
+      <% @filtered_params.each do |key, value| %>
+        <% next if value.blank? || value == @default_filters[key.to_sym] %> <!-- Ignore default values -->
+
+        <!-- Vérifier si le filtre est une liste ou un seul élément -->
+        <% if value.is_a?(Array) %>
+          <% value.each do |v| %>
+            <% next if v.blank? || v == @default_filters[key.to_sym] %> <!-- Ignore default array values -->
+            <span class="badge bg-primary">
+              <%= key.humanize %>: <%= v %>
+              <%= link_to users_path(filters: @filtered_params.merge(key => value - [v])), class: "text-white ms-2 remove-filter-link", data: { turbo_method: :get } do %> <!-- Suppression du filtre -->
+                <i class="fas fa-times"></i>
+              <% end %>
+            </span>
+          <% end %>
+        <% else %>
+          <span class="badge bg-primary">
+            <%= key.humanize %>: <%= value %>
+            <%= link_to users_path(filters: @filtered_params.except(key)), class: "text-white ms-2 remove-filter-link", data: { turbo_method: :get } do %>
+              <i class="fas fa-times"></i>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
   <!-- Bouton pour ouvrir/fermer les filtres -->
   <div class="text-center my-4">
     <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filters-container" aria-expanded="false" aria-controls="filters-container">
@@ -7,7 +36,7 @@
   </div>
 
   <div class="collapse" id="filters-container">
-    <%= simple_form_for :filters, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
+    <%= simple_form_for :filters, url: users_path, method: :get, html: { class: 'form-inline' } do |f| %>
 
       <% if current_user.aupair? %>
 
@@ -112,5 +141,4 @@
 
     <% end %>
   </div>
-
 </div>
