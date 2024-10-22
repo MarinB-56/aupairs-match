@@ -3,39 +3,15 @@
   min-height: 100vh; /* La page doit occuper toute la hauteur de la fenêtre */
   display: flex;
   flex-direction: column; /* Dispose les enfants (navbar, contenu, footer) en colonne */
+}
 
-  /* Conteneur principal pour aligner le contenu hero */
-  .container-hero {
-    flex: 1; /* Prend tout l'espace disponible entre la navbar et le footer */
-    display: flex; /* Active flexbox pour centrer le contenu */
-    justify-content: flex-start; /* Aligne le contenu sur la gauche */
-    align-items: center;
-    padding: 20px; /* Ajoute un peu de padding pour l'espacement */
-  }
-
-  /* Footer spécifique à la page d'accueil */
-  .footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #1B1A20; /* Exemple de couleur de fond pour le footer */
-    color: #fff; /* Texte en blanc pour un bon contraste */
-    width: 100%; /* Assure que le footer prenne toute la largeur de la page */
-  }
-
-  .footer a {
-    font-size: 30px;
-    color: #e53b5c;
-    margin: 0 10px; /* Espacement entre les icônes */
-  }
-
-  .footer p {
-    color: #6B6C6C;
-    margin-top: 10px; /* Espace au-dessus du texte */
-  }
-
-  .footer .fas {
-    color: #e53b5c; /* Couleur de l'icône cœur */
-  }
+/* Conteneur principal pour aligner le contenu hero */
+.container-hero {
+  flex: 1; /* Prend tout l'espace disponible entre la navbar et le footer */
+  display: flex; /* Active flexbox pour centrer le contenu */
+  justify-content: flex-start; /* Aligne le contenu sur la gauche */
+  align-items: center;
+  padding: 20px; /* Ajoute un peu de padding pour l'espacement */
 }
 
 /* Styles pour la section "hero" */

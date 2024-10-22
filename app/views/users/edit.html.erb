@@ -94,14 +94,13 @@
 
         <div class="<%= @user.aupair? ? 'col-md-6' : 'col-md-12' %>">
           <div class="form-group">
-            <%= form.label :location, "Location" %>
             <%= form.text_field :location, class: "form-control", id: "location-input", data: { location_target: "locationInput" } %>
           </div>
         </div>
       </div>
 
       <!-- Ajouter la carte dans le même conteneur contrôlé par Stimulus -->
-      <div class="row mt-3 mb-3">
+      <div class="row mt-3 mb-3 d-flex justify-content-center">
         <div id="map" style="width: calc(100% - 24px); height: 300px;" data-location-target="map"></div>
       </div>
 
@@ -201,3 +200,5 @@
     (link_to "Back to aupairs' list", users_path, class:"btn btn-primary") %>
   </div>
 </div>
+
+<%= render 'footer' %>

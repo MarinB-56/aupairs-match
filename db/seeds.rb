@@ -246,6 +246,7 @@ puts "Création des familles"
   family = User.new(
     last_name: Faker::Name.last_name,
     location: "#{Faker::Address.city}, #{Faker::Address.country}",
+    nationality: Faker::Nation.nationality,
     email: Faker::Internet.email,
     password: "password",
     description: "Nous sommes une famille à la recherche d'une au pair pour aider avec nos enfants.",
@@ -268,6 +269,7 @@ end
 admin_family = User.new(
   last_name: 'Admin',
   location: "#{Faker::Address.city}, #{Faker::Address.country}",
+  nationality: 'French',
   email: 'family@example.com',
   password: "password",
   description: "Nous ne sommes pas famille, ce compte n'existe que pour permettre de nous logger sur AupairMatch.",

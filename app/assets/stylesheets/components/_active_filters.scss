@@ -1,0 +1,16 @@
+#active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.remove-filter-link {
+  text-decoration: none;
+}
