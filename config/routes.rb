@@ -29,16 +29,16 @@ Rails.application.routes.draw do
   get 'my_favorites', to: 'favorites#index'
   resources :favorites, only: [:create, :destroy]
 
-  # Actioncable pour les messages en instantané
+  # ActionCable pour les messages en instantané
   mount ActionCable.server => '/cable'
 
   # Routes pour les matchs
   get 'my_matches', to: 'matches#index', as: :matches
   resources :matches, only: [:create, :destroy, :update]
 
-  # Route pour afficher une conversation spécifique via les matchs
-  get 'my_matches/conversation/:conversation_id', to: 'matches#index', as: :conversation_match
-
-  # Route pour créer des messages dans une conversation
-  post 'my_matches/conversation/:conversation_id/messages', to: 'messages#create', as: 'conversation_messages'
+  # Routes pour les conversations (affichage, création, suppression)
+  resources :conversations, only: [:show, :destroy] do
+    # Routes imbriquées pour les messages dans une conversation
+    resources :messages, only: [:create]
+  end
 end
