@@ -1,20 +1,19 @@
 <%= render 'users/navbar' %>
 
 <div class="container">
+  <!-- Notifications de matchs -->
+  <% if @pending_matches.any? %>
+    <h5 class="p-3">Pending matches</h5>
+    <div class="list-group">
+      <% @pending_matches.each do |match| %>
+        <%= render 'matches/notification', match: match %>
+      <% end %>
+    </div>
+  <% end %>
   <div class="container conversation-container m-4">
     <div class="row">
       <!-- Colonne gauche : Notifications et conversations -->
       <div class="col-md-4 conversation-component">
-        <!-- Notifications de matchs -->
-        <% if @pending_matches.any? %>
-          <h5 class="p-3">Pending matches</h5>
-          <div class="list-group">
-            <% @pending_matches.each do |match| %>
-              <%= render 'matches/notification', match: match %>
-            <% end %>
-          </div>
-        <% end %>
-
         <!-- Liste des conversations -->
         <% if @conversations.any? %>
           <h5 class="p-3">Conversations</h5>

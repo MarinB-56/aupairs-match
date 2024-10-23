@@ -31,9 +31,9 @@
   </div>
 </div>
 
-<div id="messages" data-conversation-id="<%= conversation.id %>" class="p-3 overflow-auto" style="height: calc(100vh - 200px);">
+<div id="messages" data-conversation-id="<%= conversation.id %>" data-user-id="<%= current_user.id %>" class="p-3 overflow-auto">
   <% conversation.messages.order(created_at: :asc).each do |message| %>
-    <%= render 'messages/message', message: message %>
+    <%= render 'messages/message', message: message, current_user_id: current_user.id %>
   <% end %>
 </div>
 

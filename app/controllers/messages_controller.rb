@@ -7,12 +7,15 @@ class MessagesController < ApplicationController
     @message.user = current_user
 
     if @message.save
-      # Diffuser le message via ActionCable (si utilisé)
-      ConversationChannel.broadcast_to(@conversation, message: render_message(@message))
+      # Diffuser le message via ActionCable
+      ConversationChannel.broadcast_to(
+        @conversation,
+        message: render_message(@message, current_user.id)
+      )
 
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.append('messages', partial: 'messages/message', locals: { message: @message })
+          render turbo_stream: turbo_stream.append('messages', partial: 'messages/message', locals: { message: @message, current_user_id: current_user.id })
         end
         format.html { redirect_to matches_path(conversation_id: @conversation.id) }
       end
@@ -31,7 +34,7 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content)
   end
 
-  def render_message(message)
-    render_to_string(partial: 'messages/message', locals: { message: message })
+  def render_message(message, user_id)
+    ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message, current_user_id: user_id })
   end
 end

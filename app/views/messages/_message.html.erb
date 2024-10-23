@@ -1,14 +1,14 @@
-<% if message.user == current_user %>
-  <!-- Message de l'utilisateur actuel -->
-  <div class="d-flex justify-content-end mb-3">
+<% if message.user.id == current_user_id %>
+  <!-- Message de l'utilisateur actuel (expéditeur) -->
+  <div class="d-flex justify-content-end mb-3" data-user-id="<%= message.user.id %>">
     <div class="bg-primary text-white rounded p-2 message" style="max-width: 60%;">
       <p class="mb-1"><%= message.content %></p>
       <small class="d-block text-right created-at"><%= l(message.created_at, format: :short) %></small>
     </div>
   </div>
 <% else %>
-  <!-- Message de l'autre utilisateur -->
-  <div class="d-flex justify-content-start mb-3">
+  <!-- Message de l'autre utilisateur (destinataire) -->
+  <div class="d-flex justify-content-start mb-3" data-user-id="<%= message.user.id %>">
     <div class="bg-light rounded p-2 message" style="max-width: 60%;">
       <p class="mb-1"><%= message.content %></p>
       <small class="d-block text-left text-muted created-at"><%= l(message.created_at, format: :short) %></small>
