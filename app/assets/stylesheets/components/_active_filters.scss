@@ -7,7 +7,7 @@
 .badge {
   min-width: 24px; /* Largeur minimale pour garder la forme ronde */
   height: 24px; /* Hauteur fixe pour la rendre ronde */
-  border-radius: 50%; /* Bord arrondi pour créer un cercle */
+  border-radius: 50px; /* Bord arrondi pour créer un cercle */
   display: inline-flex; /* Pour centrer le contenu */
   align-items: center; /* Centrer verticalement le contenu */
   justify-content: center; /* Centrer horizontalement le contenu */
