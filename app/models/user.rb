@@ -33,6 +33,14 @@ class User < ApplicationRecord
   # Après l'enregistrement dans la base de donnée, si locaiton a changé, maj des lat et lng
   after_validation :geocode, if: :will_save_change_to_location?
 
+  def conversation_with(other_user)
+    Conversation.joins(:conversation_users)
+                .where(conversation_users: { user_id: [id, other_user.id] })
+                .group('conversations.id')
+                .having('COUNT(DISTINCT conversation_users.user_id) = 2')
+                .first
+  end
+
   def empty?(current_user)
     matches_given.where(received_by: current_user).empty? && matches_received.where(initiated_by: current_user).empty?
   end

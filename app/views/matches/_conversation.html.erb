@@ -1,0 +1,55 @@
+<% other_user = conversation.users.where.not(id: current_user.id).first %>
+
+<div class="d-flex align-items-center justify-content-between border-bottom p-3">
+  <div class="d-flex align-items-center">
+    <% if other_user.photo.attached? %>
+      <%= cl_image_tag other_user.photo.key, width: 50, height: 50, crop: :fill, gravity: :face, class: 'rounded-circle me-3', alt: other_user.first_name %>
+    <% else %>
+      <%= image_tag 'default-avatar.png', class: 'rounded-circle', width: 50, height: 50, alt: 'Avatar par défaut' %>
+    <% end %>
+    <h5 class="mb-0"><%= other_user.first_name %> <%= other_user.last_name %></h5>
+  </div>
+  <div class="dropdown">
+    <button class="btn-white btn-conversation-dropdown" type="button" id="conversationMenu" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fas fa-ellipsis-h"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="conversationMenu">
+      <li>
+        <%= link_to 'Delete conversation', conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure you want to delete conversation ? This will mark your match with this user as refused.' }, class: 'dropdown-item text-danger' %>
+      </li>
+      <li>
+        <%= link_to '#', class: 'dropdown-item' do %>
+          Conversation info
+        <% end %>
+      </li>
+      <li>
+        <%= link_to '#', class: 'dropdown-item' do %>
+          Report abuse
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="messages" data-conversation-id="<%= conversation.id %>" class="p-3 overflow-auto" style="height: calc(100vh - 200px);">
+  <% conversation.messages.order(created_at: :asc).each do |message| %>
+    <%= render 'messages/message', message: message %>
+  <% end %>
+</div>
+
+<div class="border-top p-3">
+  <%= form_with(url: conversation_messages_path(conversation_id: conversation.id),
+                remote: true,
+                html: { id: 'new_message',
+                        'data-controller': 'messages',
+                        'data-action': 'keydown->messages#submitOnEnter',
+                        'data-turbo': 'false'},
+                scope: :message) do |form| %>
+    <div class="input-group">
+      <%= form.text_area :content, rows: 1, placeholder: 'Write your message...', class: 'form-control message-input', autofocus: true %>
+      <div class="input-group-append">
+        <%= form.submit 'Send', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,24 @@
+<%= link_to matches_path(conversation_id: conversation.id), class: "conversation-card list-group-item list-group-item-action d-flex align-items-center #{'active' if conversation == @conversation}" do %>
+  <% other_user = conversation.users.where.not(id: current_user.id).first %>
+  <div class="me-3">
+    <% if other_user.photo.attached? %>
+      <%= cl_image_tag other_user.photo.key, width: 50, height: 50, crop: :fill, gravity: :face, class: 'rounded-circle', alt: other_user.first_name %>
+    <% else %>
+      <%= image_tag 'default-avatar.png', class: 'rounded-circle', width: 50, height: 50, alt: 'Avatar par défaut' %>
+    <% end %>
+  </div>
+  <div class="flex-grow-1">
+    <div class="d-flex justify-content-between">
+      <h5 class="mb-1 mb-0"><%= other_user.first_name %> <%= other_user.last_name %></h5>
+      <% last_message = conversation.messages.order(created_at: :desc).first %>
+      <% if last_message %>
+        <small class="text-muted time-ago"><%= concise_time_ago_in_words(last_message.created_at) %></small>
+      <% end %>
+    </div>
+    <% if last_message %>
+      <p class="mb-1 text-truncate last-message"><%= last_message.content %></p>
+    <% else %>
+      <p class="mb-1 text-muted last-message">Pas encore de messages</p>
+    <% end %>
+  </div>
+<% end %>

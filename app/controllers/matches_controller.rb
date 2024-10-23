@@ -1,10 +1,16 @@
 class MatchesController < ApplicationController
   def index
-    received_by_user = params[:current_user]
+    @pending_matches = Match.where(received_by_id: current_user.id, status: 'pending')
 
-    @pending_matches = Match.where(received_by: received_by_user, status: "pending")
-    @accepted_matches = Match.where(received_by: received_by_user, status: "accepted")
-    @refused_matches = Match.where(received_by: received_by_user, status: "refused")
+    # Charger les conversations de l'utilisateur
+    @conversations = current_user.conversations.includes(:users, :messages)
+
+    # Déterminer quelle conversation afficher
+    if params[:conversation_id]
+      @conversation = @conversations.find(params[:conversation_id])
+    else
+      @conversation = @conversations.first
+    end
   end
 
   def create
@@ -13,10 +19,26 @@ class MatchesController < ApplicationController
     # Si une proposition de match existe DEJA dans l'autre sens, on la récupère
     match = Match.find_or_initialize_by(initiated_by: other_user, received_by: current_user, status: "pending")
 
-    # Si aucun match n'existe, on le créer
+    # Si aucun match n'existe, on le crée
     if match.new_record?
-      match = Match.find_or_initialize_by(initiated_by: current_user, received_by: other_user, status: "pending")
+      match = Match.find_or_initialize_by(initiated_by: initiator_user, received_by: receiver_user, status: "pending")
+    # Si il existe déjà dans l'autre sens => Accepted
+    elsif match.persisted? && match.initiated_by == receiver_user
+      match.update(status: "accepted")
+      # Créer une conversation
+      conversation = Conversation.create
+      ConversationUser.create(conversation: conversation, user: initiator_user)
+      ConversationUser.create(conversation: conversation, user: receiver_user)
+      format.html { redirect_to users_path }
+      format.json { render json: { message: "Demande de match acceptée", status: "accepted" }, status: :ok }
     end
+
+    puts "////////////////"
+    puts match[:status].upcase
+    puts "////////////////"
+
+    # Si n'existe pas, on le crée => Pending
+    # Si existe déjà dans mon sens et que la demande est "pending" => On supprime
 
     # Si il est déjà créé, on le supprime
     respond_to do |format|
@@ -41,12 +63,19 @@ class MatchesController < ApplicationController
 
   def update
     status = params[:status]
-
     match = Match.find(params[:id])
 
-    respond_to do |format|
-      if  match.update(status: params[:status])
-        format.json { render json: { message: "Match #{params[:status]}", status: params[:status] }, status: :ok }
+    if match.update(status: status)
+      if status == 'accepted'
+        # Créer une conversation entre les deux utilisateurs si elle n'existe pas déjà
+        other_user = match.other_user(current_user)
+        conversation = current_user.conversation_with(other_user) || Conversation.create
+        ConversationUser.find_or_create_by(conversation: conversation, user: current_user)
+        ConversationUser.find_or_create_by(conversation: conversation, user: other_user)
+      end
+
+      respond_to do |format|
+        format.js   # Répondre avec un fichier JS
       end
     end
   end
