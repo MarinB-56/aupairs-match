@@ -5,5 +5,18 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
+
+// Bootstrap select
+import "bootstrap-select";
+
+document.addEventListener("turbo:load", function() {
+  // Initialisation de Bootstrap Select sur tous les éléments <select> avec la classe .selectpicker
+  $('.selectpicker').selectpicker();
+});
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 // Initialisation de Stimulus
 const application = Application.start()

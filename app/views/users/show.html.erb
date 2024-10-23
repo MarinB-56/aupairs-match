@@ -3,9 +3,9 @@
 <div class="container">
   <div class="user-banner card mt-4">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3  d-flex align-items-center">
         <div class="user-profile-picture m-1">
-          <%= cl_image_tag(@visited_user.photo.key, width: 300, height: 300, class: "card-img-top") %>
+          <%= cl_image_tag(@visited_user.photo.key, class: "card-img-top") %>
         </div>
       </div>
 
@@ -28,42 +28,85 @@
       </div>
     </div>
 
-    <%# User details %>
-    <div class="col-md-4">
-      <div class="card user-description-details">
-        <ul class="user-details">
+  <%# User details %>
+  <div class="col-md-4">
+    <div class="card user-description-details">
+      <ul class="user-details">
+
+        <% if @visited_user.aupair? %>
+          <%# Détails spécifiques aux au pairs %>
           <li>
-            <i class="fa-solid fa-venus-mars icon"></i>
-            <span class="label">gender: </span>
+            <div class="details-label">
+              <i class="fa-solid fa-venus-mars icon"></i>
+              <span class="label">Gender: </span>
+            </div>
             <span class="value"><%= @visited_user.gender %></span>
           </li>
           <li>
-            <i class="fa-solid fa-cake-candles icon"></i>
-            <span class="label">age: </span>
+            <div class="details-label">
+              <i class="fa-solid fa-cake-candles icon"></i>
+              <span class="label">Age: </span>
+            </div>
             <span class="value"><%= Date.today.year - @visited_user.birth_date.year %> years old</span>
           </li>
           <li>
-            <i class="fa-solid fa-globe icon"></i>
-            <span class="label">nationality: </span>
+            <div class="details-label">
+              <i class="fa-solid fa-globe icon"></i>
+              <span class="label">Nationality: </span>
+            </div>
             <span class="value"><%= @visited_user.nationality %></span>
           </li>
           <li>
-            <i class="fa-solid fa-location-dot icon"></i>
-            <span class="label">location: </span>
+            <div class="details-label">
+              <i class="fa-solid fa-location-dot icon"></i>
+              <span class="label">Location: </span>
+            </div>
             <span class="value"><%= @visited_user.location %></span>
           </li>
           <li>
-            <i class="fa-solid fa-people-group icon"></i>
-            <span class="label">role: </span>
+            <div class="details-label">
+              <i class="fa-solid fa-people-group icon"></i>
+              <span class="label">Role: </span>
+            </div>
             <span class="value"><%= @visited_user.role %></span>
           </li>
-        </ul>
-      </div>
+
+        <% elsif @visited_user.family? %>
+          <%# Détails spécifiques aux familles %>
+          <li>
+            <div class="details-label">
+              <i class="fa-solid fa-location-dot icon"></i>
+              <span class="label">Location: </span>
+            </div>
+            <span class="value"><%= @visited_user.location %></span>
+          </li>
+          <li>
+            <div class="details-label">
+              <i class="fa-solid fa-child icon"></i>
+              <span class="label">Number of children: </span>
+            </div>
+            <span class="value"><%= @visited_user.number_of_children %></span>
+          </li>
+          <li>
+            <div class="details-label">
+              <i class="fa-solid fa-people-group icon"></i>
+              <span class="label">Role: </span>
+            </div>
+            <span class="value"><%= @visited_user.role %></span>
+          </li>
+
+        <% end %>
+
+      </ul>
     </div>
   </div>
 
+  </div>
+
   <div class="text-center my-4">
-    <%= current_user.aupair? ? (link_to "Back to families' list", root_path, class:"btn btn-primary") :
-    (link_to "Back to aupairs' list", root_path, class:"btn btn-primary") %>
+    <%= current_user.aupair? ? (link_to "Back to families' list", users_path, class:"btn btn-primary") :
+    (link_to "Back to aupairs' list", users_path, class:"btn btn-primary") %>
   </div>
 </div>
+
+<%= render 'footer' %>

@@ -4,21 +4,20 @@
 
 .user-banner {
   display: flex;
-  align-items: center; /* Centrer verticalement le contenu */
-  height: 350px; /* Hauteur fixe pour la bannière */
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
 }
 
 .user-profile-picture {
-  text-align: center;
-  width: 300px;
-  height: 300px; /* Hauteur et largeur fixes pour les images */
   overflow: hidden; /* Masquer tout ce qui dépasse */
+}
+
+.user-profile-picture img {
+  max-width: 100%;         /* L'image ne dépassera pas la largeur de la colonne */
+  aspect-ratio: 1 / 1;           /* Maintenir les proportions de l'image */
+  object-fit: cover;        /* S'assure que l'image garde ses proportions sans être déformée */
 }
 
 .user-description {
@@ -38,7 +37,6 @@
 }
 
 .user-location, .user-description-details {
-  min-height: 150px;
   height: auto;
 }
 
@@ -51,8 +49,13 @@
 
 .user-details li {
   display: flex;
-  align-items: center;
+  align-items: start;
   margin-bottom: 10px;
+}
+
+.details-label {
+  display: flex;
+  align-items: center;
 }
 
 .user-details .icon {
@@ -71,18 +74,4 @@
 .user-details .value {
   font-size: 1em;
   color: #222222;
-}
-
-
-.btn-primary {
-  background-color: #FD3967;
-  border-color: #FD3967;
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 5px;
-}
-
-.btn-primary:hover {
-  background-color: #e53b5c;
-  border-color: #e23658;
 }

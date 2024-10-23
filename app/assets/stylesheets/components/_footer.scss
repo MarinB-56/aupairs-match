@@ -1,0 +1,24 @@
+/* Footer spécifique à la page d'accueil */
+.footer {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+  background-color: #1B1A20; /* Exemple de couleur de fond pour le footer */
+  color: #fff; /* Texte en blanc pour un bon contraste */
+  width: 100%; /* Assure que le footer prenne toute la largeur de la page */
+}
+
+.footer a {
+  font-size: 20px;
+  color: #e53b5c;
+  margin: 0 5px; /* Espacement entre les icônes */
+}
+
+.footer p {
+  color: #6B6C6C;
+  margin-top: 10px; /* Espace au-dessus du texte */
+}
+
+.footer .fas {
+  color: #e53b5c; /* Couleur de l'icône cœur */
+}

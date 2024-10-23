@@ -24,51 +24,76 @@
               </h5>
 
               <div class="d-flex">
-                <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
+                <div class="manage-favorites" data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
                   <i data-action="click->manage-favorites#toggle_favorite"
                     data-manage-favorites-target="star"
-                    class="fa-star position-icon-favorite fa-solid <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'icon-favorite-empty' : 'icon-favorite-added' %>"></i>
+                    class="fa-star icon icon-hover fa-solid <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'icon-favorite-empty' : 'icon-favorite-added' %>"></i>
+                    <span class="tooltip-text">
+                      <% if Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? %>
+                      Ajouter à mes favoris
+                      <% else %>
+                      Retirer des favoris
+                      <% end %>
+                    </span>
                 </div>
 
-                <div data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
+                <div class="manage-matches" data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
                   <i data-action="click->manage-matches#manage_matches"
                     data-manage-matches-target="heart"
-                    class="fa-solid position-icon-match
-                    <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
-                      <%= 'fa-heart-circle-plus icon-match-empty' %>
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "pending" %>
-                      <%= 'fa-heart-circle-exclamation icon-match-pending' %>
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "refused" %>
+                    data-placement="top"
+                    class="fa-solid icon
+                    <% if user.empty?(current_user) %>
+                      <%= 'fa-heart-circle-plus icon-match-empty icon-hover' %>
+                    <% elsif user.pending?(current_user) %>
+                      <%= 'fa-heart-circle-exclamation icon-match-pending icon-hover' %>
+                    <% elsif user.refused?(current_user) %>
                       <%= 'fa-heart-circle-xmark icon-match-refused' %>
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "accepted" %>
+                    <% elsif user.accepted?(current_user) %>
                       <%= 'fa-heart-circle-check icon-match-accepted' %>
                     <% end %>"></i>
+                  <span class="tooltip-text">
+                    <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
+                    Demande de match
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "pending" %>
+                    Demande en attente
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "refused" %>
+                    Demande refusée
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "accepted" %>
+                    Match accepté
+                  <% end %>
+  </span>
                 </div>
               </div>
-
-
-
             </div>
 
             <!-- Informations spécifiques à l'au_pair -->
             <% if user.aupair? %>
               <!-- Nationalité -->
               <p class="card-nationality">
-                <i class="fa-solid fa-location-dot"></i> <%= user.nationality %>
+                <i class="fa-solid fa-flag"></i> <%= user.nationality %>
               </p>
               <!-- Genre, Âge -->
               <p class="card-details">
                 <%= user.gender %>, <%= Date.today.year - user.birth_date.year %> years old<br>
-              <!-- Description -->
+                <!-- Description -->
                 <p class="card-description">
-                <%= truncate(user.description, length: 70) %>
+                  <%= user.description %>
                 </p>
               </p>
-            <% else %> <!-- Informations spécifiques à la famille -->
+            <!-- Informations spécifiques à la famille -->
+            <% else %>
+              <!-- Localisation -->
+              <p class="card-location">
+                <% city, country = user.location.split(/\s*,\s*/, 2) %>
+                <i class="fa-solid fa-location-dot"></i> <%= city %><br>
+                <span class="card-location-country"><%= country %></span>
+              </p>
+              <!-- Nombre d'enfants -->
               <p class="card-text">
-                <%= "Location: #{user.location}" %><br>
-                <%= "Number of children: #{user.number_of_children}" %><br>
-                <%= truncate(user.description, length: 70) %>
+                <i class="fa-solid fa-child"></i> <%= user.number_of_children %><br>
+              </p>
+              <p class="card-description">
+                <%= user.description %>
               </p>
             <% end %>
 

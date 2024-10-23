@@ -17,5 +17,10 @@ pin "jquery", to: "https://code.jquery.com/jquery-3.6.0.min.js"
 
 # Bootstrap Multiselect via CDN
 pin "bootstrap-multiselect", to: "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"
+
+# Bootstrap Select via CDN
+pin "bootstrap-select", to: "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"
+
+# Mapbox
 pin "mapbox-gl" # @3.7.0
 pin "process" # @2.1.0

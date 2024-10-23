@@ -1,0 +1,48 @@
+<!-- Navbar de navigation -->
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+  <div class="container-fluid"> <!-- Utilisation d'un container-fluid pour occuper toute la largeur -->
+    <!-- Logo cliquable avec lien vers la page d'accueil ou autre -->
+    <%= link_to dynamic_root_path, class: "navbar-brand" do %>
+      <%= image_tag 'amp_logo.png', alt: 'Aupair Match Logo' %>
+    <% end %>
+
+    <!-- Bouton pour mobile (menu hamburger) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu qui s'affiche à droite dans la navbar -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <!-- Menu visible uniquement si l'utilisateur est connecté (remplacer # par les routes appropriées) -->
+        <% if user_signed_in? %>
+          <li class="nav-item active">
+            <%= link_to "Home", "/", class: "nav-link" %>
+          </li>
+          <li class="nav-item d-flex position-relative">
+            <%= link_to "My matches", my_matches_path(current_user: current_user), class: "nav-link" %>
+            <% if Match.where(received_by_id: current_user.id, status: "pending").count != 0 %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= Match.where(received_by_id: current_user.id, status: "pending").count %>
+              </span>
+            <% end %>
+          </li>
+
+          <!-- Dropdown pour afficher des options supplémentaires, par exemple pour se déconnecter -->
+          <li class="nav-item dropdown">
+            <%= image_tag(current_user.photo.attached? ? current_user.photo : 'default_avatar.png',
+                class: "avatar dropdown-toggle",
+                id: "navbarDropdown",
+                data: { bs_toggle: "dropdown" },
+                'aria-haspopup': true,
+                'aria-expanded': false) %>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "My account", edit_user_path(current_user), class: "dropdown-item" %>
+              <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: { turbo_method: :delete } %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
