@@ -7,7 +7,7 @@
       <div class="col-md-4 conversation-component">
         <!-- Notifications de matchs -->
         <% if @pending_matches.any? %>
-          <h5 class="p-3">Demandes de match</h5>
+          <h5 class="p-3">Pending matches</h5>
           <div class="list-group">
             <% @pending_matches.each do |match| %>
               <%= render 'matches/notification', match: match %>
@@ -24,7 +24,7 @@
             <% end %>
           </div>
         <% else %>
-          <p class="p-3">Vous n'avez pas encore de conversations.</p>
+          <p class="p-3">No conversations yet</p>
         <% end %>
       </div>
 
@@ -34,12 +34,10 @@
           <%= render 'conversation', conversation: @conversation %>
         <% else %>
           <div class="text-center mt-5">
-            <p>Sélectionnez une conversation ou répondez à une demande de match pour commencer à chatter.</p>
+            <p>Select a conversation or match a user to start chatting !</p>
           </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
-
-<%= render 'footer' %>
