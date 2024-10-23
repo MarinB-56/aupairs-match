@@ -1,0 +1,20 @@
+<%= render 'navbar' %>
+
+<!-- Titre principal de la page -->
+<% if current_user.aupair? %>
+  <h1 class="text-center my-4">My favorite families</h1> <!-- Centré et avec marges verticales -->
+<% else %>
+  <h1 class="text-center my-4">My favorite au pairs</h1> <!-- Centré et avec marges verticales -->
+<% end %>
+
+<!-- Grille pour afficher les cartes des aupairs -->
+
+<% if @favorite_users.any? %>
+<!-- Grille pour afficher les cartes des aupairs -->
+  <%= render 'favorites_list' %>
+<% else %>
+<div class="no_favorites text-center mt-5">
+    <p class="lead">You have not added any favorites yet.</p>
+<% end %>
+<!-- Footer -->
+<%= render 'footer' %>

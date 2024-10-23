@@ -2,8 +2,8 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid"> <!-- Utilisation d'un container-fluid pour occuper toute la largeur -->
     <!-- Logo cliquable avec lien vers la page d'accueil ou autre -->
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag 'logo_aupair.png', alt: 'Aupair Match Logo' %>
+    <%= link_to dynamic_root_path, class: "navbar-brand" do %>
+      <%= image_tag 'amp_logo.png', alt: 'Aupair Match Logo' %>
     <% end %>
 
     <!-- Bouton pour mobile (menu hamburger) -->
@@ -17,12 +17,12 @@
         <!-- Menu visible uniquement si l'utilisateur est connecté (remplacer # par les routes appropriées) -->
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "My favorites", "#", class: "nav-link" %>
+            <%= link_to "My favorites", "my_favorites", class: "nav-link" %>
           </li>
           <li class="nav-item d-flex position-relative">
             <%= link_to "My matches", my_matches_path(current_user: current_user), class: "nav-link" %>
             <% if Match.where(received_by_id: current_user.id, status: "pending").count != 0 %>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
                 <%= Match.where(received_by_id: current_user.id, status: "pending").count %>
               </span>
             <% end %>

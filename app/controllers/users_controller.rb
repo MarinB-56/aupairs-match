@@ -28,8 +28,23 @@ class UsersController < ApplicationController
       @latest_start_date = Availability.joins(:user).where(users: { role: 'aupair' }).maximum(:start)
     end
 
+    # Définir les valeurs par défaut pour les filtres
+    @default_filters = {
+      nationality: nil,
+      max_number_of_children: @max_children,
+      gender: nil,
+      languages: nil,
+      start_date_min: @earliest_start_date,
+      start_date_max: @latest_start_date,
+      min_duration: 1,
+      max_duration: @max_duration
+    }
+
+    # Sauvegarde des paramètres filtrés pour la vue
+    @filtered_params = filters_params
+
     # Application des filtres
-    apply_filters if params[:filters].present?
+    apply_filters if @filtered_params.present?
   end
 
   def show
@@ -90,53 +105,60 @@ class UsersController < ApplicationController
   private
 
   def apply_filters
-    Rails.logger.info "Params de filtres : #{params[:filters]}"
+    # Utilisation de filters_params au lieu de params[:filters]
+    filter_params = filters_params
 
-    # Filtrer par nationalité (au pairs ou familles)
-    if params[:filters][:nationality].present? && params[:filters][:nationality].reject(&:blank?).any?
-      @users = @users.where(nationality: params[:filters][:nationality])
+    # Filtrer par nationalité
+    if filter_params[:nationality].present? && filter_params[:nationality].reject(&:blank?).any?
+      @users = @users.where(nationality: filter_params[:nationality])
     end
 
-    # Filtrer par genre (uniquement pour les familles cherchant des au pairs)
-    if current_user.family? && params[:filters][:gender].present? && params[:filters][:gender] != "All genders"
-      Rails.logger.info "Filtre de genre appliqué : #{params[:filters][:gender]}"
-      @users = @users.where(gender: params[:filters][:gender])
+    # Filtrer par genre (pour les familles recherchant des au pairs)
+    if current_user.family? && filter_params[:gender].present? && filter_params[:gender] != "All genders"
+      @users = @users.where(gender: filter_params[:gender])
     end
 
-    # Filtrer par nombre d'enfants maximum (si au pair recherchant des familles)
-    if current_user.aupair? && params[:filters][:max_number_of_children].present?
-      Rails.logger.info "Filtre nombre d'enfants max appliqué : #{params[:filters][:max_number_of_children]}"
-      @users = @users.where("number_of_children <= ?", params[:filters][:max_number_of_children].to_i)
+    # Filtrer par nombre d'enfants (pour les au pairs recherchant des familles)
+    if current_user.aupair? && filter_params[:max_number_of_children].present?
+      @users = @users.where("number_of_children <= ?", filter_params[:max_number_of_children].to_i)
     end
 
     # Filtrer par langues parlées
-    if current_user.family? && params[:filters][:languages].present? && params[:filters][:languages].reject(&:blank?).any?
-      selected_languages = params[:filters][:languages].reject(&:blank?)
-      Rails.logger.info "Filtre de langues appliqué : #{selected_languages}"
+    if current_user.family? && filter_params[:languages].present? && filter_params[:languages].reject(&:blank?).any?
+      selected_languages = filter_params[:languages].reject(&:blank?)
       language_ids = Language.where(language: selected_languages).pluck(:id)
       @users = @users.joins(:languages).where(languages: { id: language_ids }).distinct
     end
 
-    # Filtrer par plage de dates de disponibilité
-    start_min = params[:filters][:start_date_min].present? ? Date.parse(params[:filters][:start_date_min]) : @earliest_start_date
-    start_max = params[:filters][:start_date_max].present? ? Date.parse(params[:filters][:start_date_max]) : @latest_start_date
+    # Filtrer par plage de dates
+    start_min = filter_params[:start_date_min].present? ? Date.parse(filter_params[:start_date_min]) : @earliest_start_date
+    start_max = filter_params[:start_date_max].present? ? Date.parse(filter_params[:start_date_max]) : @latest_start_date
     if current_user.family? && start_min && start_max
-      Rails.logger.info "Filtre sur dates appliqué : de #{start_min} à #{start_max}"
       @users = @users.joins(:availabilities).where(availabilities: { start: start_min..start_max }).distinct
     end
 
     # Filtrer par durée du séjour
     if current_user.family?
-      min_duration = params[:filters][:min_duration].present? ? params[:filters][:min_duration].to_i : 1
-      max_duration = params[:filters][:max_duration].present? ? params[:filters][:max_duration].to_i : @max_duration
-      Rails.logger.info "Filtre sur durée appliqué : entre #{min_duration} et #{max_duration} jours"
+      min_duration = filter_params[:min_duration].present? ? filter_params[:min_duration].to_i : 1
+      max_duration = filter_params[:max_duration].present? ? filter_params[:max_duration].to_i : @max_duration
       if min_duration > 0 && max_duration > min_duration
         @users = @users.joins(:availabilities)
                        .where("availabilities.end - availabilities.start BETWEEN ? AND ?", min_duration, max_duration).distinct
-      else
-        Rails.logger.info "Durée incorrecte : min_duration=#{min_duration}, max_duration=#{max_duration}"
       end
     end
+  end
+
+  def filters_params
+    params.fetch(:filters, {}).permit(
+      { nationality: [] },
+      { languages: [] },
+      :gender,
+      :max_number_of_children,
+      :min_duration,
+      :max_duration,
+      :start_date_min,
+      :start_date_max
+    )
   end
 
   def set_nationalities
@@ -153,7 +175,15 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :birth_date, :gender, :location, :nationality, :description,
+      :first_name,
+      :last_name,
+      :birth_date,
+      :gender,
+      :location,
+      :nationality,
+      :description,
+      :photo,
+      :number_of_children,
       availabilities_attributes: [:id, :start, :end, :_destroy]
     )
   end

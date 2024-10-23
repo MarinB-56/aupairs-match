@@ -21,4 +21,12 @@ class FavoritesController < ApplicationController
       end
     end
   end
+
+  def index
+    # On récupère l'utilisateur actuellement connecté
+    @user = current_user
+    # Récupère les utilisateurs favorisés directement via la relation
+    @favorite_users = @user.favorites_given.map(&:favorited_user)
+    # = @user.favorites_given.map { |favorite| favorite.favorited_user }
+  end
 end

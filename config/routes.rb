@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'users#index'
+
+  authenticated :user do
+    root to: 'users#index', as: :authenticated_root  # Route pour les utilisateurs connectés
+  end
+
+  unauthenticated do
+    root to: 'pages#home', as: :unauthenticated_root  # Route pour les utilisateurs non connectés
+  end
+
+  # Route pour la homepage
+  get 'home', to: "pages#home"
 
   resources :users, only: [:show, :index, :edit, :update] do
     member do

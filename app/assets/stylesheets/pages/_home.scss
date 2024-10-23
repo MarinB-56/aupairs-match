@@ -1,16 +1,25 @@
-/* Conteneur principal pour aligner les colonnes */
-.container-hero {
-  min-height: calc(100vh - 80px);
+/* Assure que le body prend toute la hauteur uniquement sur la page d'accueil */
+.home-page {
+  min-height: 100vh; /* La page doit occuper toute la hauteur de la fenêtre */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; /* Dispose les enfants (navbar, contenu, footer) en colonne */
 }
 
+/* Conteneur principal pour aligner le contenu hero */
+.container-hero {
+  flex: 1; /* Prend tout l'espace disponible entre la navbar et le footer */
+  display: flex; /* Active flexbox pour centrer le contenu */
+  justify-content: flex-start; /* Aligne le contenu sur la gauche */
+  align-items: center;
+  padding: 20px; /* Ajoute un peu de padding pour l'espacement */
+}
+
+/* Styles pour la section "hero" */
 .hero-row {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: left; /* Texte aligné à gauche */
+  justify-content: flex-start; /* Aligne le contenu sur la gauche */
+  align-items: center; /* Centre le contenu verticalement dans la row */
+  text-align: left; /* Aligne le texte à gauche */
 }
 
 .col-hero {
@@ -22,23 +31,26 @@
   font-size: 3.5rem; /* Taille du texte */
   font-weight: 700; /* Poids de la police, plus gras */
   line-height: 1.2;
-  color: #333; /* Couleur du texte */
+  color: #fff; /* Couleur du texte */
+  margin-bottom: 20px; /* Espace sous le texte */
 }
 
 .hero-text span {
-  display: block;
+  display: block; /* Affiche chaque élément sur une nouvelle ligne */
 }
 
-/* Stylisation de la liste */
+/* Stylisation de la liste de fonctionnalités */
 .features-list {
   font-size: 1rem;
   line-height: 1.6;
-  list-style-type: none; /* Retirer les puces de liste */
+  list-style-type: none; /* Retire les puces de liste */
   padding: 0;
+  margin-bottom: 20px; /* Espace sous la liste */
+  color: #fff; /* Couleur du texte */
 }
 
 .features-list li {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.1rem; /* Espace entre chaque élément de la liste */
 }
 
 /* Optionnel : Responsivité pour petits écrans */
@@ -47,6 +59,37 @@
     font-size: 3rem; /* Réduire la taille du texte sur mobile */
   }
   .features-list {
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Ajuste la taille de la liste pour une meilleure lisibilité */
+  }
+}
+
+.background_img {
+  position: relative; /* Nécessaire pour positionner le pseudo-élément ::before par rapport à ce conteneur */
+  background-image: url( asset_path('background_images/bg_image_3.jpeg') ); /* Définit l'image de fond */
+  background-size: cover; /* L'image de fond couvre tout le conteneur sans déformation */
+  background-position: center; /* Centre l'image de fond */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  flex: 1; /* Prend tout l'espace disponible entre la navbar et le footer */
+  display: flex; /* Active le mode flex pour centrer le contenu */
+  justify-content: center; /* Centre le contenu horizontalement */
+  align-items: center; /* Centre le contenu verticalement */
+  padding: 20px; /* Ajoute un peu de padding pour l'espacement */
+
+  /* Calque sombre pour améliorer la lisibilité du texte */
+  &::before {
+    content: ""; /* Obligatoire pour afficher un pseudo-élément */
+    position: absolute; /* Positionné par rapport à .background_img */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Couvre tout l'espace de .background_img */
+    background: rgba(0, 0, 0, 0.4); /* Calque noir semi-transparent (modifie le dernier chiffre pour ajuster la transparence) */
+    z-index: 1; /* Place le calque derrière le texte mais devant l'image */
+  }
+
+  /* Le contenu (texte, boutons) doit être au-dessus du calque sombre */
+  .row {
+    position: relative; /* Pour que le contenu soit au-dessus du calque sombre */
+    z-index: 2; /* Assure que le texte et les éléments soient visibles par-dessus le calque */
   }
 }
