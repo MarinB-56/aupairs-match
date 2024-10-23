@@ -1,26 +1,14 @@
-<h1>Conversation</h1>
+<h1>Conversation avec <%= @conversation.users.where.not(id: current_user.id).first.first_name %></h1>
 
-<ul>
+<div id="messages" data-conversation-id="<%= @conversation.id %>">
   <% @messages.each do |message| %>
-    <li>
-      <strong><%= message.user.first_name %>:</strong>
-      <%= message.content %>
-      <small><%= message.created_at.strftime("%Y-%m-%d %H:%M") %></small>
-    </li>
+    <%= render 'messages/message', message: message %>
   <% end %>
-</ul>
+</div>
 
-<%= form_with model: [ @conversation, Message.new ], local: true do |f| %>
-  <%= f.text_area :content %>
-  <%= f.submit 'Send message' %>
+<%= form_with(model: [@conversation, @message], remote: true) do |form| %>
+  <div class="field">
+    <%= form.text_area :content, rows: 3 %>
+  </div>
+  <%= form.submit 'Envoyer' %>
 <% end %>
-
-<script>
-import consumer from "./consumer"
-
-consumer.subscriptions.create({ channel: "ConversationChannel", conversation_id: <%= @conversation.id %> }, {
-  received(data) {
-    // Code pour afficher le message reçu
-  }
-})
-</script>

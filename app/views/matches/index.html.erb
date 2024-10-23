@@ -1,22 +1,45 @@
 <%= render 'users/navbar' %>
 
 <div class="container">
-  <%# Affichage des notifications %>
-  <% @pending_matches.each do |match| %>
-    <%= render 'notification', match: match %>
-  <% end %>
+  <div class="container conversation-container m-4">
+    <div class="row">
+      <!-- Colonne gauche : Notifications et conversations -->
+      <div class="col-md-4 conversation-component">
+        <!-- Notifications de matchs -->
+        <% if @pending_matches.any? %>
+          <h5 class="p-3">Demandes de match</h5>
+          <div class="list-group">
+            <% @pending_matches.each do |match| %>
+              <%= render 'matches/notification', match: match %>
+            <% end %>
+          </div>
+        <% end %>
 
-  <h1>Accepted matches</h1>
-  <% @accepted_matches.each do |match| %>
-    <div class="match-notification" >
-      <p><span class="text-primary"><%= match.initiated_by.first_name %></span> : c'est un match !</p>
-    </div>
-  <% end %>
+        <!-- Liste des conversations -->
+        <% if @conversations.any? %>
+          <h5 class="p-3">Conversations</h5>
+          <div class="list-group">
+            <% @conversations.each do |conversation| %>
+              <%= render 'conversation_card', conversation: conversation %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="p-3">Vous n'avez pas encore de conversations.</p>
+        <% end %>
+      </div>
 
-  <h1>Refused matches</h1>
-  <% @refused_matches.each do |match| %>
-    <div class="match-notification" >
-      <p><span class="text-primary"><%= match.initiated_by.first_name %></span> : match refusé.</p>
+      <!-- Colonne droite : Contenu de la conversation -->
+      <div class="col-md-8">
+        <% if @conversation %>
+          <%= render 'conversation', conversation: @conversation %>
+        <% else %>
+          <div class="text-center mt-5">
+            <p>Sélectionnez une conversation ou répondez à une demande de match pour commencer à chatter.</p>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
+
+<%= render 'footer' %>

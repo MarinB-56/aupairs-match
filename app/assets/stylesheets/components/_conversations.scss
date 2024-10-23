@@ -1,0 +1,44 @@
+/* Assurez-vous que le container-fluid et les colonnes prennent toute la hauteur */
+html, body {
+  height: 100%;
+}
+
+#messages {
+  height: calc(100vh - 200px); /* Ajustez en fonction de la hauteur de vos en-têtes et pieds de page */
+  overflow-y: auto;
+}
+
+.message {
+  border-radius: 10px !important;
+}
+
+.message-input {
+  border-radius: 10px !important;
+  margin-right: 15px;
+  background-color: #ffffff;
+}
+
+.conversation-component {
+  border-radius: 10px !important;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.conversation-card {
+  border-radius: 10px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.created-at {
+  font-size: 10px;
+}
+
+.last-message {
+  font-size: 0.9em;
+}
+
+.time-ago {
+  font-size: 0.8em;
+}

@@ -5,18 +5,26 @@ class MessagesController < ApplicationController
   def create
     @message = @conversation.messages.build(message_params)
     @message.user = current_user
+
     if @message.save
+      # Diffuser le message via ActionCable (si utilisé)
       ConversationChannel.broadcast_to(@conversation, message: render_message(@message))
-      head :ok
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append('messages', partial: 'messages/message', locals: { message: @message })
+        end
+        format.html { redirect_to matches_path(conversation_id: @conversation.id) }
+      end
     else
-      redirect_to conversation_path(@conversation), alert: "Message could not be sent."
+      head :unprocessable_entity
     end
   end
 
   private
 
   def set_conversation
-    @conversation = Conversation.find(params[:conversation_id])
+    @conversation = current_user.conversations.find(params[:conversation_id])
   end
 
   def message_params
@@ -24,6 +32,6 @@ class MessagesController < ApplicationController
   end
 
   def render_message(message)
-    ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message })
+    render_to_string(partial: 'messages/message', locals: { message: message })
   end
 end

@@ -1,9 +1,20 @@
-<h1>Conversations</h1>
-
-<%= link_to 'Start new conversation', new_conversation_path %>
-
-<ul>
-  <% @conversations.each do |conversation| %>
-    <li><%= link_to conversation.subject, conversation_path(conversation) %></li>
-  <% end %>
-</ul>
+<div class="container-fluid">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <div class="list-group">
+        <% @conversations.each do |conversation| %>
+          <%= render 'conversation_card', conversation: conversation %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <% if @conversation %>
+        <%= render 'conversation', conversation: @conversation %>
+      <% else %>
+        <div class="text-center mt-5">
+          <p>Sélectionnez une conversation pour commencer à chatter.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
