@@ -21,24 +21,12 @@ class MatchesController < ApplicationController
 
     # Si aucun match n'existe, on le crée
     if match.new_record?
-      match = Match.find_or_initialize_by(initiated_by: initiator_user, received_by: receiver_user, status: "pending")
-    # Si il existe déjà dans l'autre sens => Accepted
-    elsif match.persisted? && match.initiated_by == receiver_user
-      match.update(status: "accepted")
-      # Créer une conversation
-      conversation = Conversation.create
-      ConversationUser.create(conversation: conversation, user: initiator_user)
-      ConversationUser.create(conversation: conversation, user: receiver_user)
-      format.html { redirect_to users_path }
-      format.json { render json: { message: "Demande de match acceptée", status: "accepted" }, status: :ok }
+      match = Match.find_or_initialize_by(initiated_by: current_user, received_by: other_user, status: "pending")
     end
 
     puts "////////////////"
     puts match[:status].upcase
     puts "////////////////"
-
-    # Si n'existe pas, on le crée => Pending
-    # Si existe déjà dans mon sens et que la demande est "pending" => On supprime
 
     # Si il est déjà créé, on le supprime
     respond_to do |format|
@@ -48,6 +36,10 @@ class MatchesController < ApplicationController
         format.json { render json: { message: "Match retiré avec succès", status: "deleted" }, status: :ok }
       elsif match.persisted? && match.initiated_by == other_user
         match.update(status: "accepted")
+        # Créer une conversation
+        conversation = Conversation.create
+        ConversationUser.create(conversation: conversation, user: current_user)
+        ConversationUser.create(conversation: conversation, user: other_user)
         format.html { redirect_to users_path }
         format.json { render json: { message: "Demande de match acceptée", status: "accepted" }, status: :ok }
       elsif match.save
