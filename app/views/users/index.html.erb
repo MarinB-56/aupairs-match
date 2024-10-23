@@ -11,7 +11,7 @@
 <%= render 'filters' %>
 
 <!-- Grille pour afficher les cartes des aupairs -->
-<%= render 'users_list' %>
+<%= render partial: 'users_list', locals: {users: @users} %>
 
 <!-- Footer -->
-<%# <%= render 'footer' %> %>
+<%# <%= render 'footer' %>

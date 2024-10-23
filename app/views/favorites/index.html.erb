@@ -11,7 +11,7 @@
 
 <% if @favorite_users.any? %>
 <!-- Grille pour afficher les cartes des aupairs -->
-  <%= render 'favorites_list' %>
+  <%= render partial: 'users/users_list', locals: {users: @favorite_users} %>
 <% else %>
 <div class="no_favorites text-center mt-5">
     <p class="lead">You have not added any favorites yet.</p>
