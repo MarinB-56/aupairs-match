@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
-    <% @users.each do |user| %> <!-- Boucle à travers les utilisateurs -->
-      <div class="col-sm-6 col-lg-4 col-xl-3 mb-3"> <!-- Colonne Bootstrap pour l'affichage -->
+    <% @favorite_users.each do |user| %> <!-- Boucle à travers les utilisateurs -->
+      <div class="col-md-3 mb-3"> <!-- Colonne Bootstrap pour l'affichage -->
         <div class="card card-index">
           <!-- Ajout d'un conteneur parent pour gérer l'image et l'icône étoile -->
           <div class="card-img-top-container">
@@ -24,44 +24,26 @@
               </h5>
 
               <div class="d-flex">
-                <div class="manage-favorites" data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
+                <div data-controller="manage-favorites" data-manage-favorites-id-value="<%= {visiting_user: current_user.id, visited_user: user.id}.to_json %>">
                   <i data-action="click->manage-favorites#toggle_favorite"
                     data-manage-favorites-target="star"
-                    class="fa-star icon icon-hover fa-solid <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'icon-favorite-empty' : 'icon-favorite-added' %>"></i>
-                    <span class="tooltip-text">
-                      <% if Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? %>
-                      Ajouter à mes favoris
-                      <% else %>
-                      Retirer des favoris
-                      <% end %>
-                    </span>
+                    class="fa-star position-icon-favorite fa-solid <%= Favorite.where(favoriting_user_id: current_user.id, favorited_user_id: user.id).empty? ? 'icon-favorite-empty' : 'icon-favorite-added' %>"></i>
                 </div>
 
-                <div class="manage-matches" data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
+                <div data-controller="manage-matches" data-manage-matches-id-value="<%= {initiated_by: current_user.id, received_by: user.id}.to_json %>" >
                   <i data-action="click->manage-matches#manage_matches"
                     data-manage-matches-target="heart"
                     data-placement="top"
-                    class="fa-solid icon
-                    <% if user.empty?(current_user) %>
-                      <%= 'fa-heart-circle-plus icon-match-empty icon-hover' %>
-                    <% elsif user.pending?(current_user) %>
-                      <%= 'fa-heart-circle-exclamation icon-match-pending icon-hover' %>
-                    <% elsif user.refused?(current_user) %>
+                    class="fa-solid position-icon-match
+                    <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
+                      <%= 'fa-heart-circle-plus icon-match-empty' %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "pending" %>
+                      <%= 'fa-heart-circle-exclamation icon-match-pending' %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "refused" %>
                       <%= 'fa-heart-circle-xmark icon-match-refused' %>
-                    <% elsif user.accepted?(current_user) %>
+                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "accepted" %>
                       <%= 'fa-heart-circle-check icon-match-accepted' %>
                     <% end %>"></i>
-                  <span class="tooltip-text">
-                    <% if Match.where(initiated_by: current_user.id, received_by: user.id).empty? %>
-                    Demande de match
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "pending" %>
-                    Demande en attente
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "refused" %>
-                    Demande refusée
-                    <% elsif Match.where(initiated_by: current_user.id, received_by: user.id).first.status == "accepted" %>
-                    Match accepté
-                  <% end %>
-  </span>
                 </div>
               </div>
             </div>

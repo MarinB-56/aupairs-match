@@ -1,2 +1,31 @@
 // Import page-specific CSS files here.
 @import "home";
+
+.manage-favorites,
+.manage-matches {
+  position: relative;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  bottom: 100%; /* Positionne l'infobulle au-dessus de l'icône */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap; /* Empêche le texte de se couper en plusieurs lignes */
+  z-index: 9999; /* Assure que l'infobulle soit toujours au-dessus des autres éléments */
+}
+
+
+.manage-favorites:hover .tooltip-text,
+.manage-matches:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

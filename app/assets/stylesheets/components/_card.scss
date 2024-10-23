@@ -97,12 +97,9 @@
 }
 
 /* Icône étoile */
-.position-icon-favorite {
+.icon {
   font-size: 20px; /* Taille de l'étoile */
-
-  &:hover{
-    cursor: pointer;
-  }
+  margin-right: 5px;
 }
 
 .icon-favorite-added {
@@ -110,10 +107,7 @@
 }
 
 /* Icône match */
-.position-icon-match {
-  font-size: 20px; /* Taille du coeur */
-  margin-left: 5px;
-
+.icon-hover {
   &:hover{
     cursor: pointer;
   }

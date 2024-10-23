@@ -5,10 +5,16 @@
 }
 
 .badge {
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  display: inline-flex;
-  align-items: center;
+  min-width: 24px; /* Largeur minimale pour garder la forme ronde */
+  height: 24px; /* Hauteur fixe pour la rendre ronde */
+  border-radius: 50%; /* Bord arrondi pour créer un cercle */
+  display: inline-flex; /* Pour centrer le contenu */
+  align-items: center; /* Centrer verticalement le contenu */
+  justify-content: center; /* Centrer horizontalement le contenu */
+  background-color: #dc3545; /* Couleur de fond rouge Bootstrap */
+  color: white; /* Couleur du texte en blanc */
+  font-size: 0.8rem; /* Taille de police ajustable */
+  font-weight: normal; /* Assure que le texte n'est pas en gras */
 }
 
 .remove-filter-link {
