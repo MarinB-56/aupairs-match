@@ -38,7 +38,7 @@
                     <% if user.empty?(current_user) %>
                       <%= 'fa-heart-circle-plus icon-match-empty icon-hover' %>
                     <% elsif user.pending?(current_user) %>
-                      <%= 'fa-heart-circle-exclamation icon-match-pending' %>
+                      <%= 'fa-heart-circle-exclamation icon-match-pending icon-hover' %>
                     <% elsif user.refused?(current_user) %>
                       <%= 'fa-heart-circle-xmark icon-match-refused' %>
                     <% elsif user.accepted?(current_user) %>

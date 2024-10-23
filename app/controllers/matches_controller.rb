@@ -18,15 +18,6 @@ class MatchesController < ApplicationController
       match = Match.find_or_initialize_by(initiated_by: current_user, received_by: other_user, status: "pending")
     end
 
-    puts "////////////////"
-    puts match[:status].upcase
-    puts "////////////////"
-
-    # Si existe déjà dans l'autre sens => Accepted
-
-    # Si n'existe pas, on le crée => Pending
-    # Si existe déjà dans mon sens et que la demande est "pending" => On supprime
-
     # Si il est déjà créé, on le supprime
     respond_to do |format|
       if match.persisted? && match.initiated_by == current_user
